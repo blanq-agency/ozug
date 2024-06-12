@@ -1,0 +1,13 @@
+title: 'Legislative Acts'
+sites:
+  - en
+propagate: true
+template: default
+layout: layout
+revisions: false
+slugs: false
+sort_dir: asc
+default_status: draft
+date_behavior:
+  past: public
+  future: private
