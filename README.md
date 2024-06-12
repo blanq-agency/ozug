@@ -1,5 +1,5 @@
-# Onlinekommentar
-Publishing platform for legal commentaries
+# OZUG - Offener Zugang zum Grundgesetz
+Publishing platform for legal commentaries.
 
 ## How to Set Up
 
@@ -7,10 +7,10 @@ Publishing platform for legal commentaries
 - Install Docker Desktop
 
 ### Run the Application Locally
-- Clone this repository: `git clone git@github.com:textandbytes/onlinekommentar.git`
-- cd into the project directory: `cd onlinekommentar`
-- Copy the `.env.example` file in `sources/webapp` and name it `.env`, update it with application-specific configuration variables
-- cd into the webapp directory: `cd sources/webapp`
+- Clone this repository: `git clone git@github.com:blanq-agency/ozug.git`
+- `cd` into the project directory: `cd ozug`
+- `cd` into the webapp directory: `cd sources/webapp`
+- Copy the `.env.example` file and name it `.env`, update it with application-specific configuration variables.
 - Run the following command to install Laravel Sail: 
   ```
   docker run --rm \
@@ -20,14 +20,17 @@ Publishing platform for legal commentaries
     laravelsail/php81-composer:latest \
     composer install --ignore-platform-reqs
   ```
-- Start the application using Docker with Laravel Sail: `sail up`
-- Install dependencies with composer: `sail composer install`
-- Install frontend dependencies: `sail npm install`
-- Go to http://localhost:8001 and click on "GENERATE APP KEY" (the key will be stored in your `.env` file)
+- Start the application using Docker with Laravel Sail: `sail up`  
+  (use `./vendor/bin/sail` to execute Sail commands or [configure a shell alias](https://laravel.com/docs/10.x/sail#configuring-a-shell-alias))
+- Install dependencies with _composer_: `sail composer install`
+- Install frontend dependencies with _npm_: `sail npm install`
+- Generate frontend assets: `sail npm run dev`
+- Go to http://localhost:8001 and click on "GENERATE APP KEY" (the key will be stored in your `.env` file).
 
 ---
 ## Statamic Data
-By default, Statamic stores the application configuration and data in several places. It uses flat files (YAML and Markdown) for both the configuration (e.g. "blueprints" that define the model of a content type) and the data (e.g. an item of a certain type).
+By default, Statamic stores the application configuration and data in several places.
+It uses flat files (YAML and Markdown) for both the configuration (e.g. "blueprints" that define the model of a content type) and the data (e.g. an item of a certain type).
 
 In order to separate the application source code and the user-generated content, this application stores the following data in a dedicated folder under `sources/webapp/data`:
 
@@ -38,18 +41,26 @@ In order to separate the application source code and the user-generated content,
 - revisions
 - users
 
-The content of this folder is not tracked in this repository. In order to retrieve the application data from the production server (or staging server), developers are expected to use the dedicated repository where this data is stored. The repository where the data is: https://github.com/textandbytes/onlinekommentar-data. Access to this repository is restricted to users with appropriate permissions.
+The content of this folder is not tracked in this repository.
+In order to retrieve the application data from the production server (or staging server), developers are expected to use the dedicated repository where this data is stored.
+The repository where the data is: https://github.com/blanq-agency/ozug-data.
+Access to this repository is restricted to users with appropriate permissions.
 
-- Clone the onlinekommentar-data repository into sources/webapp: `git@github.com:onlinekommentar/onlinekommentar-data.git`
-- Rename the onlinekommentar-data folder to `data`
+- Clone the `ozug-data` repository into `sources/webapp/data`. From `sources/webapp`:  
+  `git clone git@github.com:blanq-agency/ozug-data.git data`
+- If creating a project from scratch use the config files in the `data.example` directory:  
+  `cp data.example data`  
+  and create a new user:  
+  `sail php please make:user`
 
 The blueprints and users roles definitions are stored in the default location (`resources`), and are tracked in this repository.
 
 - Run `sail artisan storage:link` to create a symbolic link to the storage folder
 
 ## Local Development
-- cd into the webapp directory : `cd sources/webapp` and run `composer`, `npm` and `artisan` commands via Sail. See examples below.
-- Depending on your use case, clone the remote git repository containing the application data (https://github.com/textandbytes/onlinekommentar-data) under `sources/webapp/data`.
+- `cd` into the webapp directory : `cd sources/webapp` and run `composer`, `npm` and `artisan` commands via Sail.
+  See examples below.
+- Depending on your use case, clone the remote git repository containing the application data (https://github.com/blanq-agency/ozug-data) under `sources/webapp/data`.
 ⚠️ The application data should always be pulled from the production/staging server, not the other way around.
 
 ### Pull the latest data from the production server
@@ -68,6 +79,9 @@ The blueprints and users roles definitions are stored in the default location (`
 
 ### Running composer Commands
 - `sail composer require <dependency>`, e.g. `sail composer require statamic/cms`
+
+### Statamic Control Panel
+- http://localhost:8001/cp
 
 ### Mailhog Dashboard
 - To test sending and receiving mails from the application locally, go to http://localhost:8026
