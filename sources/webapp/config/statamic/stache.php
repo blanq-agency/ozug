@@ -89,6 +89,10 @@ return [
             'directory' => base_path('data/users'),
         ],
 
+        'form-submissions' => [
+            'directory' => base_path('data/storage/forms'),
+        ],
+
     ],
 
     /*
