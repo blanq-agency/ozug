@@ -101,7 +101,7 @@
   const searchInput = ref()
   const showMenu = ref(false)
 
-  const defaultLocales = ['de', 'en', 'fr', 'it']
+  const defaultLocales = ['de', 'en', 'fr']
 
   const toggleMenu = () => {
     showMenu.value = !showMenu.value

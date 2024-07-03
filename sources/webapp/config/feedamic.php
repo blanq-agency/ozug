@@ -59,19 +59,6 @@ return [
             'language' => 'fr',
             'locales' => ['fr'],
         ],
-        'it' => [
-            'title' => 'Onlinekommentar',
-            'description' => 'Il Commentario online (Onlinekommentar) è la prima piattaforma di commentari senza scopo di lucro e ad accesso aperto (Open Access) della Svizzera.',
-            'routes' => [
-                'atom' => '/it/feed/atom',
-                'rss' => '/it/feed',
-            ],
-            'collections' => [
-                'commentaries',
-            ],
-            'language' => 'it',
-            'locales' => ['it'],
-        ],
     ],
 
     /*

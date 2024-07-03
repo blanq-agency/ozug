@@ -25,7 +25,6 @@
     "de": "allemand",
     "en": "anglais",
     "fr": "français",
-    "it": "italien",
 
     "draft": "Brouillon",
     "in_review": "En cours de révision",
@@ -52,7 +51,7 @@
 
     "legal_domain_filter_label": "Actes législatifs",
     "legal_domain_filter_all": "Tout",
-    
+
     "Federal Constitution": "Constitution fédérale",
     "Code of Obligations": "Code des Obligations",
     "Private International Law": "Droit international privé",

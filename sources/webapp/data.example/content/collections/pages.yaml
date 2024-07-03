@@ -3,7 +3,6 @@ sites:
   - en
   - de
   - fr
-  - it
 propagate: true
 template: pages/show
 layout: layout

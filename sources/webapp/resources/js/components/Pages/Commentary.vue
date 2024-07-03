@@ -50,7 +50,7 @@
 
         <div class="text-center lg:text-xl">
           <p v-if="commentary.assigned_authors && commentary.assigned_authors.length > 0 && commentary.assigned_authors[0] !== ''">
-            {{ $t('commentary_by') }} 
+            {{ $t('commentary_by') }}
             <i>
               <template v-for="assigned_author, index in commentary.assigned_authors">
                 <span v-if="index !== 0"> / </span>
@@ -61,7 +61,7 @@
             </i>
           </p>
           <p v-if="commentary.assigned_editors && commentary.assigned_editors.length > 0 && commentary.assigned_editors[0] !== ''">
-            {{ $t('edited_by') }} 
+            {{ $t('edited_by') }}
             <i>
               <template v-for="assigned_editor, index in commentary.assigned_editors">
                 <span v-if="index !== 0"> / </span>
@@ -92,7 +92,6 @@
         <div class="flex justify-end print:hidden">
           <span @click="setLegalTextLocale('de')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'de' }">de</span>
           <span @click="setLegalTextLocale('fr')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'fr' }">fr</span>
-          <span @click="setLegalTextLocale('it')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'it' }">it</span>
           <span @click="setLegalTextLocale('en')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'en' }">en</span>
         </div>
         <div v-html="localizedLegalText" class="localized-legal-text space-y-4 font-serif lg:text-xl md:space-y-6">
@@ -321,12 +320,12 @@
     }
 
     :deep(.paragraph-nr) {
-      @apply 
-        inline-block md:absolute 
+      @apply
+        inline-block md:absolute
         w-max
-        md:-left-8 
-        md:top-1 
-        md:text-sm 
+        md:-left-8
+        md:top-1
+        md:text-sm
         font-sans
         px-2
         bg-ok-light-beige
@@ -412,7 +411,7 @@
     @apply border border-black
   }
 
-  .footnotes { 
+  .footnotes {
     :deep(a) {
       @apply underline break-all;
     }

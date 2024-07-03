@@ -174,19 +174,6 @@ tabs:
               always_save: false
               localizable: false
           -
-            handle: professional_title_it
-            field:
-              input_type: text
-              antlers: false
-              display: 'Title (Italian)'
-              type: text
-              icon: text
-              listable: hidden
-              instructions_position: above
-              visibility: visible
-              always_save: false
-              localizable: false
-          -
             handle: occupation_de
             field:
               input_type: text
@@ -218,19 +205,6 @@ tabs:
               input_type: text
               antlers: false
               display: 'Occupation (French)'
-              type: text
-              icon: text
-              listable: hidden
-              instructions_position: above
-              visibility: visible
-              always_save: false
-              localizable: false
-          -
-            handle: occupation_it
-            field:
-              input_type: text
-              antlers: false
-              display: 'Occupation (Italian)'
               type: text
               icon: text
               listable: hidden
@@ -272,19 +246,6 @@ tabs:
               type: textarea
               icon: textarea
               instructions: 'This is the text that appears in the editors detail page and describes what they are editor of and with whom (French version)'
-              listable: hidden
-              instructions_position: above
-              visibility: visible
-              always_save: false
-              localizable: false
-          -
-            handle: editor_of_it
-            field:
-              antlers: false
-              display: 'Editor of (Italian)'
-              type: textarea
-              icon: textarea
-              instructions: 'This is the text that appears in the editors detail page and describes what they are editor of and with whom (Italian version)'
               listable: hidden
               instructions_position: above
               visibility: visible
