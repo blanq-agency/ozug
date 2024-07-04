@@ -7,17 +7,17 @@
         class="z-40 hidden lg:flex w-[280px] lg:w-auto"
         :href="'/' + locale">
         <img
-          :src="'/img/ok-logo-text_' + locale + '.svg'"
+          :src="'/img/oak-logo-text.svg'"
           alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
           title="Onlinekommentar – der frei zugängliche Rechtskommentar"
-          :width="currentPage !== 'home' ? 280 : 390"
+          :width="currentPage !== 'home' ? 210 : 292"
         />
       </a>
       <a
-        class="z-40 flex w-12 md:w-20 lg:hidden lg:w-auto"
+        class="z-40 flex w-10 md:w-16 lg:hidden lg:w-auto"
         :href="'/' + locale">
         <img
-          src="/img/ok-logo.svg"
+          src="/img/oak-logo.svg"
           alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
           title="Onlinekommentar – der frei zugängliche Rechtskommentar"
         />
