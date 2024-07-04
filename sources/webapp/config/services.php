@@ -35,4 +35,8 @@ return [
         'url' => env('GOTENBERG_URL', 'http://gotenberg:3000'),
     ],
 
+    'fathom' => [
+        'site_id' => env('FATHOM_SITE_ID'),
+    ]
+
 ];
