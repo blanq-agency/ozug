@@ -4,13 +4,15 @@
       class="flex items-center justify-between px-4 py-4"
       :class="{ 'border-b border-black': currentPage !== 'home' }">
       <a
-        class="z-40 hidden lg:flex w-[280px] lg:w-auto"
-        :href="'/' + locale">
+        class="z-40 hidden lg:flex items-end"
+        :href="'/' + locale"
+        :style="{ height: currentPage !== 'home' ? '78px' : '108px' }"
+      >
         <img
           :src="'/img/oak-logo-text.svg'"
           alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
           title="Onlinekommentar – der frei zugängliche Rechtskommentar"
-          :width="currentPage !== 'home' ? 210 : 292"
+          style="height: 80%"
         />
       </a>
       <a
