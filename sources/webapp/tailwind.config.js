@@ -23,9 +23,9 @@ module.exports = {
               'ok-light-gray':  '#CCCCCC',
               'ok-beige':       '#E8E7E2',
               'ok-light-beige': '#EFEFEF',
-              'ok-yellow':      '#FCF0BD',
-              'ok-orange':      '#F4E8D7',
-              'ok-blue':        '#AFCEE2',
+              'ok-yellow':      '#D8DCF7',
+              'ok-orange':      '#D0D5D9',
+              'ok-blue':        '#97C1AB',
               'ok-red':         '#E06C56',
             },
             listStyleType: {
