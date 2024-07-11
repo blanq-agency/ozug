@@ -16,12 +16,27 @@
         />
       </a>
       <a
-        class="z-40 flex w-10 md:w-16 lg:hidden lg:w-auto"
-        :href="'/' + locale">
+        class="z-40 hidden items-end md:max-lg:flex"
+        :href="'/' + locale"
+        style="height: 78px"
+      >
+        <img
+          src="/img/oak-logo-text.svg"
+          alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
+          title="Onlinekommentar – der frei zugängliche Rechtskommentar"
+          style="height: 80%"
+        />
+      </a>
+      <a
+        class="z-40 flex items-end md:hidden"
+        :href="'/' + locale"
+        style="height: 48px"
+      >
         <img
           src="/img/oak-logo.svg"
           alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
           title="Onlinekommentar – der frei zugängliche Rechtskommentar"
+          style="height: 80%"
         />
       </a>
       <div>

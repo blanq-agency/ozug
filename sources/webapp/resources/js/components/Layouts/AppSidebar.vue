@@ -5,7 +5,12 @@
 
     <div v-if="isSidebarOpen" class="h-screen overflow-y-auto">
       <div class="block px-8 py-4">
-        <img src="/img/oak-logo.svg" alt="Onlinekommentar – der frei zugängliche Rechtskommenter" class="w-10 mt-2 md:w-16" />
+        <div class="_logo-container flex items-end">
+            <img
+                src="/img/oak-logo.svg"
+                alt="Onlinekommentar – der frei zugängliche Rechtskommenter"
+            />
+        </div>
       </div>
 
       <div class="mt-4 ml-4">
@@ -37,6 +42,18 @@
 </script>
 
 <style lang="postcss" scoped>
+  ._logo-container {
+    height: 48px;
+
+    @media (min-width: 768px) {
+        height: 78px;
+    }
+
+    > img {
+        height: 80%;
+    }
+  }
+
   #shadow {
     box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, 0.4);
   }
