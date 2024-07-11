@@ -24,7 +24,7 @@ module.exports = {
               'ok-beige':       '#E8E7E2',
               'ok-light-beige': '#EFEFEF',
               'ok-yellow':      '#D8DCF7',
-              'ok-orange':      '#D0D5D9',
+              'ok-orange':      '#FEF1CF',
               'ok-blue':        '#97C1AB',
               'ok-red':         '#E06C56',
             },
