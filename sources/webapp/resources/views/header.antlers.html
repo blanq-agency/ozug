@@ -1,0 +1,58 @@
+<header class="w-full pl-5 pr-4 mx-auto md:pl-12 md:pr-4 lg:px-8 xl:w-10/12 print:hidden">
+  <div class="flex items-center justify-between px-4 py-4 {{ slug !== 'home' ?= 'border-b border-black' }}">
+    <a
+      class="z-40 hidden lg:flex items-end"
+      href="{{ '/' + locale }}"
+      style="height: {{ slug !== 'home' ? '78px' : '108px' }}"
+    >
+      <img
+        src="/img/oak-logo-text.svg"
+        alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        title="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        style="height: 80%"
+      />
+    </a>
+    <a
+      class="z-40 hidden items-end md:max-lg:flex"
+      href="{{ '/' + locale }}"
+      style="height: 78px"
+    >
+      <img
+        src="/img/oak-logo-text.svg"
+        alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        title="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        style="height: 80%"
+      />
+    </a>
+    <a
+      class="z-40 flex items-end md:hidden"
+      href="{{ '/' + locale }}"
+      style="height: 48px"
+    >
+      <img
+        src="/img/oak-logo.svg"
+        alt="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        title="Onlinekommentar – der frei zugängliche Rechtskommentar"
+        style="height: 80%"
+      />
+    </a>
+    <div>
+      <app-nav
+        locale="{{ locale }}"
+        :locales="[
+          {{ locales }}
+            '{{ locale:short }}',
+          {{ /locales }}
+        ]"
+        query="{{ get:q }}"
+      >
+      </app-nav>
+    </div>
+
+    <app-sidebar>
+      <template v-slot:content>
+        {{ slot:sidebar_content }}
+      </template>
+    </app-sidebar>
+  </div>
+</header>

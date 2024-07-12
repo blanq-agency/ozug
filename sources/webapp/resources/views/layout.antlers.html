@@ -29,25 +29,17 @@
   </head>
   <body class="font-sans antialiased bg-ok-beige">
     <article id="app">
-      <app-header
-        current-page="{{ slug }}"
-        locale="{{ locale }}"
-        query="{{ get:q }}"
-        :locales="[
-          {{ locales }}
-            '{{ locale:short }}',
-          {{ /locales }}
-        ]">
-        <template v-slot:sidebar-content>
-          {{ partial:commentaries/tree }}
-        </template>
-      </app-header>
+      {{ partial:header }}
+        {{ slot:sidebar_content }}
+          {{ partial:commentaries/tree /}}
+        {{ /slot:sidebar_content }}
+      {{ /partial:header }}
 
       <main class="w-full pl-5 pr-4 mx-auto md:pl-12 md:pr-4 lg:px-8 xl:w-10/12 print:m-0 print:p-0 print:w-full">
         {{ template_content }}
       </main>
 
-      {{ partial:footer }}
+      {{ partial:footer /}}
     </article>
 
     <script src="{{ mix src='/vendor/app/js/manifest.js' }}"></script>
