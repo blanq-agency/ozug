@@ -47,10 +47,7 @@
         {{ template_content }}
       </main>
 
-      <app-footer
-        current-page="{{ slug }}"
-        locale="{{ locale }}">
-      </app-footer>
+      {{ partial:footer }}
     </article>
 
     <script src="{{ mix src='/vendor/app/js/manifest.js') }}"></script>
