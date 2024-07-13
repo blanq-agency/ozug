@@ -14,7 +14,7 @@
 
   <div class="col-span-1 md:col-span-2 lg:col-span-1 lg:order-first grid grid-cols-1 md:grid-cols-2 left-top lg:border-r border-ok-dark-gray">
     <div class="py-4 pl-8 border-b md:border-r border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale + '/kommentare'}"
         active="{slug === 'kommentare'}"
       }}
@@ -23,7 +23,7 @@
     </div>
 
     <div class="py-4 pl-8 border-b border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale}"
         active="{slug === 'home'}"
       }}
@@ -32,7 +32,7 @@
     </div>
 
     <div class="py-4 pl-8 border-b md:border-r border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale + '/autoren'}"
         active="{slug === 'autoren'}"
       }}
@@ -41,7 +41,7 @@
     </div>
 
     <div class="py-4 pl-8 border-b border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale + '/ueber-onlinekommentar'}"
         active="{slug === 'ueber-onlinekommentar'}"
       }}
@@ -50,7 +50,7 @@
     </div>
 
     <div class="py-4 pl-8 border-b md:border-r border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale + '/herausgeber'}"
         active="{slug === 'herausgeber'}"
       }}
@@ -59,7 +59,7 @@
     </div>
 
     <div class="py-4 pl-8 border-b border-ok-dark-gray">
-      {{ partial src="partial/nav-link"
+      {{ partial src="app/nav-link"
         href="{'/' + locale + '/contact'}"
         active="{slug === 'contact'}"
       }}
@@ -94,21 +94,21 @@
   <div>
     <div class="flex flex-row justify-between px-8 pt-8 mb-2 lg:mb-0">
       <div class="flex flex-col lg:flex-row text-xs lg:space-x-4">
-        {{ partial src="partial/nav-link"
+        {{ partial src="app/nav-link"
           href="{'/' + locale + '/disclaimer'}"
           active="{false}"
         }}
           {{ trans:disclaimer }}
         {{ /partial }}
 
-        {{ partial src="partial/nav-link"
+        {{ partial src="app/nav-link"
           href="{'/' + locale + '/privacy'}"
           active="{false}"
         }}
           {{ trans:privacy }}
         {{ /partial }}
 
-        {{ partial src="partial/nav-link"
+        {{ partial src="app/nav-link"
           href="{'/' + locale + '/impressum'}"
           active="{false}"
         }}
