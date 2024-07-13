@@ -44,8 +44,10 @@
             '{{ locale:short }}',
           {{ /locales }}
         ]"
-        query="{{ get:q }}"
       >
+        <template v-slot:search-box>
+          {{ partial:app/search-box }}
+        </template>
       </app-nav>
     </div>
 

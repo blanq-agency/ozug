@@ -8,6 +8,7 @@ module.exports = {
         './resources/views/**/*.antlers.html',
         './resources/views/**/*.antlers.php',
         './resources/js/**/*.vue',
+        './resources/js/**/*.js',
     ],
 
     theme: {
