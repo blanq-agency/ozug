@@ -36,21 +36,8 @@
         style="height: 80%"
       />
     </a>
-    <div>
-      <app-nav
-        locale="{{ locale }}"
-        :locales="[
-          {{ locales }}
-            '{{ locale:short }}',
-          {{ /locales }}
-        ]"
-      >
-        <template v-slot:search-box>
-          {{ partial:app/search-box }}
-        </template>
-      </app-nav>
-    </div>
 
+    {{ partial:app/nav }}
     {{ partial:app/sidebar /}}
   </div>
 </header>

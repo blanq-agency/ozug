@@ -10,7 +10,7 @@ import FloatingVue from 'floating-vue'
 FloatingVue.options.themes.dropdown.placement = 'top'
 FloatingVue.options.themes.dropdown.distance = 10
 
-import AppNav from '@/components/Layouts/AppNav.vue'
+import LanguageSelector from '@/components/Layouts/Partials/LanguageSelector.vue'
 import Commentaries from '@/components/Pages/Commentaries.vue'
 import Commentary from '@/components/Pages/Commentary.vue'
 import Footnote from '@/components/Pages/Partials/Footnote.vue'
@@ -21,7 +21,7 @@ import VersionComparisonModalDialog from '@/components/Pages/Partials/VersionCom
 
 const app = createApp({
   components: {
-    'app-nav': AppNav,
+    'language-selector': LanguageSelector,
     'commentaries': Commentaries,
     'commentary': Commentary,
     'footnote': Footnote,
@@ -33,6 +33,7 @@ const app = createApp({
 })
 
 app.config.compilerOptions.isCustomElement = (tag) => [
+  'app-nav',
   'app-sidebar',
   'app-search-box',
 ].includes(tag)
@@ -46,12 +47,54 @@ app
   .mount('#app')
 
 
+// app-nav
+customElements.define('app-nav', class extends HTMLElement {
+
+  connectedCallback() {
+    this.querySelector('#app-nav__menu-toggle')
+      .addEventListener('click', this.#toggle.bind(this))
+
+    this.querySelectorAll('#app-nav__menu a').forEach(aTag => {
+      aTag.addEventListener('click', this.#toggle.bind(this))
+    })
+  }
+
+  #toggle() {
+    const menu = this.querySelector('#app-nav__menu')
+
+    if (menu.style.display) {
+      // Show element.
+      menu.style.removeProperty('display')
+      menu.style.opacity = '0'
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          menu.addEventListener('transitionend', () => {
+            menu.style.removeProperty('transition')
+            menu.style.removeProperty('opacity')
+          }, { once: true })
+          menu.style.transition = 'opacity 0.5s ease'
+          menu.style.opacity = '1'
+        })
+      })
+    }
+    else {
+      // Hide element.
+      menu.style.transition = 'opacity 0.5s ease'
+      menu.style.opacity = '0'
+      menu.addEventListener('transitionend', () => {
+        menu.style.removeProperty('transition')
+        menu.style.removeProperty('opacity')
+        menu.style.display = 'none'
+      }, { once: true })
+    }
+
+    this.querySelector('#app-nav__menu-toggle >svg').classList.toggle('hidden')
+  }
+})
+
+
 // app-sidebar
 customElements.define('app-sidebar', class extends HTMLElement {
-
-  constructor() {
-    super()
-  }
 
   connectedCallback() {
     this.querySelector('._handle').addEventListener('click', () => {
@@ -66,10 +109,6 @@ customElements.define('app-sidebar', class extends HTMLElement {
 customElements.define('app-search-box', class extends HTMLElement {
 
   #isOpen = false
-
-  constructor() {
-    super()
-  }
 
   connectedCallback() {
     this.querySelector('button').addEventListener('click', (e) => {
