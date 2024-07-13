@@ -49,10 +49,6 @@
       </app-nav>
     </div>
 
-    <app-sidebar>
-      <template v-slot:content>
-        {{ slot:sidebar_content }}
-      </template>
-    </app-sidebar>
+    {{ partial:partial/sidebar /}}
   </div>
 </header>

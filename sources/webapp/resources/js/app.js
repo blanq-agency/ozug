@@ -11,7 +11,6 @@ FloatingVue.options.themes.dropdown.placement = 'top'
 FloatingVue.options.themes.dropdown.distance = 10
 
 import AppNav from '@/components/Layouts/AppNav.vue'
-import AppSidebar from '@/components/Layouts/AppSidebar.vue'
 import Commentaries from '@/components/Pages/Commentaries.vue'
 import Commentary from '@/components/Pages/Commentary.vue'
 import Footnote from '@/components/Pages/Partials/Footnote.vue'
@@ -23,7 +22,6 @@ import VersionComparisonModalDialog from '@/components/Pages/Partials/VersionCom
 const app = createApp({
   components: {
     'app-nav': AppNav,
-    'app-sidebar': AppSidebar,
     'commentaries': Commentaries,
     'commentary': Commentary,
     'footnote': Footnote,
@@ -34,6 +32,10 @@ const app = createApp({
   }
 })
 
+app.config.compilerOptions.isCustomElement = (tag) => [
+  'app-sidebar',
+].includes(tag)
+
 app.config.globalProperties.emitter = emitter
 app
   .use(FloatingVue)
@@ -41,3 +43,19 @@ app
     resolve: (lang) => import(`../../lang/${lang}.json`)
   })
   .mount('#app')
+
+
+// app-sidebar
+customElements.define('app-sidebar', class extends HTMLElement {
+
+  constructor() {
+    super()
+  }
+
+  connectedCallback() {
+    this.querySelector('._handle').addEventListener('click', () => {
+      this.classList.toggle('open')
+      this.querySelector('._content').classList.toggle('hidden')
+    })
+  }
+})
