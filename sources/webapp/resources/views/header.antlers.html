@@ -3,7 +3,7 @@
     <a
       class="z-40 hidden lg:flex items-end"
       href="{{ '/' + locale }}"
-      style="height: {{ slug !== 'home' ? '78px' : '108px' }}"
+      {{ 'style="height: ' + (slug !== 'home' ? '78px' : '108px') + '"' }}
     >
       <img
         src="/img/oak-logo-text.svg"
