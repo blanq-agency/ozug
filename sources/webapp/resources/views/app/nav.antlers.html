@@ -4,45 +4,22 @@
     class="absolute top-0 left-0 z-10 w-screen h-screen bg-ok-yellow"
     style="display: none"
   >
-    <nav class="flex items-center justify-center h-screen mr-4 text-3xl text-right md:justify-end lg:mr-32">
-      <ul class="flex flex-col space-y-5 list-style-none">
+    {{ if header:main_nav }}
+      <nav class="flex items-center justify-center h-screen mr-4 text-3xl text-right md:justify-end lg:mr-32">
+        <ul class="flex flex-col space-y-5 list-style-none">
 
-        {{ partial src="app/nav-link"
-          href="{'/' + locale + '/kommentare'}"
-          active="{false}"
-        }}
-          {{ trans:commentaries }}
-        {{ /partial }}
+          {{ nav :handle="header:main_nav" }}
+            {{ partial src="app/nav-link"
+              :href="$url"
+              :active="$url === $current_uri"
+            }}
+              {{ $title }}
+            {{ /partial }}
+          {{ /nav }}
 
-        {{ partial src="app/nav-link"
-          href="{'/' + locale + '/autoren'}"
-          active="{false}"
-        }}
-          {{ trans:authors }}
-        {{ /partial }}
-
-        {{ partial src="app/nav-link"
-          href="{'/' + locale + '/herausgeber'}"
-          active="{false}"
-        }}
-          {{ trans:editors }}
-        {{ /partial }}
-
-        {{ partial src="app/nav-link"
-          href="{'/' + locale + '/ueber-onlinekommentar'}"
-          active="{false}"
-        }}
-          {{ trans:about }}
-        {{ /partial }}
-
-        {{ partial src="app/nav-link"
-          href="{'/' + locale + '/contact'}"
-          active="{contact}"
-        }}
-          {{ trans:contact }}
-        {{ /partial }}
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    {{ /if }}
   </div>
 
   <nav>
