@@ -121,11 +121,11 @@ return [
     'custom_cms_name' => env('STATAMIC_CUSTOM_CMS_NAME', 'Statamic'),
 
     'custom_logo_url' => [
-        'nav' => '/img/oak-logo.svg',
+        'nav' => '/img/oak-logo-cp.svg',
         'outside' => '/img/oak-logo-text.svg'
     ],
 
-    'custom_favicon_url' => '/img/oak-logo.svg',
+    'custom_favicon_url' => '/img/oak-favicon.svg',
 
     'custom_css_url' => env('STATAMIC_CUSTOM_CSS_URL', null),
 
