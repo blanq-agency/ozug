@@ -1,5 +1,6 @@
 <article class="commentary w-full border print:border-0">
   <commentary
+    app-name="{{ config:app:name }}"
     locale="{{ locale }}"
     base-path-prefix="{{ base_path_prefix }}"
     :commentary="{

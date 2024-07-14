@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Onlinekommentar'),
+    'name' => env('APP_NAME', 'Open Access Kommentar'),
 
     /*
     |--------------------------------------------------------------------------

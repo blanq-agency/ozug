@@ -165,7 +165,7 @@
       </h2>
 
       <p class="license">
-        Onlinekommentar.ch, {{ $t('commentary_on') }} {{ commentary.title }} <span v-html="$t('creative_commons_text')"></span>
+        {{ appName }}, {{ $t('commentary_on') }} {{ commentary.title }} <span v-html="$t('creative_commons_text')"></span>
       </p>
       <p class="mt-4"><a href="http://creativecommons.org/licenses/by/4.0/"><img src="/img/cc-license.png" alt="Creative Commons"></a></p>
 
@@ -183,6 +183,7 @@
   import axios from 'axios'
 
   const props = defineProps({
+    appName: { type: String, required: true },
     locale: { type: String, required: true },
     commentary: { type: Object, required: true },
     versions: { type: Array, required: false, default: null },
