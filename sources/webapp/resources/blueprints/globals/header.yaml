@@ -1,0 +1,13 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: main_nav
+            field:
+              max_items: 1
+              type: navs
+              display: 'Main Navigation'
+              localizable: false

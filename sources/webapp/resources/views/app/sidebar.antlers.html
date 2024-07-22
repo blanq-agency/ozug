@@ -1,0 +1,33 @@
+<app-sidebar class="
+  fixed top-0 bottom-0 z-50 w-6 h-screen xl:w-12 xl:left-0 -left-4 md:left-0
+  bg-ok-blue rounded-tr-xl rounded-br-xl print:hidden
+">
+  <div class="_shadow absolute top-0 bottom-0 left-0 hidden w-2 h-screen bg-transparent xl:block"></div>
+
+  <div class="_content h-screen overflow-y-auto hidden">
+    <div class="block px-8 py-4">
+      <div class="_logo-container flex items-end">
+        <img
+          src="/img/oak-logo.svg"
+          alt="{{ config:app.name }}"
+          title="{{ config:app.name }}"
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 ml-4">
+      {{ partial:commentaries/tree /}}
+    </div>
+  </div>
+
+  <!-- sidebar handle -->
+  <div class="_handle absolute right-0 py-6 -mt-24 -mr-5 rounded-tr-lg rounded-br-lg md:py-10 md:-mr-4 top-1/2 bg-ok-blue shadow-tr-lg shadow-br-lg">
+    <div class="flex flex-col items-center mt-6 w-7 md:w-10 xl:w-12">
+      <div class="_handle-text mb-6 text-xs font-medium tracking-wider uppercase">
+        {{ trans:sidebar_handle_text }}
+      </div>
+      <img class="w-4 mt-6 md:w-6" src="/img/sidebar-handle.svg" alt="Handle">
+    </div>
+  </div>
+  <!-- end sidebar handle -->
+</app-sidebar>

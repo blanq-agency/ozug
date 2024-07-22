@@ -1,0 +1,86 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: main_nav
+            field:
+              type: navs
+              display: 'Main Navigation'
+              localizable: false
+              max_items: 1
+          -
+            handle: legal_nav
+            field:
+              max_items: 1
+              type: navs
+              display: 'Legal Navigation'
+              localizable: false
+          -
+            handle: social_media
+            field:
+              fullscreen: false
+              type: grid
+              display: 'Social Media'
+              localizable: true
+              fields:
+                -
+                  handle: icon
+                  field:
+                    directory: resources/svg/social-media
+                    type: icon
+                    display: 'Icon Field'
+                    localizable: false
+                    width: 33
+                    validate:
+                      - required
+                -
+                  handle: link
+                  field:
+                    type: link
+                    display: Link
+                    localizable: false
+                    width: 66
+                    validate:
+                      - required
+          -
+            handle: action
+            field:
+              type: group
+              localizable: true
+              fullscreen: false
+              fields:
+                -
+                  handle: text
+                  field:
+                    buttons:
+                      - bold
+                      - italic
+                      - removeformat
+                    fullscreen: false
+                    remove_empty_nodes: false
+                    type: bard
+                    display: Text
+                    localizable: false
+                    validate:
+                      - required
+                -
+                  handle: button_text
+                  field:
+                    type: text
+                    display: 'Button Text'
+                    localizable: false
+                    validate:
+                      - required
+                -
+                  handle: button_link
+                  field:
+                    collections:
+                      - pages
+                    type: link
+                    display: 'Button Link'
+                    localizable: false
+                    validate:
+                      - required

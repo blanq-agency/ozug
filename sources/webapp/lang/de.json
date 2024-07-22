@@ -4,8 +4,6 @@
   "commentaries": "Kommentare",
   "authors": "Autor:innen",
   "editors": "Herausgeber:innen",
-  "about": "Über uns",
-  "contact": "Kontakt",
 
   "name": "Name",
   "email": "E-mail",
@@ -88,13 +86,6 @@
 
   "nav_search_box_placeholder": "Suchbegriff eingeben",
 
-  "footer_support_text": "Gefällt Ihnen der Onlinekommentar? Der Onlinekommentar braucht Ihre Unterstützung. Jetzt Vereinsmitglied werden oder spenden.",
-  "footer_support_link_text": "Onlinekommentar unterstützen",
-  "disclaimer": "Haftungsausschluss",
-  "privacy": "Datenschutzerklärung",
-  "imprint": "Impressum",
-
-  "home_text": "Onlinekommentar.ch ist die erste gemeinnützige kostenlose Plattform für Open-Access-Kommentare in der Schweiz.",
   "home_more_link": "Mehr",
 
   "commentary_on": "Kommentierung zu",

@@ -1,0 +1,65 @@
+<app-nav>
+  <div
+    id="app-nav__menu"
+    class="absolute top-0 left-0 z-10 w-screen h-screen bg-ok-yellow"
+    style="display: none"
+  >
+    {{ if header:main_nav }}
+      <nav class="flex items-center justify-center h-screen mr-4 text-3xl text-right md:justify-end lg:mr-32">
+        <ul class="flex flex-col space-y-5 list-style-none">
+
+          {{ nav :handle="header:main_nav" }}
+            {{ partial src="app/nav-link"
+              :href="$url"
+              :active="$url === $current_uri"
+            }}
+              {{ $title }}
+            {{ /partial }}
+          {{ /nav }}
+
+        </ul>
+      </nav>
+    {{ /if }}
+  </div>
+
+  <nav>
+    <ul class="flex items-center space-x-0 sm:space-x-2 md:space-x-6">
+      <li id="nav-search" class="cursor-pointer">
+        {{ partial:app/search-box }}
+      </li>
+
+      <language-selector
+        id="nav-lang-switcher"
+        as="li"
+        :languages="[
+          {{ if {locales:count} }}
+            {{ locales }}
+              '{{ locale:short }}',
+            {{ /locales }}
+          {{ else }}
+            {{ locales all='true' }}
+              '{{ locale:short }}',
+            {{ /locales }}
+          {{ /if }}
+        ]"
+        active-language="{{ locale }}"
+      ></language-selector>
+
+      <li class="z-50">
+        <button id="app-nav__menu-toggle" type="button" class="inline-flex items-center justify-center w-20 py-1 mb-2 mr-2 text-xs font-medium tracking-wider text-center uppercase border border-black rounded-full md:w-28 md:py-2 lg:py-3 lg:w-32">
+          {{ trans:menu }}
+          <svg class="w-2 h-2 ml-2 lg:w-4 lg:h-4 hidden" xmlns="http://www.w3.org/2000/svg" width="14.707" height="14.707" viewBox="0 0 14.707 14.707">
+            <g id="X" transform="translate(-1792.387 -75.877)">
+              <g id="Gruppe_17" data-name="Gruppe 17" transform="translate(1792.741 90.231) rotate(-45)">
+                <line id="Linie_2" data-name="Linie 2" x2="19.799" fill="none" stroke="#000" stroke-width="1"/>
+              </g>
+              <g id="Gruppe_18" data-name="Gruppe 18" transform="translate(1806.741 90.231) rotate(-135)">
+                <line id="Linie_2-2" data-name="Linie 2" x2="19.799" transform="translate(0 0)" fill="none" stroke="#000" stroke-width="1"/>
+              </g>
+            </g>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</app-nav>

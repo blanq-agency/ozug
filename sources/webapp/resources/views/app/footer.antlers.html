@@ -1,0 +1,71 @@
+<footer class="bg-ok-yellow mt-8 pl-4 pb-8 md:pb-0 lg:pl-8 grid grid-cols-1 md:grid-cols-2 print:hidden">
+  <div class="md:col-span-2 lg:col-span-1 border-b border-ok-dark-gray py-4">
+    <div class="px-8 pb-2">
+      <div class="w-full">
+        {{ footer:action:text }}
+      </div>
+      <a href="{{ footer:action:button_link }}" class="ok-button">
+          {{ footer:action:button_text }}
+      </a>
+    </div>
+  </div>
+
+  <div class="col-span-1 md:col-span-2 lg:col-span-1 lg:order-first grid grid-cols-1 md:grid-cols-2 left-top lg:border-r border-ok-dark-gray">
+    {{ if footer:main_nav }}
+      {{ nav :handle="footer:main_nav" }}
+        <div class="
+          py-4 pl-8 border-b border-ok-dark-gray
+          {{ $index % 2 === 0 ? 'md:border-r' : '' }}
+        ">
+          {{ partial src="app/nav-link"
+            :href="$url"
+            :active="$url === $current_uri"
+          }}
+            {{ $title }}
+          {{ /partial }}
+        </div>
+      {{ /nav }}
+    {{ /if }}
+  </div>
+
+  <div class="flex justify-between md:border-r border-ok-dark-gray pb-8">
+    <div class="flex flex-col pl-8 pt-8">
+      <span class="text-xs">&copy; {{$ date('Y') $}}, {{ config:app.name }}</span>
+    </div>
+
+    <div class="flex flex-row pt-6 mr-4 space-x-2">
+      {{ footer:social_media }}
+        <a class="flex flex-col external" href="{{ $link }}" target="blank" rel="noopener noreferrer">
+          <span class="inline-block w-7 h-7">
+            {{ $icon }}
+          </span>
+        </a>
+      {{ /footer:social_media }}
+    </div>
+  </div>
+
+  <div>
+    <div class="flex flex-row justify-between px-8 pt-8 mb-2 lg:mb-0">
+      <div class="flex flex-col lg:flex-row text-xs lg:space-x-4">
+        {{ if footer:legal_nav }}
+          {{ nav :handle="footer:legal_nav" }}
+            {{ partial src="app/nav-link"
+              :href="$url"
+              :active="false"
+            }}
+              {{ $title }}
+            {{ /partial }}
+          {{ /nav }}
+        {{ /if }}
+      </div>
+
+      <!-- arrow up -->
+      <button
+        class="w-20 xl:w-28 h-8 -mt-1 text-center rounded-full border border-ok-dark-gray"
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      >
+        <span class="text-black font-semibold">↑</span>
+      </button>
+    </div>
+  </div>
+</footer>

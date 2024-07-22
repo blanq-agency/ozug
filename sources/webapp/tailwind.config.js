@@ -8,6 +8,7 @@ module.exports = {
         './resources/views/**/*.antlers.html',
         './resources/views/**/*.antlers.php',
         './resources/js/**/*.vue',
+        './resources/js/**/*.js',
     ],
 
     theme: {
@@ -21,11 +22,11 @@ module.exports = {
               'ok-gray':        '#707070',
               'ok-dark-gray':   '#575757',
               'ok-light-gray':  '#CCCCCC',
-              'ok-beige':       '#E8E7E2',
+              'ok-beige':       '#f4f4f2',
               'ok-light-beige': '#EFEFEF',
-              'ok-yellow':      '#FCF0BD',
-              'ok-orange':      '#F4E8D7',
-              'ok-blue':        '#AFCEE2',
+              'ok-yellow':      '#e3e7ff',
+              'ok-orange':      '#fff3d4',
+              'ok-blue':        '#d9f7e7',
               'ok-red':         '#E06C56',
             },
             listStyleType: {

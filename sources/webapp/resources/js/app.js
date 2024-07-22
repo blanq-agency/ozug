@@ -10,8 +10,7 @@ import FloatingVue from 'floating-vue'
 FloatingVue.options.themes.dropdown.placement = 'top'
 FloatingVue.options.themes.dropdown.distance = 10
 
-import AppHeader from '@/components/Layouts/AppHeader.vue'
-import AppFooter from '@/components/Layouts/AppFooter.vue'
+import LanguageSelector from '@/components/Layouts/Partials/LanguageSelector.vue'
 import Commentaries from '@/components/Pages/Commentaries.vue'
 import Commentary from '@/components/Pages/Commentary.vue'
 import Footnote from '@/components/Pages/Partials/Footnote.vue'
@@ -22,8 +21,7 @@ import VersionComparisonModalDialog from '@/components/Pages/Partials/VersionCom
 
 const app = createApp({
   components: {
-    'app-header': AppHeader,
-    'app-footer': AppFooter,
+    'language-selector': LanguageSelector,
     'commentaries': Commentaries,
     'commentary': Commentary,
     'footnote': Footnote,
@@ -34,10 +32,104 @@ const app = createApp({
   }
 })
 
+app.config.compilerOptions.isCustomElement = (tag) => [
+  'app-nav',
+  'app-sidebar',
+  'app-search-box',
+].includes(tag)
+
 app.config.globalProperties.emitter = emitter
 app
   .use(FloatingVue)
-  .use(i18nVue, { 
-    resolve: (lang) => import(`../../lang/${lang}.json`) 
+  .use(i18nVue, {
+    resolve: (lang) => import(`../../lang/${lang}.json`)
   })
   .mount('#app')
+
+
+// app-nav
+customElements.define('app-nav', class extends HTMLElement {
+
+  connectedCallback() {
+    this.querySelector('#app-nav__menu-toggle')
+      .addEventListener('click', this.#toggle.bind(this))
+
+    this.querySelectorAll('#app-nav__menu a').forEach(aTag => {
+      aTag.addEventListener('click', this.#toggle.bind(this))
+    })
+  }
+
+  #toggle() {
+    const menu = this.querySelector('#app-nav__menu')
+
+    if (menu.style.display) {
+      // Show element.
+      menu.style.removeProperty('display')
+      menu.style.opacity = '0'
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          menu.addEventListener('transitionend', () => {
+            menu.style.removeProperty('transition')
+            menu.style.removeProperty('opacity')
+          }, { once: true })
+          menu.style.transition = 'opacity 0.5s ease'
+          menu.style.opacity = '1'
+        })
+      })
+    }
+    else {
+      // Hide element.
+      menu.style.transition = 'opacity 0.5s ease'
+      menu.style.opacity = '0'
+      menu.addEventListener('transitionend', () => {
+        menu.style.removeProperty('transition')
+        menu.style.removeProperty('opacity')
+        menu.style.display = 'none'
+      }, { once: true })
+    }
+
+    this.querySelector('#app-nav__menu-toggle >svg').classList.toggle('hidden')
+  }
+})
+
+
+// app-sidebar
+customElements.define('app-sidebar', class extends HTMLElement {
+
+  connectedCallback() {
+    this.querySelector('._handle').addEventListener('click', () => {
+      this.classList.toggle('open')
+      this.querySelector('._content').classList.toggle('hidden')
+    })
+  }
+})
+
+
+// app-search-box
+customElements.define('app-search-box', class extends HTMLElement {
+
+  #isOpen = false
+
+  connectedCallback() {
+    this.querySelector('button').addEventListener('click', (e) => {
+      if (!this.#isOpen) this.#showSearchBox()
+      else this.#hideSearchBox()
+    })
+  }
+
+  #showSearchBox() {
+    this.querySelector('button').classList.add('bg-white', 'border-b-2', 'border-black')
+    this.querySelector('input').classList.toggle('hidden')
+    this.#isOpen = true
+
+    setTimeout(() => {
+      this.querySelector('input').focus()
+    }, 100)
+  }
+
+  #hideSearchBox() {
+    this.querySelector('button').classList.remove('bg-white', 'border-b-2', 'border-black')
+    this.querySelector('input').classList.toggle('hidden')
+    this.#isOpen = false
+  }
+})
