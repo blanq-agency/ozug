@@ -302,7 +302,7 @@
     }
 
     :deep(p) {
-      @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6;
+      @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6 text-justify;
 
       a {
         @apply underline break-all print:break-inside-avoid
