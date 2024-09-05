@@ -46,5 +46,8 @@ contributor:
   title: Contributor
   permissions:
     - 'access cp'
+    - 'access en site'
+    - 'access de site'
+    - 'access fr site'
     - 'view commentaries entries'
     - 'edit commentaries entries'
