@@ -43,7 +43,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Gewisse Wörter können auch '
+            text: ' Erfassen Sie hier Ihree Kommentierung. Gewisse Wörter können auch '
         -
             type: text
             text: Fett
@@ -107,7 +107,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Gewisse '
+            text: ' Erfassen Sie hier Ihre Kommentierung. Gewisse '
         -
             type: text
             text: Wörter
@@ -162,7 +162,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Auch hier können gewisse Elemente durch '
+            text: ' Erfassen Sie hier Ihre Kommentierung. Auch hier können gewisse Elemente durch '
         -
             type: text
             text: Fettschrift
@@ -215,7 +215,7 @@
                 data-content: 'Studer, S. 142.'
         -
             type: text
-            text: ' Der Kommentar sollte nicht mehr als vier Gliederungsebenen umfassen.'
+            text: ' Die Kommentierung sollte nicht mehr als vier Gliederungsebenen umfassen.'
         -
             type: footnote
             attrs:
@@ -233,7 +233,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar.'
+            text: ' Erfassen Sie hier Ihre Kommentierung.'
 -
     type: heading
     attrs:
@@ -268,7 +268,7 @@
                 data-content: 'Studer, S. 142.'
         -
             type: text
-            text: ' Der Kommentar sollte nicht mehr als vier Gliederungsebenen umfassen.'
+            text: ' Die Kommentierung sollte nicht mehr als vier Gliederungsebenen umfassen.'
         -
             type: footnote
             attrs:
@@ -286,7 +286,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar.'
+            text: ' Erfassen Sie hier Ihre Kommentierung.'
 -
     type: heading
     attrs:
@@ -332,7 +332,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Gewisse Wörter können auch '
+            text: ' Erfassen Sie hier Ihre Kommentierung. Gewisse Wörter können auch '
         -
             type: text
             text: Fett
@@ -391,7 +391,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Gewisse '
+            text: ' Erfassen Sie hier Ihre Kommentierung. Gewisse '
         -
             type: text
             text: Wörter
@@ -455,7 +455,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar. Auch hier können gewisse Elemente durch '
+            text: ' Erfassen Sie hier Ihre Kommentierung. Auch hier können gewisse Elemente durch '
         -
             type: text
             text: Fettschrift
@@ -499,7 +499,7 @@
                 data-content: 'Studer, S. 142.'
         -
             type: text
-            text: ' Der Kommentar sollte nicht mehr als vier Gliederungsebenen umfassen.'
+            text: ' Die Kommentierung sollte nicht mehr als vier Gliederungsebenen umfassen.'
         -
             type: footnote
             attrs:
@@ -517,7 +517,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar.'
+            text: ' Erfassen Sie hier Ihre Kommentierung.'
 -
     type: heading
     attrs:
@@ -552,7 +552,7 @@
                 data-content: 'Studer, S. 142.'
         -
             type: text
-            text: ' Der Kommentar sollte nicht mehr als vier Gliederungsebenen umfassen.'
+            text: ' Die Kommentierung sollte nicht mehr als vier Gliederungsebenen umfassen.'
         -
             type: footnote
             attrs:
@@ -570,7 +570,7 @@
                         class: paragraph-nr
         -
             type: text
-            text: ' Erfassen Sie hier Ihren Kommentar.'
+            text: ' Erfassen Sie hier Ihre Kommentierung.'
 -
     type: paragraph
     content:

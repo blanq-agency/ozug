@@ -49,7 +49,7 @@ tabs:
               create: false
               collections:
                 - legal_domains
-              display: 'Legislative Act'
+              display: 'Kommentare'
               type: entries
               icon: entries
               listable: hidden

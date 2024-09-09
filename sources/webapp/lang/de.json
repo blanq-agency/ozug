@@ -1,12 +1,12 @@
 {
   "home": "Startseite",
-  "Commentaries": "Kommentare",
-  "commentaries": "Kommentare",
+  "Commentaries": "Kommentierung",
+  "commentaries": "Kommentierung",
   "authors": "Autor:innen",
   "editors": "Herausgeber:innen",
 
   "name": "Name",
-  "email": "E-mail",
+  "email": "E-Mail",
   "title": "Titel",
   "occupation": "Beschäftigung",
   "practice": "Praxis",
@@ -97,7 +97,7 @@
   "version": "Version",
   "compare": "Vergleichen",
   "compare_versions": "Versionen vergleichen",
-  "ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited." : "ACHTUNG: Diese Version des Kommentars ist eine automatische maschinelle Übersetzung des Originals. Die Originalversion ist :original_language. Die Übersetzung wurde mit www.deepl.com durchgeführt. Nur die Originalversion ist autoritativ. Die übersetzte Form des Kommentars kann nicht zitiert werden.",
+  "ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited." : "ACHTUNG: Diese Version der Kommentierung ist eine automatische maschinelle Übersetzung des Originals. Die Originalversion ist :original_language. Die Übersetzung wurde mit www.deepl.com durchgeführt. Nur die Originalversion ist autoritativ. Die übersetzte Form der Kommentierung kann nicht zitiert werden.",
 
   "visited_at": "besucht am",
 
@@ -105,7 +105,7 @@
   "creative_commons_text": "ist lizenziert unter einer <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Namensnennung 4.0 International Lizenz.",
 
   "and": "/",
-  "commentary_by": "Ein Kommentar von",
+  "commentary_by": "Eine Kommentierung von",
   "edited_by": "Herausgegeben von",
 
   "result_found": "Resultat gefunden",
@@ -116,21 +116,21 @@
 
   "is_loading": "Laden...",
 
-  "newest_comments": "Neuste Kommentare",
-  "all_comments": "Alle Kommentare",
+  "newest_comments": "Neuste Kommentierung",
+  "all_comments": "Alle Kommentierungen",
 
   "footnotes": "Fussnoten",
 
   "additional_documents": "Additional Documents",
   "download_pdf": "Download PDF",
 
-  "print_commentary": "Kommentar drucken",
+  "print_commentary": "Kommentierung drucken",
   "print": "Drucken",
 
   "versions": "Versionen",
 
   "editor_of": "Herausgeber von",
-  "author_of": "Kommentar zu",
+  "author_of": "Kommentierung zu",
 
   "current_version": "Aktuelle Version"
 }
