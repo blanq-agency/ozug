@@ -26,6 +26,7 @@ admin:
     - 'reorder pages entries'
     - 'edit other authors pages entries'
     - 'publish other authors pages entries'
+    - 'configure navs'
     - 'configure globals'
     - 'view avatars assets'
     - 'upload avatars assets'
