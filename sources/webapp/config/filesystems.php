@@ -39,6 +39,8 @@ return [
         'media' => [
             'driver' => 'local',
             'root' => base_path('data/storage/app/public/media'),
+            'url' => '/storage/media',
+            'visibility' => 'public',
             'throw' => false,
         ],
 
