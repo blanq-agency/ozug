@@ -111,6 +111,94 @@ tabs:
               instructions: 'Use the editor to format your commentary'
               always_save: false
               localizable: true
+              sets:
+                group:
+                  display: Group
+                  sets:
+                    image:
+                      display: Image
+                      icon: media-image-picture-orientation
+                      fields:
+                        -
+                          handle: image
+                          field:
+                            max_files: 1
+                            min_files: 1
+                            container: media
+                            type: assets
+                            display: Image
+                            localizable: false
+                            hide_display: true
+                            replicator_preview: false
+                        -
+                          handle: title
+                          field:
+                            type: text
+                            display: Title
+                            localizable: false
+                        -
+                          handle: description
+                          field:
+                            type: text
+                            display: Description
+                            localizable: false
+                            replicator_preview: false
+                    video:
+                      display: Video
+                      icon: media-webcam-video
+                      fields:
+                        -
+                          handle: video
+                          field:
+                            max_files: 1
+                            min_files: 1
+                            container: media
+                            type: assets
+                            display: Video
+                            localizable: false
+                            hide_display: true
+                            replicator_preview: false
+                        -
+                          handle: title
+                          field:
+                            type: text
+                            display: Title
+                            localizable: false
+                        -
+                          handle: description
+                          field:
+                            type: text
+                            display: Description
+                            localizable: false
+                            replicator_preview: false
+                    audio:
+                      display: Audio
+                      icon: media-music-sound-equalizer
+                      fields:
+                        -
+                          handle: audio
+                          field:
+                            max_files: 1
+                            min_files: 1
+                            container: media
+                            type: assets
+                            display: Audio
+                            localizable: false
+                            hide_display: true
+                            replicator_preview: false
+                        -
+                          handle: title
+                          field:
+                            type: text
+                            display: Title
+                            localizable: false
+                        -
+                          handle: description
+                          field:
+                            type: text
+                            display: Description
+                            localizable: false
+                            replicator_preview: false
           -
             handle: converter
             field:

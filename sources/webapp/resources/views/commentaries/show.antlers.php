@@ -52,7 +52,58 @@
     </template>
 
     <template v-slot:content>
-      {{ contentMarkup }}
+      {{ content }}
+        {{ if type == "text" }}
+          {{ text }}
+
+        {{ elseif type == "image" }}
+          <figure>
+            {{ image }}
+              {{# glide:image tag="true" #}}
+              <img
+                src="{{ glide :src="url" }}"
+                alt="{{ alt }}"
+                width="{{ width }}"
+                height="{{ height }}"
+              />
+            {{ /image }}
+            <figcaption>
+              {{ title }}
+              <br>{{ description }}
+            </figcaption>
+          </figure>
+
+        {{ elseif type == "audio" }}
+          <figure>
+            {{ audio }}
+              <audio src="{{ url }}" controls></audio>
+            {{ /audio }}
+            <figcaption>
+              {{ title }}
+              <br>{{ description }}
+            </figcaption>
+          </figure>
+
+          {{ elseif type == "video" }}
+          <figure>
+            {{ video }}
+              <video
+                src="{{ glide :src="url" }}"
+                width="{{ width }}"
+                height="{{ height }}"
+                controls
+              >
+                <source src="{{ url }}" type="{{ mime_type }}" />
+              </video>
+            {{ /video }}
+            <figcaption>
+              {{ title }}
+              <br>{{ description }}
+            </figcaption>
+          </figure>
+
+        {{ /if }}
+      {{ /content }}
     </template>
 
     {{ scope:page }}
