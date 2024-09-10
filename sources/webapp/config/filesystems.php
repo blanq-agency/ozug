@@ -36,6 +36,12 @@ return [
             'throw' => false,
         ],
 
+        'media' => [
+            'driver' => 'local',
+            'root' => base_path('data/storage/app/public/media'),
+            'throw' => false,
+        ],
+
         'avatars' => [
             'driver' => 'local',
             'root' => base_path('data/storage/app/public/avatars'),
