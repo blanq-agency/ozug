@@ -38,7 +38,7 @@ tabs:
               create: false
               collections:
                 - legal_domains
-              display: Kommentare
+              display: 'Legislative Act'
               type: entries
               always_save: false
               localizable: false
