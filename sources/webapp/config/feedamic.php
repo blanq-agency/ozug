@@ -48,7 +48,7 @@ return [
         ],
         'fr' => [
             'title' => env('APP_NAME', 'Open Access Kommentar'),
-            'description' => 'Le Commentaire en ligne (Onlinekommentar) est la première plateforme de commentaires juridiques à but non lucratif et open access en Suisse.',
+            'description' => 'Le Commentaire en ligne (Onlinekommentierung) est la première plateforme de commentaires juridiques à but non lucratif et open access en Suisse.',
             'routes' => [
                 'atom' => '/fr/feed/atom',
                 'rss' => '/fr/feed',

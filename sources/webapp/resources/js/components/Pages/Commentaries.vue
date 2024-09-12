@@ -47,7 +47,7 @@
             {{ commentary.label }}
           </div>
           <div class="text-sm text-gray-500 whitespace-normal md:hidden">
-            Ein kommentar von <i>Marco Zollinger</i>
+            Eine Kommentierung von <i>Marco Zollinger</i>
           </div>
           <div class="text-sm text-gray-500 whitespace-normal md:hidden">
             15.05.2021
@@ -55,7 +55,7 @@
         </td>
         <td class="hidden py-3 md:flex">
           <div class="text-sm text-gray-500 whitespace-normal">
-            Ein kommentar von <i>Marco Zollinger</i>
+            Eine Kommentierung von <i>Marco Zollinger</i>
           </div>
         </td>
         <td class="hidden py-3 md:flex">
