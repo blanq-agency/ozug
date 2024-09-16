@@ -313,6 +313,42 @@
       }
     }
 
+    /*
+     * Hyphenation.
+     *
+     * See: https://medium.com/clear-left-thinking/all-you-need-to-know-about-hyphenation-in-css-2baee2d89179
+     * Firefox not supported yet.
+     */
+    @supports (hyphenate-limit-chars: 6 3 3) or (-webkit-hyphenate-limit-before: 3) {
+      :deep(p) {
+        hyphens: auto;
+        -webkit-hyphenate-limit-before: 3; /* Safari support. */
+        -webkit-hyphenate-limit-after: 3; /* Safari support. */
+        hyphenate-limit-chars: 6 3 3;
+      }
+    }
+    @media (min-width: 480px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 4; /* Safari support. */
+        -webkit-hyphenate-limit-after: 4; /* Safari support. */
+        hyphenate-limit-chars: 8 4 4;
+      }
+    }
+    @media (min-width: 640px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 6; /* Safari support. */
+        -webkit-hyphenate-limit-after: 6; /* Safari support. */
+        hyphenate-limit-chars: 12 6 6;
+      }
+    }
+    @media (min-width: 1024px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 12; /* Safari support. */
+        -webkit-hyphenate-limit-after: 12; /* Safari support. */
+        hyphenate-limit-chars: 24 12 12;
+      }
+    }
+
     :deep(h2),
     :deep(h3),
     :deep(h4),
