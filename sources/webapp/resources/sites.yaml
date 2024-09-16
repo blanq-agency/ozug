@@ -6,7 +6,3 @@ en:
   name: en
   locale: en_US
   url: /en/
-fr:
-  name: fr
-  locale: fr_CH
-  url: /fr/

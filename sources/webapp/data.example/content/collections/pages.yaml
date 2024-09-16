@@ -2,7 +2,6 @@ title: Pages
 sites:
   - en
   - de
-  - fr
 propagate: true
 template: pages/show
 layout: layout
