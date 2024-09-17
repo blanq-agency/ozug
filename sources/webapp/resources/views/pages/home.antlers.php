@@ -1,6 +1,6 @@
 <?php
 
-use Statamic\Facades\Entry; 
+use Statamic\Facades\Entry;
 
 // get the latest 3 commentaries that have valid content
 $commentaries = Entry::query()
@@ -9,7 +9,7 @@ $commentaries = Entry::query()
     ->where('status', 'published')
     ->whereNotNull('content')
     ->limit(3)
-    ->orderBy('date', 'desc')
+    ->orderBy('updated_at', 'desc')
     ->get()
     ->map(function ($commentary, $key) {
         return [
