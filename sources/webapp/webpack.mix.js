@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix
     .js('resources/js/app.js', 'public/js')
+    .js('resources/js/media.js', 'public/js')
     .js('resources/js/cp.js', 'public/vendor/app/js')
     .extract()
     .vue(3)
@@ -24,7 +25,7 @@ mix
     .alias({
         '@': 'resources/js',
     })
-    .webpackConfig({ 
+    .webpackConfig({
         output: { chunkFilename: "js/app/[name].js?id=[chunkhash]" },
         module: {
             rules: [

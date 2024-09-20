@@ -32,10 +32,15 @@ const app = createApp({
   }
 })
 
-app.config.compilerOptions.isCustomElement = (tag) => [
-  'app-nav',
-  'app-sidebar',
-].includes(tag)
+app.config.compilerOptions.isCustomElement = (tag) => {
+  if (tag.startsWith('media-')) return true
+  // else:
+
+  return [
+    'app-nav',
+    'app-sidebar',
+  ].includes(tag)
+}
 
 app.config.globalProperties.emitter = emitter
 app
