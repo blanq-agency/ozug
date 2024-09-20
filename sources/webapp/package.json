@@ -23,6 +23,7 @@
         "laravel-mix": "^6.0.6",
         "laravel-vue-i18n": "^2.2.2",
         "lodash": "^4.17.19",
+        "media-chrome": "^4.1.1",
         "mitt": "^3.0.0",
         "postcss": "^8.1.14",
         "postcss-import": "^14.1.0",
