@@ -39,6 +39,22 @@ tabs:
               localizable: true
               always_save: false
               container: documents
+          -
+            handle: legislative_acts
+            field:
+              max_items: 3
+              collections:
+                - legal_domains
+              type: entries
+              display: 'Legislative Acts'
+              instructions: 'Legislative Acts shown on the home page.'
+              localizable: false
+          -
+            handle: show_latest_commentaries
+            field:
+              type: toggle
+              display: 'Show latest Commentaries'
+              localizable: false
   sidebar:
     display: Sidebar
     sections:
