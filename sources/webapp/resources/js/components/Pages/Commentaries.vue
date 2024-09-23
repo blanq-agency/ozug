@@ -112,7 +112,7 @@
     overflow: hidden;
     max-width: 100%;
   }
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     .attribution p, h2 {
       -webkit-line-clamp: 3;
     }

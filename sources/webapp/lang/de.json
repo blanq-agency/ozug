@@ -1,6 +1,7 @@
 {
   "home": "Startseite",
   "Commentaries": "Kommentierungen",
+  "Show Commentaries": "Kommentierungen anzeigen",
   "commentaries": "Kommentierungen",
   "Legislative Acts": "Kommentare",
   "authors": "Autor:innen",
@@ -116,7 +117,7 @@
 
   "is_loading": "Laden...",
 
-  "newest_comments": "Neuste Kommentierung",
+  "newest_comments": "Neuste Kommentierungen",
   "all_comments": "Alle Kommentierungen",
 
   "footnotes": "Fussnoten",
