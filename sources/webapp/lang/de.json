@@ -133,5 +133,8 @@
   "editor_of": "Herausgeber von",
   "author_of": "Kommentierung zu",
 
-  "current_version": "Aktuelle Version"
+  "current_version": "Aktuelle Version",
+
+  "dashboard_welcome_widget_title_start": "Willkommen beim",
+  "dashboard_welcome_widget_text": "Der Publikationsplattform für Open-Access-Kommentare in Deutschland."
 }

@@ -132,5 +132,8 @@
   "editor_of": "Editor of",
   "author_of": "Author of",
 
-  "current_version": "Current version"
+  "current_version": "Current version",
+
+  "dashboard_welcome_widget_title_start": "Welcome to",
+  "dashboard_welcome_widget_text": "The publishing platform for open access commentaries in Germany."
 }
