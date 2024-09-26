@@ -39,7 +39,7 @@ export default {
 
     computed: {
 
-        store() {           
+        store() {
             return this.$store.state.publish[this.storeName];
         },
 
@@ -71,7 +71,7 @@ export default {
                 html
             }).then(response => {
                 const values = response.data;
-                this.store.values.content = values.data;
+                this.store.values.content = JSON.parse(values.data);
             }).catch(e => {
             }).finally(e => {
                 this.converting = false;
