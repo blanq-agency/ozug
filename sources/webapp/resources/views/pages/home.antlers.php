@@ -51,19 +51,38 @@ if ($show_latest_commentaries) {
 
 
 {{ if legislative_acts }}
+  {{?
+    use Statamic\Facades\Entry;
+
+    $legal_domains = Entry::query()
+      ->where('collection', 'commentaries')
+      ->where('blueprint', 'legal_domain')
+      ->where('locale', app()->getLocale())
+      ->where('status', 'published')
+      ->whereIn('legal_domain', $page->legislative_acts->map(function ($legislative_act) {
+        return $legislative_act['id'];
+      })->toArray())
+      ->get();
+  ?}}
+
   <div class="mt-16 flex justify-between text-sm uppercase">
     <span>{{ "Legislative Acts" | trans }}</span>
   </div>
   <p class="mt-2">
     <div class="overflow-hidden divide-y divide-gray-800 sm:divide-y-0 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 sm:gap-px">
       {{ legislative_acts }}
-        <a class="
-          h-[206px] md:h-[280px] xl:h-[333px] relative group
-          cursor-pointer
-          bg-white hover:bg-ok-orange
-          p-4 md:p-8
-          transition ease-in-out delay-150
-        ">
+        <a
+          href="{{ locale}}/kommentare/{{$ $legal_domains->first(function ($value) use ($legislative_acts, $index) {
+            return in_array($legislative_acts->raw()[$index], $value->toArray()['legal_domain']);
+          })['slug'] $}}"
+          class="
+            h-[206px] md:h-[280px] xl:h-[333px] relative group
+            cursor-pointer
+            bg-white hover:bg-ok-orange
+            p-4 md:p-8
+            transition ease-in-out delay-150
+          "
+        >
           <div class="relative flex flex-col items-center w-full h-full">
             <h2 class="
               max-w-full
