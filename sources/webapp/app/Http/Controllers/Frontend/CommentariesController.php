@@ -35,7 +35,7 @@ class CommentariesController extends Controller
 
         // Handle Live Preview in CP
         if($isLivePreview) {
-            $livePreview = new LivePreview(); 
+            $livePreview = new LivePreview();
             $commentaryData = $livePreview->item(app()->request->statamicToken());
             $commentaryData = $commentaryData->toArray();
         }
@@ -80,51 +80,60 @@ class CommentariesController extends Controller
             }
         }
 
-        // get the assigned authors and editors from their ids
-        $commentaryData['assigned_authors'] = $this->_getUsers($commentaryData['assigned_authors'] ?? null, ['id', 'slug', 'name']);
-        $commentaryData['assigned_editors'] = $this->_getUsers($commentaryData['assigned_editors'] ?? null, ['id', 'slug', 'name']);
+        if ($commentaryData['blueprint']['handle'] === 'commentary') {
+            // get the assigned authors and editors from their ids
+            $commentaryData['assigned_authors'] = $this->_getUsers($commentaryData['assigned_authors'] ?? null, ['id', 'slug', 'name']);
+            $commentaryData['assigned_editors'] = $this->_getUsers($commentaryData['assigned_editors'] ?? null, ['id', 'slug', 'name']);
 
-        // get the additional documents
-        $commentaryData['additional_documents'] = $this->_getDocuments($commentaryData['additional_documents'] ?? null, ['id', 'url', 'title']);
+            // get the additional documents
+            $commentaryData['additional_documents'] = $this->_getDocuments($commentaryData['additional_documents'] ?? null, ['id', 'url', 'title']);
 
-        // return the first original language (default to German) since only one original language can be assigned to a commentary
-        $commentaryData['original_language'] = ($commentaryData['original_language'] && is_array($commentaryData['original_language']) && !empty($commentaryData['original_language']))
-            ? $commentaryData['original_language'][0]
-            : 'de';
+            // return the first original language (default to German) since only one original language can be assigned to a commentary
+            $commentaryData['original_language'] = ($commentaryData['original_language'] && is_array($commentaryData['original_language']) && !empty($commentaryData['original_language']))
+                ? $commentaryData['original_language'][0]
+                : 'de';
 
-        // generate formatted html markup for the language-specific 'content' field
-        $content = $commentaryData['content'];
+            // generate formatted html markup for the language-specific 'content' field
+            $content = $commentaryData['content'];
 
-        // add anchor attributes to the heading elements
-        $contentMarkup = null;
-        if ($content) {
-            $markupFixer = new MarkupFixer();
-            $contentMarkup = $markupFixer->fix($content);
+            // add anchor attributes to the heading elements
+            $contentMarkup = null;
+            if ($content) {
+                $markupFixer = new MarkupFixer();
+                $contentMarkup = $markupFixer->fix($content);
+            }
+
+            // generate table of contents from the heading elements
+            $toc = null;
+            if ($contentMarkup) {
+                $tocGenerator = new TocGenerator();
+                $toc = $tocGenerator->getHtmlMenu($contentMarkup);
+            }
+
+            $view = (new View)
+                ->template('commentaries/show')
+                ->layout('layout')
+                ->with(array_merge([
+                    'locale' => $locale,
+                    'contentMarkup' => $contentMarkup,
+                    'toc' => $toc,
+                    'versionTimestamp' => $versionTimestamp,
+                    'versionComparisonResult' => $versionComparisonResult,
+                    'base_path_prefix' => '/' . $locale . '/',
+                ], $commentaryData))
+                ->render(); // Render to string.
         }
-        
-        // generate table of contents from the heading elements
-        $toc = null;
-        if ($contentMarkup) {
-            $tocGenerator = new TocGenerator();
-            $toc = $tocGenerator->getHtmlMenu($contentMarkup);
+        else if ($commentaryData['blueprint']['handle'] === 'legal_domain') {
+            $view = (new View)
+                ->template('commentaries/legal-domain')
+                ->layout('layout')
+                ->with(array_merge(['locale' => $locale], $commentaryData))
+                ->render(); // Render to string.
         }
-    
-        // select the legal domain or show template depending on commentary content
-        $template = $commentaryData['content'] ? 'commentaries/show' : 'commentaries/legal-domain';
+        else {
+            abort(404);
+        }
 
-        // load the commentary detail view
-        $view = (new View)
-            ->template($template)
-            ->layout('layout')
-            ->with(array_merge([
-                'locale' => $locale,
-                'contentMarkup' => $contentMarkup,
-                'toc' => $toc,
-                'versionTimestamp' => $versionTimestamp,
-                'versionComparisonResult' => $versionComparisonResult,
-                'base_path_prefix' => '/' . $locale . '/',
-            ], $commentaryData))
-            ->render();  // render the view to a string
 
         // Cache the generated view for 7 days
         if (config('app.env') !== 'local' && !$isLivePreview) {
@@ -158,8 +167,8 @@ class CommentariesController extends Controller
         /*
          * Append newlines after block element closing tags so that the revision
          * content can be diff'ed on a line-by-line basis.
-         * 
-         * Note: The list of block element closing tags are the ones that are 
+         *
+         * Note: The list of block element closing tags are the ones that are
          *       enabled in the Bard field menu. Any newly added block elements
          *       to the Bard field need to be added to this list.
          */

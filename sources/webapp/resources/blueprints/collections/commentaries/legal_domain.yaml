@@ -1,0 +1,56 @@
+title: 'Legislative Act'
+tabs:
+  main:
+    display: Hauptteil
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              localizable: true
+              validate:
+                - required
+          -
+            handle: legal_domain
+            field:
+              max_items: 1
+              mode: select
+              collections:
+                - legal_domains
+              type: entries
+              display: 'Legislative Act'
+              localizable: false
+              validate:
+                - required
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            handle: date
+            field:
+              type: date
+              required: true
+              default: now
+              localizable: false
+              validate:
+                - required
+          -
+            handle: parent
+            field:
+              type: entries
+              collections:
+                - commentaries
+              max_items: 1
+              listable: false
+              localizable: true

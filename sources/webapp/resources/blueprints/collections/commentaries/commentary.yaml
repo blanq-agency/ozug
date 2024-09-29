@@ -187,6 +187,8 @@ tabs:
               listable: false
               localizable: true
               always_save: false
+              validate:
+                - required
           -
             handle: date
             field:
