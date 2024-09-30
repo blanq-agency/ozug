@@ -2,8 +2,8 @@ admin:
   title: Administrator
   permissions:
     - 'access cp'
-    - 'access en site'
     - 'access de site'
+    - 'access en site'
     - 'view commentaries entries'
     - 'edit commentaries entries'
     - 'create commentaries entries'
@@ -43,6 +43,7 @@ admin:
     - 'edit users'
     - 'create users'
     - 'delete users'
+    - 'access cache utility'
 contributor:
   title: Contributor
   permissions:
