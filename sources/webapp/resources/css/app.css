@@ -24,7 +24,7 @@ article {
   grid-template-columns: 100%;
 }
 
-// Header
+/* Header */
 #app >header >div {
   grid-template-columns: auto auto;
 }
@@ -32,7 +32,7 @@ article {
   #app >header >div {
     grid-template-columns: max-content 1fr auto;
   }
-  // Search
+  /* Search */
   #search-box {
     max-width: 512px;
   }
