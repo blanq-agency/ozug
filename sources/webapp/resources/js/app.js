@@ -35,7 +35,6 @@ const app = createApp({
 app.config.compilerOptions.isCustomElement = (tag) => [
   'app-nav',
   'app-sidebar',
-  'app-search-box',
 ].includes(tag)
 
 app.config.globalProperties.emitter = emitter
@@ -101,35 +100,5 @@ customElements.define('app-sidebar', class extends HTMLElement {
       this.classList.toggle('open')
       this.querySelector('._content').classList.toggle('hidden')
     })
-  }
-})
-
-
-// app-search-box
-customElements.define('app-search-box', class extends HTMLElement {
-
-  #isOpen = false
-
-  connectedCallback() {
-    this.querySelector('button').addEventListener('click', (e) => {
-      if (!this.#isOpen) this.#showSearchBox()
-      else this.#hideSearchBox()
-    })
-  }
-
-  #showSearchBox() {
-    this.querySelector('button').classList.add('bg-white', 'border-b-2', 'border-black')
-    this.querySelector('input').classList.toggle('hidden')
-    this.#isOpen = true
-
-    setTimeout(() => {
-      this.querySelector('input').focus()
-    }, 100)
-  }
-
-  #hideSearchBox() {
-    this.querySelector('button').classList.remove('bg-white', 'border-b-2', 'border-black')
-    this.querySelector('input').classList.toggle('hidden')
-    this.#isOpen = false
   }
 })
