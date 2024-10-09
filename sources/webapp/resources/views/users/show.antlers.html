@@ -1,9 +1,9 @@
-<article class="border print:border-0">
+<article>
   <user
     locale="{{ locale }}"
     :user="{
       name: '{{ name | add_slashes | sanitize:true }}',
-      legal_domains: 
+      legal_domains:
         {{ if legal_domains }}
           [
             {{ foreach:legal_domains as="legal_domain" }}
@@ -24,7 +24,7 @@
       linkedin_url: '{{ linkedin_url }}',
       website_url: '{{ website_url }}',
       avatar: '{{ avatar }}',
-      authored_commentaries: 
+      authored_commentaries:
         {{ if authored_commentaries }}
           [
             {{ foreach:authored_commentaries as="commentary" }}
@@ -38,7 +38,7 @@
         {{ else }}
           null,
         {{ /if }}
-      edited_commentaries: 
+      edited_commentaries:
         {{ if edited_commentaries }}
           [
             {{ foreach:edited_commentaries as="commentary" }}

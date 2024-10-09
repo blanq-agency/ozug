@@ -1,4 +1,4 @@
-<article class="commentary w-full border print:border-0">
+<article class="commentary w-full">
   <commentary
     app-name="{{ config:app:name }}"
     locale="{{ locale }}"
