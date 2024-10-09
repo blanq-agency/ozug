@@ -76,7 +76,7 @@ if ($show_latest_commentaries) {
             return in_array($legislative_acts->raw()[$index], $value->toArray()['legal_domain']);
           })['slug'] $}}"
           class="
-            h-[206px] md:h-[280px] xl:h-[333px] relative group
+            h-[262px] md:h-[372px] xl:h-[452px] relative group
             cursor-pointer
             bg-white hover:bg-ok-orange
             p-4 md:p-8
@@ -84,13 +84,30 @@ if ($show_latest_commentaries) {
           "
         >
           <div class="relative flex flex-col items-center w-full h-full">
-            <h2 class="
-              max-w-full
-              font-serif font-medium text-3xl text-center lg:text-4xl 2xl:text-5xl
-              line-clamp-2 md:line-clamp-3
-              hyphens-auto break-words
-              my-4 lg:my-8
-            ">{{ title }}</h2>
+            <h2
+              class="
+                max-w-full
+                font-serif font-medium text-3xl text-center lg:text-4xl 2xl:text-5xl
+                line-clamp-2 md:line-clamp-3
+                hyphens-auto break-words
+                my-4 lg:my-8
+              "
+              style="line-height: 1.375"
+            >{{ title }}</h2>
+
+            <div class="text-sm text-center lg:text-base attribution">
+              {{ if assigned_editors }}
+                <p>
+                  {{ 'edited_by' | trans }}
+                  <i>
+                    {{ assigned_editors as="editors"}}
+                      {{ editors | pluck("name") | join(" " + { "and" | trans } + " ") }}
+                    {{ /assigned_editors }}
+                  </i>
+                </p>
+              {{ /if assigned_editors }}
+            </div>
+
             <div class="absolute bottom-0 flex w-full">
               <button
                 type="button"
