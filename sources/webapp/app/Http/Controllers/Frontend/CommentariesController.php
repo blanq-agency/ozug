@@ -11,7 +11,6 @@ use Statamic\Facades\User;
 use Statamic\Facades\Entry;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
 use Statamic\Modifiers\CoreModifiers;
@@ -23,7 +22,6 @@ class CommentariesController extends Controller
 {
     public function show($locale, $commentarySlug, $versionTimestamp = null, $versionComparisonResult = null)
     {
-        App::setLocale($locale);
         $isLivePreview = request()->statamicToken();
 
 
