@@ -48,7 +48,7 @@ tabs:
               type: entries
               display: 'Legislative Acts'
               instructions: 'Legislative Acts shown on the home page.'
-              localizable: false
+              localizable: true
           -
             handle: show_latest_commentaries
             field:

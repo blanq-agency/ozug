@@ -22,7 +22,7 @@ tabs:
                 - legal_domains
               type: entries
               display: 'Legislative Act'
-              localizable: false
+              localizable: true
               validate:
                 - required
   sidebar:
