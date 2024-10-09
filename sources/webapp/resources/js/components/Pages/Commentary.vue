@@ -312,42 +312,6 @@
       }
     }
 
-    /*
-     * Hyphenation.
-     *
-     * See: https://medium.com/clear-left-thinking/all-you-need-to-know-about-hyphenation-in-css-2baee2d89179
-     * Firefox not supported yet.
-     */
-    @supports (hyphenate-limit-chars: 8 4 4) or (-webkit-hyphenate-limit-before: 4) {
-      :deep(p) {
-        hyphens: auto;
-        -webkit-hyphenate-limit-before: 4; /* Safari support. */
-        -webkit-hyphenate-limit-after: 4; /* Safari support. */
-        hyphenate-limit-chars: 8 4 4;
-      }
-    }
-    @media (min-width: 480px) {
-      :deep(p) {
-        -webkit-hyphenate-limit-before: 6; /* Safari support. */
-        -webkit-hyphenate-limit-after: 6; /* Safari support. */
-        hyphenate-limit-chars: 12 6 6;
-      }
-    }
-    @media (min-width: 640px) {
-      :deep(p) {
-        -webkit-hyphenate-limit-before: 8; /* Safari support. */
-        -webkit-hyphenate-limit-after: 8; /* Safari support. */
-        hyphenate-limit-chars: 16 8 8;
-      }
-    }
-    @media (min-width: 1024px) {
-      :deep(p) {
-        -webkit-hyphenate-limit-before: 10; /* Safari support. */
-        -webkit-hyphenate-limit-after: 10; /* Safari support. */
-        hyphenate-limit-chars: 20 10 10;
-      }
-    }
-
     :deep(h2),
     :deep(h3),
     :deep(h4),
@@ -403,7 +367,49 @@
 
   }
 
+  .content,
   .localized-legal-text {
+    /*
+     * Hyphenation.
+     *
+     * See: https://medium.com/clear-left-thinking/all-you-need-to-know-about-hyphenation-in-css-2baee2d89179
+     * Firefox not supported yet.
+     */
+    @supports (hyphenate-limit-chars: 8 4 4) or (-webkit-hyphenate-limit-before: 4) {
+      :deep(p) {
+        hyphens: auto;
+        -webkit-hyphenate-limit-before: 4; /* Safari support. */
+        -webkit-hyphenate-limit-after: 4; /* Safari support. */
+        hyphenate-limit-chars: 8 4 4;
+      }
+    }
+    @media (min-width: 480px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 6; /* Safari support. */
+        -webkit-hyphenate-limit-after: 6; /* Safari support. */
+        hyphenate-limit-chars: 12 6 6;
+      }
+    }
+    @media (min-width: 640px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 8; /* Safari support. */
+        -webkit-hyphenate-limit-after: 8; /* Safari support. */
+        hyphenate-limit-chars: 16 8 8;
+      }
+    }
+    @media (min-width: 1024px) {
+      :deep(p) {
+        -webkit-hyphenate-limit-before: 10; /* Safari support. */
+        -webkit-hyphenate-limit-after: 10; /* Safari support. */
+        hyphenate-limit-chars: 20 10 10;
+      }
+    }
+  }
+
+  .localized-legal-text {
+    :deep(p) {
+        @apply text-justify;
+    }
 
     :deep(ul) {
       @apply list-disc list-outside ml-10
