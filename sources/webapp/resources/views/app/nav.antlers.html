@@ -23,11 +23,7 @@
   </div>
 
   <nav>
-    <ul class="flex items-center space-x-0 sm:space-x-2 md:space-x-6">
-      <li id="nav-search" class="cursor-pointer">
-        {{ partial:app/search-box }}
-      </li>
-
+    <ul class="flex items-center justify-end gap-x-2 md:gap-x-6">
       <language-selector
         id="nav-lang-switcher"
         as="li"
@@ -46,15 +42,24 @@
       ></language-selector>
 
       <li class="z-50">
-        <button id="app-nav__menu-toggle" type="button" class="inline-flex items-center justify-center w-20 py-1 mb-2 mr-2 text-xs font-medium tracking-wider text-center uppercase border border-black rounded-full md:w-28 md:py-2 lg:py-3 lg:w-32">
+        <button
+          id="app-nav__menu-toggle"
+          type="button"
+          class="
+            inline-flex items-center justify-center w-20 md:w-28 lg:w-32
+            font-medium text-xs tracking-wider text-center uppercase
+            border-black rounded-full
+            py-1 border md:py-2 lg:py-3
+          "
+        >
           {{ trans:menu }}
           <svg class="w-2 h-2 ml-2 lg:w-4 lg:h-4 hidden" xmlns="http://www.w3.org/2000/svg" width="14.707" height="14.707" viewBox="0 0 14.707 14.707">
-            <g id="X" transform="translate(-1792.387 -75.877)">
-              <g id="Gruppe_17" data-name="Gruppe 17" transform="translate(1792.741 90.231) rotate(-45)">
-                <line id="Linie_2" data-name="Linie 2" x2="19.799" fill="none" stroke="#000" stroke-width="1"/>
+            <g transform="translate(-1792.387 -75.877)">
+              <g transform="translate(1792.741 90.231) rotate(-45)">
+                <line x2="19.799" fill="none" stroke="#000" stroke-width="1"/>
               </g>
-              <g id="Gruppe_18" data-name="Gruppe 18" transform="translate(1806.741 90.231) rotate(-135)">
-                <line id="Linie_2-2" data-name="Linie 2" x2="19.799" transform="translate(0 0)" fill="none" stroke="#000" stroke-width="1"/>
+              <g transform="translate(1806.741 90.231) rotate(-135)">
+                <line x2="19.799" transform="translate(0 0)" fill="none" stroke="#000" stroke-width="1"/>
               </g>
             </g>
           </svg>
