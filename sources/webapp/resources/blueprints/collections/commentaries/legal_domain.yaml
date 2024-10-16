@@ -54,3 +54,13 @@ tabs:
               max_items: 1
               listable: false
               localizable: true
+          -
+            handle: licenses
+            field:
+              type: terms
+              taxonomies:
+                - licenses
+              display: Licenses
+              mode: select
+              localizable: false
+              visibility: hidden

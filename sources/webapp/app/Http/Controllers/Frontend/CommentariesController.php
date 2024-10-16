@@ -17,6 +17,7 @@ use Statamic\Modifiers\CoreModifiers;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
+use Statamic\Facades\Term;
 
 class CommentariesController extends Controller
 {
@@ -71,7 +72,18 @@ class CommentariesController extends Controller
                 if (!$commentaryData) {
                     abort(404);
                 }
+
+                // We need to save the licenses before converting the entry to an array,
+                // because otherwise the licenses will be converted to an array of IDs
+                // and will not be loopable in the antlers template.
+                $licenses = $commentaryData['licenses'];
+
                 $commentaryData = $commentaryData->toArray();
+
+                // Set original licenses back to the commentary data.
+                $commentaryData['licenses'] = $licenses;
+
+                // \Log::info($commentaryData);
             }
 
             // do not show unpublished commentaries to unauthenticated users on the frontend
@@ -249,6 +261,69 @@ class CommentariesController extends Controller
         // include the id and slug in the revision data
         $revisionData['id'] = $revision['attributes']['id'];
         $revisionData['slug'] = $revision['attributes']['slug'];
+
+
+        // The `blueprint` field is only the handle of the blueprint as string.
+        // We are using `$commentaryData['blueprint']['handle']` in the `CommentariesController::show()` method.
+        // So we need to convert the `blueprint` field to an array with the handle key.
+        //
+        // ? How can we query revision data like `Entry::query()`?
+        if (isset($revisionData['blueprint'])) {
+            $revisionData['blueprint'] = [
+                'handle' => $revisionData['blueprint'],
+            ];
+        }
+
+        if (empty($revisionData['blueprint'])) {
+            // If there is no `blueprint` field in the revision data there must be an origin commentary.
+            //
+            // The `blueprint` field was originally taken from the origin commentary.
+            // The `blueprint` can not change and therefore we can just query
+            // the current original commentary of this revision.
+
+            $originalCommentary = Entry::find($revisionData['id']);
+            $revisionData['blueprint'] = $originalCommentary['blueprint'];
+
+            // TODO: The other fields could potentially be changed in the revision.
+            //       In the following code we are getting the values from the current original commentary.
+            //       This is not quite correct as we should get the values from the revision data
+            //       of the origin commentary. But this is out of scope for the current task.
+            //
+            // Plus this kind of revision is fundamentally broken,
+            // because if we change some fields in the origin commentary which are inherited from children,
+            // then the children are updated without any new revision.
+
+            // * Some field may be missing in the following code. *
+
+            if (empty($revisionData['title'])) {
+                $revisionData['title'] = $originalCommentary['title'];
+            }
+            if (empty($revisionData['assigned_authors'])) {
+                $revisionData['assigned_authors'] = $originalCommentary['assigned_authors']
+                    ->map(fn ($author) => $author['id']);
+            }
+            if (empty($revisionData['assigned_editors'])) {
+                $revisionData['assigned_editors'] = $originalCommentary['assigned_editors']
+                    ->map(fn ($editor) => $editor['id']);
+            }
+            if (empty($revisionData['original_language'])) {
+                $revisionData['original_language'] = $originalCommentary['original_language'];
+            }
+            if (empty($revisionData['legal_text'])) {
+                $revisionData['legal_text'] = $originalCommentary['legal_text'];
+            }
+            if (empty($revisionData['doi'])) {
+                $revisionData['doi'] = $originalCommentary['doi'];
+            }
+            if (empty($revisionData['licenses'])) {
+                $revisionData['licenses'] = $originalCommentary['licenses'];
+            }
+        }
+
+        if (gettype($revisionData['licenses']) === 'string') {
+            // Get the assigned license as object.
+            $revisionData['licenses'] = Term::find('licenses::' . $revisionData['licenses']);
+        }
 
         // convert the structured data from the 'content' and 'legal_text' fields into html
         $modifiers = new CoreModifiers();

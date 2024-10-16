@@ -198,3 +198,15 @@ tabs:
               localizable: false
               validate:
                 - required
+          -
+            handle: licenses
+            field:
+              type: terms
+              taxonomies:
+                - licenses
+              display: Licenses
+              mode: select
+              localizable: false
+              max_items: 1
+              validate:
+                - required

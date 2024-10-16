@@ -1,0 +1,53 @@
+tabs:
+  main:
+    display: Hauptteil
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              localizable: false
+              validate:
+                - required
+          -
+            handle: title_long
+            field:
+              type: text
+              display: 'Title (long)'
+              localizable: true
+              validate:
+                - required
+          -
+            handle: extern_url
+            field:
+              type: link
+              display: URL
+              localizable: true
+          -
+            handle: image
+            field:
+              max_files: 1
+              min_files: 1
+              container: media
+              folder: licenses
+              type: assets
+              display: Image
+              localizable: false
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              required: true
+              validate:
+                - required
+                - 'max:200'
+              localizable: false
+title: License

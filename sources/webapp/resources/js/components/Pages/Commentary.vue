@@ -1,5 +1,11 @@
 <template>
-  <div class="bg-white lg:pt-8 lg:pb-12 md:max-w-[1225px] md:mx-auto md:mb-auto print:overflow-visible print:m-0 print:p-0 print:w-full print:table">
+  <div class="
+    md:max-w-[1225px]
+    md:mx-auto md:mb-auto
+    bg-white
+    lg:pt-8 pb-6 lg:pb-12
+    print:overflow-visible print:m-0 print:p-0 print:w-full print:table
+  ">
     <div class="bg-white px-4 md:px-12 lg:px-24 xl:px-32 print:hidden sticky -top-px z-[1]">
       <div class="flex items-center justify-between border-b border-black md:grid md:grid-cols-3 md:gap-px lg:py-4">
         <FlyoutMenuFullWidth
@@ -159,15 +165,7 @@
         <div><a class="underline" target="_blank" :href="'https://doi.org/' + commentary.doi">https://doi.org/{{ commentary.doi }}</a></div >
       </p>
 
-      <h2 class="mt-12 mb-4 font-sans text-xl tracking-wider uppercase">
-        {{ $t('creative_commons_license') }}
-      </h2>
-
-      <p class="license">
-        {{ appName }}, {{ $t('commentary_on') }} {{ commentary.title }} <span v-html="$t('creative_commons_text')"></span>
-      </p>
-      <p class="mt-4"><a href="http://creativecommons.org/licenses/by/4.0/"><img src="/img/cc-license.png" alt="Creative Commons"></a></p>
-
+      <slot name="license" />
     </div>
 
   </div>
@@ -427,12 +425,6 @@
       @apply inline
     }
 
-  }
-
-  .license {
-    :deep(a) {
-    @apply underline
-    }
   }
 
   .toc {
