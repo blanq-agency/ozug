@@ -250,6 +250,15 @@ class CommentariesController extends Controller
         $revisionData['id'] = $revision['attributes']['id'];
         $revisionData['slug'] = $revision['attributes']['slug'];
 
+        // The `blueprint` field is only the handle of the blueprint as string.
+        // We are using `$commentaryData['blueprint']['handle']` in the `CommentariesController::show()` method.
+        // So we need to convert the `blueprint` field to an array with the handle key.
+        //
+        // ? How can we query revision data like `Entry::query()`?
+        $revisionData['blueprint'] = [
+            'handle' => $revisionData['blueprint'],
+        ];
+
         // convert the structured data from the 'content' and 'legal_text' fields into html
         $modifiers = new CoreModifiers();
         $revisionData['content'] = $modifiers->bardHtml($revisionData['content']);
