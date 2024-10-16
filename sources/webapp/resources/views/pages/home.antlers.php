@@ -72,7 +72,7 @@ if ($show_latest_commentaries) {
     <div class="overflow-hidden divide-y divide-gray-800 sm:divide-y-0 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 sm:gap-px">
       {{ legislative_acts }}
         <a
-          href="{{ locale}}/kommentare/{{$ $legal_domains->first(function ($value) use ($legislative_acts, $index) {
+          href="{{ locale}}/kommentierungen/{{$ $legal_domains->first(function ($value) use ($legislative_acts, $index) {
             return in_array($legislative_acts->raw()[$index], $value->toArray()['legal_domain']);
           })['slug'] $}}"
           class="
@@ -127,7 +127,7 @@ if ($show_latest_commentaries) {
   <div class="mt-16 flex justify-between text-sm uppercase">
     <span>{{ trans:newest_comments }}</span>
     <div class="flex">
-      <a href="{{ locale}}/kommentare"><span class="mr-2">{{ trans:all_comments }}</span>
+      <a href="{{ locale}}/kommentierungen"><span class="mr-2">{{ trans:all_comments }}</span>
         <svg class="inline-block mb-1" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11">
           <g id="Gruppe_51" data-name="Gruppe 51" transform="translate(10.5 -16.116) rotate(90)">
             <g id="Icon_feather-arrow-up" data-name="Icon feather-arrow-up" transform="translate(16.822)">

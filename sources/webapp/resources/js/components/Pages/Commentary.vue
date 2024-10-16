@@ -226,7 +226,7 @@
 
   const loadVersionWithTimestamp = (timestamp) => {
     // redirect to the revision with the given timestamp
-    window.location.href = '/' + props.locale + '/kommentare/' + props.commentary.slug + (timestamp == props.versions[0].timestamp ? '' : '/versions/' + timestamp)
+    window.location.href = '/' + props.locale + '/kommentierungen/' + props.commentary.slug + (timestamp == props.versions[0].timestamp ? '' : '/versions/' + timestamp)
   }
 
   const compareVersions = (versions) => {

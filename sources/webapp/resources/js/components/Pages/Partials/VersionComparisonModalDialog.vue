@@ -24,7 +24,7 @@
 
   const onClose = () => {
     // update the url with the currently loaded version
-    let versionUrl = '/' + props.locale + '/kommentare/' + props.commentary.slug + (props.versionTimestamp !== '' ? '/versions/' + props.versionTimestamp : '')
+    let versionUrl = '/' + props.locale + '/kommentierungen/' + props.commentary.slug + (props.versionTimestamp !== '' ? '/versions/' + props.versionTimestamp : '')
     history.pushState({ versionUrl }, '', versionUrl)
   }
 </script>
