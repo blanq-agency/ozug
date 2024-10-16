@@ -17,6 +17,7 @@ use Statamic\Modifiers\CoreModifiers;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
+use Statamic\Facades\Term;
 
 class CommentariesController extends Controller
 {
@@ -71,7 +72,18 @@ class CommentariesController extends Controller
                 if (!$commentaryData) {
                     abort(404);
                 }
+
+                // We need to save the licenses before converting the entry to an array,
+                // because otherwise the licenses will be converted to an array of IDs
+                // and will not be loopable in the antlers template.
+                $licenses = $commentaryData['licenses'];
+
                 $commentaryData = $commentaryData->toArray();
+
+                // Set original licenses back to the commentary data.
+                $commentaryData['licenses'] = $licenses;
+
+                // \Log::info($commentaryData);
             }
 
             // do not show unpublished commentaries to unauthenticated users on the frontend
@@ -306,6 +318,11 @@ class CommentariesController extends Controller
             if (empty($revisionData['licenses'])) {
                 $revisionData['licenses'] = $originalCommentary['licenses'];
             }
+        }
+
+        if (gettype($revisionData['licenses']) === 'string') {
+            // Get the assigned license as object.
+            $revisionData['licenses'] = Term::find('licenses::' . $revisionData['licenses']);
         }
 
         // convert the structured data from the 'content' and 'legal_text' fields into html

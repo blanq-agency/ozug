@@ -54,6 +54,28 @@
     <template v-slot:content>
       {{ contentMarkup }}
     </template>
+
+    {{ scope:page }}
+      {{ licenses }}
+        <template v-slot:license>
+          <h2 class="mt-12 mb-4 font-sans text-xl tracking-wider uppercase">
+            {{ 'creative_commons_license' | trans }}
+          </h2>
+          <p>
+            {{ config:app:name }}, {{ 'commentary_on' | trans }} {{ page:title }}
+            <span>
+              {{ 'creative_commons_text' | trans }}
+              <a href="{{ extern_url }}" class="underline">{{ title_long }} {{ 'license' | trans | ucfirst }}</a>.
+            </span>
+          </p>
+          <p class="mt-4">
+            <a href="{{ extern_url }}">
+              <img src="{{ image }}" alt="Creative Commons" style="width: 116px">
+            </a>
+          </p>
+        </template>
+      {{ /licenses }}
+    {{ /scope:page }}
   </commentary>
 
   {{ if versionComparisonResult }}
