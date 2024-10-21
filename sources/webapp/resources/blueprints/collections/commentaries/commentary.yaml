@@ -120,85 +120,85 @@ tabs:
                       icon: media-image-picture-orientation
                       fields:
                         -
-                          handle: image
+                          import: media_image
+                        -
+                          handle: width_limit
                           field:
-                            max_files: 1
-                            min_files: 1
-                            container: media
-                            type: assets
-                            display: Image
+                            type: toggle
                             localizable: false
-                            hide_display: true
+                            display: 'Limit width'
                             replicator_preview: false
+                    image_embed:
+                      display: 'Image Embed'
+                      icon: media-image-picture-orientation
+                      fields:
                         -
-                          handle: title
-                          field:
-                            type: text
-                            display: Title
-                            localizable: false
+                          import: media_image_embed
                         -
-                          handle: description
+                          handle: width_limit
                           field:
-                            type: text
-                            display: Description
+                            type: toggle
                             localizable: false
+                            display: 'Limit width'
                             replicator_preview: false
                     video:
                       display: Video
                       icon: media-webcam-video
                       fields:
                         -
-                          handle: video
-                          field:
-                            max_files: 1
-                            min_files: 1
-                            container: media
-                            type: assets
-                            display: Video
-                            localizable: false
-                            hide_display: true
-                            replicator_preview: false
+                          import: media_video
                         -
-                          handle: title
+                          handle: width_limit
                           field:
-                            type: text
-                            display: Title
+                            type: toggle
                             localizable: false
-                        -
-                          handle: description
-                          field:
-                            type: text
-                            display: Description
-                            localizable: false
+                            display: 'Limit width'
                             replicator_preview: false
                     audio:
                       display: Audio
                       icon: media-music-sound-equalizer
                       fields:
                         -
-                          handle: audio
-                          field:
-                            max_files: 1
-                            min_files: 1
-                            container: media
-                            type: assets
-                            display: Audio
-                            localizable: false
-                            hide_display: true
-                            replicator_preview: false
+                          import: media_audio
+                    media_grid:
+                      display: 'Media Grid'
+                      icon: layout-grid-dots
+                      fields:
                         -
-                          handle: title
+                          handle: media_grid
                           field:
-                            type: text
-                            display: Title
+                            collapse: true
+                            type: replicator
+                            display: 'Media Grid'
                             localizable: false
-                        -
-                          handle: description
-                          field:
-                            type: text
-                            display: Description
-                            localizable: false
-                            replicator_preview: false
+                            sets:
+                              group:
+                                display: Group
+                                sets:
+                                  image:
+                                    display: Image
+                                    icon: media-image-picture-orientation
+                                    fields:
+                                      -
+                                        import: media_image
+                                  video:
+                                    display: Video
+                                    icon: media-webcam-video
+                                    fields:
+                                      -
+                                        import: media_video
+                                  audio:
+                                    display: Audio
+                                    icon: media-music-sound-equalizer
+                                    fields:
+                                      -
+                                        import: media_audio
+                                  image_embed:
+                                    display: 'Image Embed'
+                                    icon: media-image-picture-orientation
+                                    fields:
+                                      -
+                                        import: media_image_embed
           -
             handle: converter
             field:

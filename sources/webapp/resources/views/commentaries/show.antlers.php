@@ -56,51 +56,20 @@
         {{ if type == "text" }}
           {{ text }}
 
-        {{ elseif type == "image" }}
-          <figure>
-            {{ image }}
-              {{# glide:image tag="true" #}}
-              <img
-                src="{{ glide :src="url" }}"
-                alt="{{ alt }}"
-                width="{{ width }}"
-                height="{{ height }}"
-              />
-            {{ /image }}
-            <figcaption>
-              {{ title }}
-              <br>{{ description }}
-            </figcaption>
-          </figure>
+        {{ elseif type == "media_grid" }}
+          <div class="
+            max-lg:max-w-[476px] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4
+            mt-8 mb-10 max-lg:mx-auto"
+          >
+            {{ media_grid }}
+              {{ partial src="commentaries/sets/{type}" }}
+            {{ /media_grid }}
+          </div>
 
-        {{ elseif type == "audio" }}
-          <figure>
-            {{ audio }}
-              <audio src="{{ url }}" controls></audio>
-            {{ /audio }}
-            <figcaption>
-              {{ title }}
-              <br>{{ description }}
-            </figcaption>
-          </figure>
-
-          {{ elseif type == "video" }}
-          <figure>
-            {{ video }}
-              <video
-                src="{{ glide :src="url" }}"
-                width="{{ width }}"
-                height="{{ height }}"
-                controls
-              >
-                <source src="{{ url }}" type="{{ mime_type }}" />
-              </video>
-            {{ /video }}
-            <figcaption>
-              {{ title }}
-              <br>{{ description }}
-            </figcaption>
-          </figure>
+        {{ else }}
+          <div class="mt-8 mb-10">
+            {{ partial src="commentaries/sets/{type}" }}
+          </div>
 
         {{ /if }}
       {{ /content }}
