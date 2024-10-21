@@ -106,20 +106,23 @@ class CommentariesController extends Controller
                 : 'de';
 
             // generate formatted html markup for the language-specific 'content' field
-            $content = $commentaryData['content'];
+            $content = &$commentaryData['content'];
 
-            // add anchor attributes to the heading elements
-            $contentMarkup = null;
-            if ($content) {
-                $markupFixer = new MarkupFixer();
-                $contentMarkup = $markupFixer->fix($content);
-            }
-
-            // generate table of contents from the heading elements
             $toc = null;
-            if ($contentMarkup) {
-                $tocGenerator = new TocGenerator();
-                $toc = $tocGenerator->getHtmlMenu($contentMarkup);
+            if (count($content) > 0) {
+                $allTextContent = '';
+
+                // Add anchor attributes to the heading elements.
+                $markupFixer = new MarkupFixer();
+                foreach ($content as &$value) {
+                    if ($value['type'] === 'text') {
+                        $value['text'] = $markupFixer->fix($value['text']);
+                        $allTextContent .= $value['text'];
+                    }
+                }
+
+                // Generate table of contents from the heading elements.
+                $toc = (new TocGenerator())->getHtmlMenu($allTextContent);
             }
 
             $view = (new View)
@@ -127,7 +130,6 @@ class CommentariesController extends Controller
                 ->layout('layout')
                 ->with(array_merge([
                     'locale' => $locale,
-                    'contentMarkup' => $contentMarkup,
                     'toc' => $toc,
                     'versionTimestamp' => $versionTimestamp,
                     'versionComparisonResult' => $versionComparisonResult,
@@ -145,7 +147,6 @@ class CommentariesController extends Controller
         else {
             abort(404);
         }
-
 
         // Cache the generated view for 7 days
         if (config('app.env') !== 'local' && !$isLivePreview) {

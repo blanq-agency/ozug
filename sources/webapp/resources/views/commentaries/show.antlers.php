@@ -52,7 +52,27 @@
     </template>
 
     <template v-slot:content>
-      {{ contentMarkup }}
+      {{ content }}
+        {{ if type == "text" }}
+          {{ text }}
+
+        {{ elseif type == "media_grid" }}
+          <div class="
+            max-lg:max-w-[476px] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4
+            mt-8 mb-10 max-lg:mx-auto"
+          >
+            {{ media_grid }}
+              {{ partial src="commentaries/sets/{type}" }}
+            {{ /media_grid }}
+          </div>
+
+        {{ else }}
+          <div class="mt-8 mb-10">
+            {{ partial src="commentaries/sets/{type}" }}
+          </div>
+
+        {{ /if }}
+      {{ /content }}
     </template>
 
     {{ scope:page }}
