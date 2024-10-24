@@ -11,6 +11,38 @@ fields:
       localizable: false
       replicator_preview: false
   -
+    handle: captions
+    field:
+      type: grid
+      display: Captions
+      localizable: false
+      replicator_preview: false
+      fields:
+        -
+          handle: srclang
+          field:
+            options:
+              -
+                key: de
+                value: de
+              -
+                key: en
+                value: en
+            type: select
+            display: Language
+            localizable: false
+            width: 25
+        -
+          handle: file
+          field:
+            max_files: 1
+            min_files: 1
+            container: media
+            type: assets
+            display: File
+            localizable: false
+            width: 75
+  -
     handle: title
     field:
       type: text

@@ -14,6 +14,6 @@
   {{ /push:styles }}
 
   {{ push:scripts }}
-    <script src="{{ mix src='/js/media.js' }}" defer></script>
+    <script type="module" src="{{ mix src='/js/media.js' }}"></script>
   {{ /push:scripts }}
 {{ /once }}

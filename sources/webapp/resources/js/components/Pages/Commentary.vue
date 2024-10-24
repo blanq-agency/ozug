@@ -298,7 +298,8 @@
       @apply inline
     }
 
-    :deep(p) {
+    :deep(*:not(.no-prose) >p),
+    :deep(>p) {
       @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6 text-justify;
 
       a {
@@ -374,7 +375,8 @@
      * Firefox not supported yet.
      */
     @supports (hyphenate-limit-chars: 8 4 4) or (-webkit-hyphenate-limit-before: 4) {
-      :deep(p) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
         hyphens: auto;
         -webkit-hyphenate-limit-before: 4; /* Safari support. */
         -webkit-hyphenate-limit-after: 4; /* Safari support. */
@@ -382,21 +384,24 @@
       }
     }
     @media (min-width: 480px) {
-      :deep(p) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
         -webkit-hyphenate-limit-before: 6; /* Safari support. */
         -webkit-hyphenate-limit-after: 6; /* Safari support. */
         hyphenate-limit-chars: 12 6 6;
       }
     }
     @media (min-width: 640px) {
-      :deep(p) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
         -webkit-hyphenate-limit-before: 8; /* Safari support. */
         -webkit-hyphenate-limit-after: 8; /* Safari support. */
         hyphenate-limit-chars: 16 8 8;
       }
     }
     @media (min-width: 1024px) {
-      :deep(p) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
         -webkit-hyphenate-limit-before: 10; /* Safari support. */
         -webkit-hyphenate-limit-after: 10; /* Safari support. */
         hyphenate-limit-chars: 20 10 10;

@@ -111,6 +111,7 @@ tabs:
               instructions: 'Use the editor to format your commentary'
               always_save: false
               localizable: true
+              collapse: true
               sets:
                 group:
                   display: Group
@@ -154,6 +155,19 @@ tabs:
                             localizable: false
                             display: 'Limit width'
                             replicator_preview: false
+                    video_embed:
+                      display: 'Video Embed'
+                      icon: media-webcam-video
+                      fields:
+                        -
+                          import: media_video_embed
+                        -
+                          handle: width_limit
+                          field:
+                            type: toggle
+                            localizable: false
+                            display: 'Limit width'
+                            replicator_preview: false
                     audio:
                       display: Audio
                       icon: media-music-sound-equalizer
@@ -181,24 +195,30 @@ tabs:
                                     fields:
                                       -
                                         import: media_image
-                                  video:
-                                    display: Video
-                                    icon: media-webcam-video
-                                    fields:
-                                      -
-                                        import: media_video
-                                  audio:
-                                    display: Audio
-                                    icon: media-music-sound-equalizer
-                                    fields:
-                                      -
-                                        import: media_audio
                                   image_embed:
                                     display: 'Image Embed'
                                     icon: media-image-picture-orientation
                                     fields:
                                       -
                                         import: media_image_embed
+                                  video:
+                                    display: Video
+                                    icon: media-webcam-video
+                                    fields:
+                                      -
+                                        import: media_video
+                                  video_embed:
+                                    display: 'Video Embed'
+                                    icon: media-webcam-video
+                                    fields:
+                                      -
+                                        import: media_video_embed
+                                  audio:
+                                    display: Audio
+                                    icon: media-music-sound-equalizer
+                                    fields:
+                                      -
+                                        import: media_audio
           -
             handle: converter
             field:
