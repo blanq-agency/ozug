@@ -92,7 +92,7 @@
 
     if (legalDomain.id) {
       filteredCommentaries.value = filteredCommentaries.value.filter(commentary => {
-        return commentary.legal_domain.id === legalDomain.id
+        return commentary.legal_domain?.id === legalDomain.id
       })
     }
   }
