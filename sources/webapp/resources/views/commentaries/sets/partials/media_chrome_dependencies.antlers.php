@@ -10,6 +10,16 @@
         --media-range-track-background: white;
         --media-preview-time-text-shadow: none;
       }
+
+      media-mute-button + media-volume-range {
+        display: none;
+      }
+      @media (min-width: 640px) {
+        media-mute-button:hover + media-volume-range,
+        media-volume-range:hover {
+          display: flex;
+        }
+      }
     </style>
   {{ /push:styles }}
 

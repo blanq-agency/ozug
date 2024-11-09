@@ -7,6 +7,8 @@
     {{ /audio }}
     <media-control-bar class="w-full">
       <media-play-button></media-play-button>
+      <media-mute-button></media-mute-button>
+      <media-volume-range></media-volume-range>
       <media-time-range class="z-0"></media-time-range>
       <media-time-display showduration></media-time-display>
     </media-control-bar>
