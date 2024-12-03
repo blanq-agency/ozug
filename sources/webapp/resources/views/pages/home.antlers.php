@@ -43,7 +43,7 @@ if ($show_latest_commentaries) {
 <div class="max-w-3xl mx-auto mb-auto mt-8 p-6">
   <div class="mt-8 text-4xl leading-snug">{{ content }}</div>
   <a
-    href="/{{ locale }}/ueber-onlinekommentar"
+    href="/{{ locale }}/ueber-openaccesskommentar"
     class="inline-block mt-4 uppercase rounded-full border border-black text-xs px-4 py-2 font-medium tracking-widest">
     {{ trans:home_more_link }}
   </a>
