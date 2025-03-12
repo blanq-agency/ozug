@@ -17,6 +17,7 @@ use Statamic\Modifiers\CoreModifiers;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
+use Statamic\Facades\Term;
 
 class CommentariesController extends Controller
 {
@@ -35,7 +36,7 @@ class CommentariesController extends Controller
 
         // Handle Live Preview in CP
         if($isLivePreview) {
-            $livePreview = new LivePreview(); 
+            $livePreview = new LivePreview();
             $commentaryData = $livePreview->item(app()->request->statamicToken());
             $commentaryData = $commentaryData->toArray();
         }
@@ -71,7 +72,18 @@ class CommentariesController extends Controller
                 if (!$commentaryData) {
                     abort(404);
                 }
+
+                // We need to save the licenses before converting the entry to an array,
+                // because otherwise the licenses will be converted to an array of IDs
+                // and will not be loopable in the antlers template.
+                $licenses = $commentaryData['licenses'];
+
                 $commentaryData = $commentaryData->toArray();
+
+                // Set original licenses back to the commentary data.
+                $commentaryData['licenses'] = $licenses;
+
+                // \Log::info($commentaryData);
             }
 
             // do not show unpublished commentaries to unauthenticated users on the frontend
@@ -80,51 +92,61 @@ class CommentariesController extends Controller
             }
         }
 
-        // get the assigned authors and editors from their ids
-        $commentaryData['assigned_authors'] = $this->_getUsers($commentaryData['assigned_authors'] ?? null, ['id', 'slug', 'name']);
-        $commentaryData['assigned_editors'] = $this->_getUsers($commentaryData['assigned_editors'] ?? null, ['id', 'slug', 'name']);
+        if ($commentaryData['blueprint']['handle'] === 'commentary') {
+            // get the assigned authors and editors from their ids
+            $commentaryData['assigned_authors'] = $this->_getUsers($commentaryData['assigned_authors'] ?? null, ['id', 'slug', 'name']);
+            $commentaryData['assigned_editors'] = $this->_getUsers($commentaryData['assigned_editors'] ?? null, ['id', 'slug', 'name']);
 
-        // get the additional documents
-        $commentaryData['additional_documents'] = $this->_getDocuments($commentaryData['additional_documents'] ?? null, ['id', 'url', 'title']);
+            // get the additional documents
+            $commentaryData['additional_documents'] = $this->_getDocuments($commentaryData['additional_documents'] ?? null, ['id', 'url', 'title']);
 
-        // return the first original language (default to German) since only one original language can be assigned to a commentary
-        $commentaryData['original_language'] = ($commentaryData['original_language'] && is_array($commentaryData['original_language']) && !empty($commentaryData['original_language']))
-            ? $commentaryData['original_language'][0]
-            : 'de';
+            // return the first original language (default to German) since only one original language can be assigned to a commentary
+            $commentaryData['original_language'] = ($commentaryData['original_language'] && is_array($commentaryData['original_language']) && !empty($commentaryData['original_language']))
+                ? $commentaryData['original_language'][0]
+                : 'de';
 
-        // generate formatted html markup for the language-specific 'content' field
-        $content = $commentaryData['content'];
+            // generate formatted html markup for the language-specific 'content' field
+            $content = &$commentaryData['content'];
 
-        // add anchor attributes to the heading elements
-        $contentMarkup = null;
-        if ($content) {
-            $markupFixer = new MarkupFixer();
-            $contentMarkup = $markupFixer->fix($content);
+            $toc = null;
+            if (count($content) > 0) {
+                $allTextContent = '';
+
+                // Add anchor attributes to the heading elements.
+                $markupFixer = new MarkupFixer();
+                foreach ($content as &$value) {
+                    if ($value['type'] === 'text') {
+                        $value['text'] = $markupFixer->fix($value['text']);
+                        $allTextContent .= $value['text'];
+                    }
+                }
+
+                // Generate table of contents from the heading elements.
+                $toc = (new TocGenerator())->getHtmlMenu($allTextContent);
+            }
+
+            $view = (new View)
+                ->template('commentaries/show')
+                ->layout('layout')
+                ->with(array_merge([
+                    'locale' => $locale,
+                    'toc' => $toc,
+                    'versionTimestamp' => $versionTimestamp,
+                    'versionComparisonResult' => $versionComparisonResult,
+                    'base_path_prefix' => '/' . $locale . '/',
+                ], $commentaryData))
+                ->render(); // Render to string.
         }
-        
-        // generate table of contents from the heading elements
-        $toc = null;
-        if ($contentMarkup) {
-            $tocGenerator = new TocGenerator();
-            $toc = $tocGenerator->getHtmlMenu($contentMarkup);
+        else if ($commentaryData['blueprint']['handle'] === 'legal_domain') {
+            $view = (new View)
+                ->template('commentaries/legal-domain')
+                ->layout('layout')
+                ->with(array_merge(['locale' => $locale], $commentaryData))
+                ->render(); // Render to string.
         }
-    
-        // select the legal domain or show template depending on commentary content
-        $template = $commentaryData['content'] ? 'commentaries/show' : 'commentaries/legal-domain';
-
-        // load the commentary detail view
-        $view = (new View)
-            ->template($template)
-            ->layout('layout')
-            ->with(array_merge([
-                'locale' => $locale,
-                'contentMarkup' => $contentMarkup,
-                'toc' => $toc,
-                'versionTimestamp' => $versionTimestamp,
-                'versionComparisonResult' => $versionComparisonResult,
-                'base_path_prefix' => '/' . $locale . '/',
-            ], $commentaryData))
-            ->render();  // render the view to a string
+        else {
+            abort(404);
+        }
 
         // Cache the generated view for 7 days
         if (config('app.env') !== 'local' && !$isLivePreview) {
@@ -158,8 +180,8 @@ class CommentariesController extends Controller
         /*
          * Append newlines after block element closing tags so that the revision
          * content can be diff'ed on a line-by-line basis.
-         * 
-         * Note: The list of block element closing tags are the ones that are 
+         *
+         * Note: The list of block element closing tags are the ones that are
          *       enabled in the Bard field menu. Any newly added block elements
          *       to the Bard field need to be added to this list.
          */
@@ -240,6 +262,69 @@ class CommentariesController extends Controller
         // include the id and slug in the revision data
         $revisionData['id'] = $revision['attributes']['id'];
         $revisionData['slug'] = $revision['attributes']['slug'];
+
+
+        // The `blueprint` field is only the handle of the blueprint as string.
+        // We are using `$commentaryData['blueprint']['handle']` in the `CommentariesController::show()` method.
+        // So we need to convert the `blueprint` field to an array with the handle key.
+        //
+        // ? How can we query revision data like `Entry::query()`?
+        if (isset($revisionData['blueprint'])) {
+            $revisionData['blueprint'] = [
+                'handle' => $revisionData['blueprint'],
+            ];
+        }
+
+        if (empty($revisionData['blueprint'])) {
+            // If there is no `blueprint` field in the revision data there must be an origin commentary.
+            //
+            // The `blueprint` field was originally taken from the origin commentary.
+            // The `blueprint` can not change and therefore we can just query
+            // the current original commentary of this revision.
+
+            $originalCommentary = Entry::find($revisionData['id']);
+            $revisionData['blueprint'] = $originalCommentary['blueprint'];
+
+            // TODO: The other fields could potentially be changed in the revision.
+            //       In the following code we are getting the values from the current original commentary.
+            //       This is not quite correct as we should get the values from the revision data
+            //       of the origin commentary. But this is out of scope for the current task.
+            //
+            // Plus this kind of revision is fundamentally broken,
+            // because if we change some fields in the origin commentary which are inherited from children,
+            // then the children are updated without any new revision.
+
+            // * Some field may be missing in the following code. *
+
+            if (empty($revisionData['title'])) {
+                $revisionData['title'] = $originalCommentary['title'];
+            }
+            if (empty($revisionData['assigned_authors'])) {
+                $revisionData['assigned_authors'] = $originalCommentary['assigned_authors']
+                    ->map(fn ($author) => $author['id']);
+            }
+            if (empty($revisionData['assigned_editors'])) {
+                $revisionData['assigned_editors'] = $originalCommentary['assigned_editors']
+                    ->map(fn ($editor) => $editor['id']);
+            }
+            if (empty($revisionData['original_language'])) {
+                $revisionData['original_language'] = $originalCommentary['original_language'];
+            }
+            if (empty($revisionData['legal_text'])) {
+                $revisionData['legal_text'] = $originalCommentary['legal_text'];
+            }
+            if (empty($revisionData['doi'])) {
+                $revisionData['doi'] = $originalCommentary['doi'];
+            }
+            if (empty($revisionData['licenses'])) {
+                $revisionData['licenses'] = $originalCommentary['licenses'];
+            }
+        }
+
+        if (gettype($revisionData['licenses']) === 'string') {
+            // Get the assigned license as object.
+            $revisionData['licenses'] = Term::find('licenses::' . $revisionData['licenses']);
+        }
 
         // convert the structured data from the 'content' and 'legal_text' fields into html
         $modifiers = new CoreModifiers();

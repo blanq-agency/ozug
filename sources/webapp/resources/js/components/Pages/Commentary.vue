@@ -1,5 +1,11 @@
 <template>
-  <div class="bg-white lg:pt-8 lg:pb-12 md:max-w-[1225px] md:mx-auto md:mb-auto print:overflow-visible print:m-0 print:p-0 print:w-full print:table">
+  <div class="
+    md:max-w-[1225px]
+    md:mx-auto md:mb-auto
+    bg-white
+    lg:pt-8 pb-6 lg:pb-12
+    print:overflow-visible print:m-0 print:p-0 print:w-full print:table
+  ">
     <div class="bg-white px-4 md:px-12 lg:px-24 xl:px-32 print:hidden sticky -top-px z-[1]">
       <div class="flex items-center justify-between border-b border-black md:grid md:grid-cols-3 md:gap-px lg:py-4">
         <FlyoutMenuFullWidth
@@ -91,7 +97,6 @@
       <div v-if="localizedLegalText != ''" class="flex flex-col p-4 space-y-4 md:p-8 bg-ok-orange md:space-y-6">
         <div class="flex justify-end print:hidden">
           <span @click="setLegalTextLocale('de')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'de' }">de</span>
-          <span @click="setLegalTextLocale('fr')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'fr' }">fr</span>
           <span @click="setLegalTextLocale('en')" class="legal-text-locale-link" :class="{ active: legalTextLocale == 'en' }">en</span>
         </div>
         <div v-html="localizedLegalText" class="localized-legal-text space-y-4 font-serif lg:text-xl md:space-y-6">
@@ -160,15 +165,7 @@
         <div><a class="underline" target="_blank" :href="'https://doi.org/' + commentary.doi">https://doi.org/{{ commentary.doi }}</a></div >
       </p>
 
-      <h2 class="mt-12 mb-4 font-sans text-xl tracking-wider uppercase">
-        {{ $t('creative_commons_license') }}
-      </h2>
-
-      <p class="license">
-        {{ appName }}, {{ $t('commentary_on') }} {{ commentary.title }} <span v-html="$t('creative_commons_text')"></span>
-      </p>
-      <p class="mt-4"><a href="http://creativecommons.org/licenses/by/4.0/"><img src="/img/cc-license.png" alt="Creative Commons"></a></p>
-
+      <slot name="license" />
     </div>
 
   </div>
@@ -229,7 +226,7 @@
 
   const loadVersionWithTimestamp = (timestamp) => {
     // redirect to the revision with the given timestamp
-    window.location.href = '/' + props.locale + '/kommentare/' + props.commentary.slug + (timestamp == props.versions[0].timestamp ? '' : '/versions/' + timestamp)
+    window.location.href = '/' + props.locale + '/kommentierungen/' + props.commentary.slug + (timestamp == props.versions[0].timestamp ? '' : '/versions/' + timestamp)
   }
 
   const compareVersions = (versions) => {
@@ -301,8 +298,9 @@
       @apply inline
     }
 
-    :deep(p) {
-      @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6;
+    :deep(*:not(.no-prose) >p),
+    :deep(>p) {
+      @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6 text-justify;
 
       a {
         @apply underline break-all print:break-inside-avoid
@@ -368,7 +366,53 @@
 
   }
 
+  .content,
   .localized-legal-text {
+    /*
+     * Hyphenation.
+     *
+     * See: https://medium.com/clear-left-thinking/all-you-need-to-know-about-hyphenation-in-css-2baee2d89179
+     * Firefox not supported yet.
+     */
+    @supports (hyphenate-limit-chars: 8 4 4) or (-webkit-hyphenate-limit-before: 4) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
+        hyphens: auto;
+        -webkit-hyphenate-limit-before: 4; /* Safari support. */
+        -webkit-hyphenate-limit-after: 4; /* Safari support. */
+        hyphenate-limit-chars: 8 4 4;
+      }
+    }
+    @media (min-width: 480px) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
+        -webkit-hyphenate-limit-before: 6; /* Safari support. */
+        -webkit-hyphenate-limit-after: 6; /* Safari support. */
+        hyphenate-limit-chars: 12 6 6;
+      }
+    }
+    @media (min-width: 640px) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
+        -webkit-hyphenate-limit-before: 8; /* Safari support. */
+        -webkit-hyphenate-limit-after: 8; /* Safari support. */
+        hyphenate-limit-chars: 16 8 8;
+      }
+    }
+    @media (min-width: 1024px) {
+      :deep(*:not(.no-prose) >p),
+      :deep(>p) {
+        -webkit-hyphenate-limit-before: 10; /* Safari support. */
+        -webkit-hyphenate-limit-after: 10; /* Safari support. */
+        hyphenate-limit-chars: 20 10 10;
+      }
+    }
+  }
+
+  .localized-legal-text {
+    :deep(p) {
+        @apply text-justify;
+    }
 
     :deep(ul) {
       @apply list-disc list-outside ml-10
@@ -386,12 +430,6 @@
       @apply inline
     }
 
-  }
-
-  .license {
-    :deep(a) {
-    @apply underline
-    }
   }
 
   .toc {

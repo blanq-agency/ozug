@@ -1,0 +1,31 @@
+title: 'Audio Embed'
+fields:
+  -
+    handle: audio
+    field:
+      type: group
+      display: Audio
+      localizable: false
+      replicator_preview: false
+      fields:
+        -
+          handle: url
+          field:
+            input_type: url
+            type: text
+            display: URL
+            localizable: false
+            replicator_preview: false
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      localizable: false
+  -
+    handle: description
+    field:
+      type: text
+      display: Description
+      localizable: false
+      replicator_preview: false

@@ -24,6 +24,20 @@ article {
   grid-template-columns: 100%;
 }
 
+/* Header */
+#app >header >div {
+  grid-template-columns: auto auto;
+}
+@media (min-width: 640px) {
+  #app >header >div {
+    grid-template-columns: max-content 1fr auto;
+  }
+  /* Search */
+  #search-box {
+    max-width: 512px;
+  }
+}
+
 /*
  * Commentary tree
  */

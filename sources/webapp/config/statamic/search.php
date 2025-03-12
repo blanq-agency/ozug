@@ -35,7 +35,7 @@ return [
             'driver' => 'local',
             'searchables' => 'collection:commentaries',
             'fields' => ['title', 'legal_text', 'content'],
-            'sites' => ['en', 'de', 'fr'],
+            'sites' => ['en', 'de'],
         ],
 
     ],

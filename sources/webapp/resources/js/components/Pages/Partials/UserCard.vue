@@ -23,7 +23,7 @@
         <div class="flex justify-center items-center py-2 h-48">
           {{ user.occupation ?? '' }}
         </div>
-      
+
         <div v-if="user.editor_of" class="py-2">
           <div>
             {{ user.editor_of }}
@@ -31,7 +31,7 @@
           <!-- <div
             v-for="commentary in user.edited_commentaries"
             :key="commentary.id">
-            &mdash; <a :href="'/' + locale + '/kommentare/' + commentary.slug" class="underline">{{ commentary.title }}</a>
+            &mdash; <a :href="'/' + locale + '/kommentierungen/' + commentary.slug" class="underline">{{ commentary.title }}</a>
           </div> -->
         </div>
 
@@ -42,7 +42,7 @@
           <div
             v-for="commentary in user.authored_commentaries"
             :key="commentary.id">
-            &mdash; <a :href="'/' + locale + '/kommentare/' + commentary.slug" class="underline">{{ commentary.title }}</a>
+            &mdash; <a :href="'/' + locale + '/kommentierungen/' + commentary.slug" class="underline">{{ commentary.title }}</a>
           </div>
         </div>
       </div>

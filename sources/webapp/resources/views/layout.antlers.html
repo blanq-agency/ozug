@@ -25,16 +25,17 @@
     <meta property="og:title" content="{{ if segment_1 === 'autoren' || segment_1 === 'herausgeber' }}{{ if segment_2 }}{{ name }}{{ else }}{{ title }}{{ /if }}{{ else }}{{ title }}{{ /if }}">
     <meta property="og:site_name" content="{{ config:app.name}}">
     <meta property="og:url" content="{{ permalink }}">
-    <meta property="og:image" content="{{ config:app:url + '/img/ok-social-card_' + site:handle + '.png' }}">
-    <meta name="twitter:site" content="O_Kommentar">
+    <meta property="og:image" content="{{ config:app:url + '/img/oak-social-card.png' }}">
+    <meta name="twitter:site" content="OZUGGrundgesetz">
     <meta name="twitter:card" content="summary">
     {{ if site:handle == 'de' }}
       {{ feedamic:de }}
     {{ elseif site:handle == 'en' }}
       {{ feedamic:en }}
-    {{ elseif site:handle == 'fr' }}
-      {{ feedamic:fr }}
     {{ /if }}
+
+    {{ stack:styles }}
+    {{ stack:scripts }}
   </head>
   <body class="font-sans antialiased bg-ok-beige">
     <article id="app">

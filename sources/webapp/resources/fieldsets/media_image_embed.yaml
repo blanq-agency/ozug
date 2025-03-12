@@ -1,0 +1,37 @@
+title: 'Image Embed'
+fields:
+  -
+    handle: image
+    field:
+      type: group
+      display: Image
+      localizable: false
+      replicator_preview: false
+      fields:
+        -
+          handle: url
+          field:
+            input_type: url
+            type: text
+            display: URL
+            localizable: false
+            replicator_preview: false
+        -
+          handle: alt
+          field:
+            type: text
+            display: Alt-Text
+            localizable: false
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      localizable: false
+  -
+    handle: description
+    field:
+      type: text
+      display: Description
+      localizable: false
+      replicator_preview: false

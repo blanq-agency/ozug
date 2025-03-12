@@ -22,7 +22,7 @@ return [
     'feeds' => [
         'en' => [
             'title' => env('APP_NAME', 'Open Access Kommentar'),
-            'description' => 'The Online Commentary (Onlinekommentar) is the first non-profit and Open Access commentary platform in Switzerland.',
+            'description' => 'The Platform for Open Access Commentaries in Germany.',
             'routes' => [
                 'atom' => '/en/feed/atom',
                 'rss' => '/en/feed',
@@ -35,7 +35,7 @@ return [
         ],
         'de' => [
             'title' => env('APP_NAME', 'Open Access Kommentar'),
-            'description' => 'Onlinekommentar.ch ist die erste gemeinnützige Plattform für Open-Access-Kommentare in der Schweiz.',
+            'description' => 'Die Plattform für Open-Access-Kommentare in Deutschland.',
             'routes' => [
                 'atom' => '/de/feed/atom',
                 'rss' => '/de/feed',
@@ -45,19 +45,6 @@ return [
             ],
             'language' => 'de',
             'locales' => ['de'],
-        ],
-        'fr' => [
-            'title' => env('APP_NAME', 'Open Access Kommentar'),
-            'description' => 'Le Commentaire en ligne (Onlinekommentar) est la première plateforme de commentaires juridiques à but non lucratif et open access en Suisse.',
-            'routes' => [
-                'atom' => '/fr/feed/atom',
-                'rss' => '/fr/feed',
-            ],
-            'collections' => [
-                'commentaries',
-            ],
-            'language' => 'fr',
-            'locales' => ['fr'],
         ],
     ],
 

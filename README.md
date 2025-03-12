@@ -88,3 +88,7 @@ The blueprints and users roles definitions are stored in the default location (`
 
 ## Provision or deploy the production server
 - The master branch is manually deployed to production using Ploi (ploi.io). Note: to enable auto deploy, go to Github > Settings > Webhooks and click "Active" on the Ploi webhook. Please leave disabled unless you know what you are doing.
+
+### Gotenberg
+The Gotenberg service is running in a docker container on the production server.
+Also managed via Ploi.

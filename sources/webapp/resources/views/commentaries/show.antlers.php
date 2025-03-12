@@ -1,4 +1,4 @@
-<article class="commentary w-full border print:border-0">
+<article class="commentary w-full">
   <commentary
     app-name="{{ config:app:name }}"
     locale="{{ locale }}"
@@ -52,8 +52,50 @@
     </template>
 
     <template v-slot:content>
-      {{ contentMarkup }}
+      {{ content }}
+        {{ if type == "text" }}
+          {{ text }}
+
+        {{ elseif type == "media_grid" }}
+          <div class="
+            max-lg:max-w-[476px] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4
+            mt-8 mb-10 max-lg:mx-auto"
+          >
+            {{ media_grid }}
+              {{ partial src="commentaries/sets/{type}" }}
+            {{ /media_grid }}
+          </div>
+
+        {{ else }}
+          <div class="mt-8 mb-10">
+            {{ partial src="commentaries/sets/{type}" }}
+          </div>
+
+        {{ /if }}
+      {{ /content }}
     </template>
+
+    {{ scope:page }}
+      {{ licenses }}
+        <template v-slot:license>
+          <h2 class="mt-12 mb-4 font-sans text-xl tracking-wider uppercase">
+            {{ 'creative_commons_license' | trans }}
+          </h2>
+          <p>
+            {{ config:app:name }}, {{ 'commentary_on' | trans }} {{ page:title }}
+            <span>
+              {{ 'creative_commons_text' | trans }}
+              <a href="{{ extern_url }}" class="underline">{{ title_long }} {{ 'license' | trans | ucfirst }}</a>.
+            </span>
+          </p>
+          <p class="mt-4">
+            <a href="{{ extern_url }}">
+              <img src="{{ image }}" alt="Creative Commons" style="width: 116px">
+            </a>
+          </p>
+        </template>
+      {{ /licenses }}
+    {{ /scope:page }}
   </commentary>
 
   {{ if versionComparisonResult }}

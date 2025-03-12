@@ -22,7 +22,6 @@
 
   "de": "German",
   "en": "English",
-  "fr": "French",
 
   "draft": "Draft",
   "in_review": "In review",
@@ -84,7 +83,7 @@
 
   "menu": "Menu",
 
-  "nav_search_box_placeholder": "Enter a search term",
+  "nav_search_box_placeholder": "Search...",
 
   "home_more_link": "More",
 
@@ -102,7 +101,8 @@
   "visited_at": "visited on",
 
   "creative_commons_license": "Creative Commons License",
-  "creative_commons_text": "is licensed under a <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License.</a>",
+  "license": "license",
+  "creative_commons_text": "is licensed under a",
 
   "and": "/",
 
@@ -133,5 +133,8 @@
   "editor_of": "Editor of",
   "author_of": "Author of",
 
-  "current_version": "Current version"
+  "current_version": "Current version",
+
+  "dashboard_welcome_widget_title_start": "Welcome to",
+  "dashboard_welcome_widget_text": "The publishing platform for open access commentaries in Germany."
 }

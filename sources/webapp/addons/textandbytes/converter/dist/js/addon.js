@@ -50,7 +50,7 @@ __webpack_require__.r(__webpack_exports__);
         html: html
       }).then(function (response) {
         var values = response.data;
-        _this2.store.values.content = values.data;
+        _this2.store.values.content = JSON.parse(values.data);
       })["catch"](function (e) {})["finally"](function (e) {
         _this2.converting = false;
         _this2.$progress.complete('convert' + _this2._uid);

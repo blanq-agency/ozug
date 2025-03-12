@@ -1,0 +1,22 @@
+title: 'Video Embed'
+fields:
+  -
+    handle: video
+    field:
+      type: video
+      display: Video
+      localizable: false
+      replicator_preview: false
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      localizable: false
+  -
+    handle: description
+    field:
+      type: text
+      display: Description
+      localizable: false
+      replicator_preview: false
