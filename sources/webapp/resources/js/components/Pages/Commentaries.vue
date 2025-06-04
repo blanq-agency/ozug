@@ -17,9 +17,12 @@
       </div>
     </div>
 
+    <div v-html="bibliography"></div>
+
     <div v-if="showTitleLine" class="px-4 py-2 bg-white md:px-12 lg:px-24 xl:px-32 lg:py-12 border-b border-black">
       <div class="flex flex-col items-center">
         <div class="font-serif text-3xl md:text-4xl xl:text-5xl text-center">{{ title }}</div>
+        <slot name="bibliography" class="mt-4"></slot>
       </div>
     </div>
 
@@ -78,9 +81,9 @@
     legalDomains: { type: Array, required: false, default: [] },
     showHeaderLine: { type: Boolean, required: false, default: true },
     showTitleLine: { type: Boolean, required: false, default: false },
-    title: { type: String, required: false }
+    title: { type: String, required: false },
+    bibliography: { type: String, required: false }
   })
-
 
   const filteredCommentaries = ref(props.commentaries)
 
@@ -117,4 +120,69 @@
       -webkit-line-clamp: 3;
     }
   }
+</style>
+
+<style>
+.bibliography-bard-field h2 {
+  @apply uppercase font-sans tracking-wider text-2xl mt-12 mb-6;
+}
+
+.bibliography-bard-field h2 strong {
+  @apply font-medium;
+}
+
+.bibliography-bard-field h3 {
+  @apply font-sans tracking-wider text-2xl mt-12 mb-6 print:break-inside-avoid print:break-after-avoid;
+}
+
+.bibliography-bard-field h3 strong {
+  @apply font-medium print:break-inside-avoid print:break-after-avoid;
+}
+
+.bibliography-bard-field ul {
+      @apply list-disc list-outside ml-10 mb-4
+    }
+
+.bibliography-bard-field ul ul {
+    @apply list-circle
+}
+
+.bibliography-bard-field ul ul ul {
+    @apply list-square
+}
+
+.bibliography-bard-field ol {
+    @apply list-decimal list-outside ml-10 mb-4
+}
+
+.bibliography-bard-field ol ol {
+    @apply list-upper-roman
+}
+
+.bibliography-bard-field ol ol ol {
+    @apply list-lower-roman
+}
+
+.bibliography-bard-field li {
+    @apply mt-2 pl-2
+}
+
+.bibliography-bard-field li p {
+    @apply inline
+}
+
+.bibliography-bard-field *:not(.no-prose) > p,
+.bibliography-bard-field > p {
+    @apply lg:text-xl !leading-[1.5em] relative font-serif mb-6 text-justify;
+}
+
+.bibliography-bard-field *:not(.no-prose) > p a,
+.bibliography-bard-field > p a {
+    @apply underline break-all print:break-inside-avoid
+}
+
+.bibliography-bard-field *:not(.no-prose) > p em,
+.bibliography-bard-field > p em {
+    @apply tracking-wide
+}
 </style>

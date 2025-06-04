@@ -25,6 +25,14 @@ tabs:
               localizable: true
               validate:
                 - required
+          -
+            handle: bibliography
+            field:
+              remove_empty_nodes: false
+              type: bard
+              display: Bibliography
+              instructions: 'Hinweis: Erscheint auf der Übersichtsseite zu dem Kommentar.'
+              localizable: false
   sidebar:
     display: Sidebar
     sections:
