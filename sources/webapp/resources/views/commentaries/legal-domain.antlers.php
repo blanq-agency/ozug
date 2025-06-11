@@ -16,6 +16,7 @@ $commentaries = Entry::query()
               'id' => $commentary['id'],
               'slug' => $commentary['slug'],
               'title' => $commentary['title'],
+              'bibliography' => $commentary['bibliography'],
               'legal_domain' => Entry::query()
                   ->where('collection', 'legal_domains')
                   ->where('id', $commentary->value('legal_domain'))
@@ -64,4 +65,9 @@ array_unshift($legalDomains, ['id' => null, 'label' => __('legal_domain_filter_l
   title="{{ title }}"
   :commentaries='<?= json_encode($commentaries, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) ?>'
   :legal-domains='<?= json_encode($legalDomains, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
+    <template v-slot:bibliography>
+        <div class="bibliography-bard-field mt-4">
+            {{ bibliography }}
+        </div>
+    </template>
 </commentaries>

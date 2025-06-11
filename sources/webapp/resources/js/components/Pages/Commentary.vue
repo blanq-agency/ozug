@@ -160,10 +160,10 @@
         DOI (Digital Object Identifier)
       </h2>
 
-      <p v-if="commentary.doi">
+      <div v-if="commentary.doi">
         <div class="text-xl">{{ commentary.doi }}</div >
         <div><a class="underline" target="_blank" :href="'https://doi.org/' + commentary.doi">https://doi.org/{{ commentary.doi }}</a></div >
-      </p>
+      </div>
 
       <slot name="license" />
     </div>
