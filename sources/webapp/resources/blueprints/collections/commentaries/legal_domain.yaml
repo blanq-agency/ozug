@@ -33,6 +33,19 @@ tabs:
               display: Bibliography
               instructions: 'Hinweis: Erscheint auf der Übersichtsseite zu dem Kommentar.'
               localizable: false
+              buttons:
+                - h2
+                - h3
+                - bold
+                - italic
+                - unorderedlist
+                - orderedlist
+                - removeformat
+                - quote
+                - anchor
+                - image
+                - table
+                - small
   sidebar:
     display: Sidebar
     sections:
