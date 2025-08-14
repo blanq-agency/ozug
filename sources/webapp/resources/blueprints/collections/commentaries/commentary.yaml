@@ -112,6 +112,7 @@ tabs:
               always_save: false
               localizable: true
               collapse: true
+              always_show_set_button: true
               sets:
                 group:
                   display: Group
@@ -231,6 +232,20 @@ tabs:
                                     fields:
                                       -
                                         import: media_audio_embed
+                    h5p:
+                      display: H5P-Element
+                      fields:
+                        -
+                          handle: h5p_url
+                          field:
+                            input_type: url
+                            type: text
+                            display: 'H5P Embed-URL'
+                            instructions: 'Bitte hier nur die src-URL aus dem H5P-Einbettungscode einfügen.'
+                            localizable: false
+                            validate:
+                              - required
+                              - 'regex:/^https:\/\/openrewi\.org\/wp-admin\/admin-ajax\.php\?action=h5p_embed&id=\d+$/'
           -
             handle: converter
             field:
