@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed2b1645cd57658329aa6e709d5c58a9",
+    "content-hash": "5a4bb9d1d193ea314bf6ed862b0c92db",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -3408,21 +3408,32 @@
         },
         {
             "name": "mitydigital/feedamic",
-            "version": "2.5.0",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mitydigital/statamic-feedamic.git",
-                "reference": "e8843ac12941127e35d5025f1c67abbbc824785c"
+                "reference": "ea9c52d8b94203727a51d66ce7425812401ed22b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mitydigital/statamic-feedamic/zipball/e8843ac12941127e35d5025f1c67abbbc824785c",
-                "reference": "e8843ac12941127e35d5025f1c67abbbc824785c",
+                "url": "https://api.github.com/repos/mitydigital/statamic-feedamic/zipball/ea9c52d8b94203727a51d66ce7425812401ed22b",
+                "reference": "ea9c52d8b94203727a51d66ce7425812401ed22b",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0",
-                "statamic/cms": "^3.0 || ^4.0 || ^5.0"
+                "statamic/cms": "^5.59|^6.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^3.6",
+                "laravel/pint": "^1.10",
+                "orchestra/testbench": "10.x-dev",
+                "pestphp/pest": "4.x-dev",
+                "pestphp/pest-plugin-laravel": "4.x-dev",
+                "spatie/laravel-ray": "^1.0@dev"
+            },
+            "suggest": {
+                "ext-xmlreader": "Required for XML parsing features in this package",
+                "ext-xmlwriter": "Required for XML generation features in this package"
             },
             "type": "statamic-addon",
             "extra": {
@@ -3433,7 +3444,7 @@
                 },
                 "statamic": {
                     "name": "Feedamic",
-                    "description": "A simple RSS feed for a given collection in Statamic."
+                    "description": "A fully-featured RSS and Atom feed generator for Statamic."
                 }
             },
             "autoload": {
@@ -3450,7 +3461,7 @@
                     "name": "Marty Friedel"
                 }
             ],
-            "description": "The Atom and RSS feed generator for Statamic.",
+            "description": "A fully-featured RSS and Atom feed generator for Statamic.",
             "keywords": [
                 "atom",
                 "rss",
@@ -3458,9 +3469,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mitydigital/statamic-feedamic/issues",
-                "source": "https://github.com/mitydigital/statamic-feedamic/tree/2.5.0"
+                "source": "https://github.com/mitydigital/statamic-feedamic/tree/3.0.2"
             },
-            "time": "2024-08-28T07:55:06+00:00"
+            "time": "2025-08-30T06:03:14+00:00"
         },
         {
             "name": "mitydigital/sitemapamic",
