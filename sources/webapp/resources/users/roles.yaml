@@ -50,8 +50,6 @@ admin:
     - 'edit users'
     - 'create users'
     - 'delete users'
-    - 'assign user groups'
-    - 'assign roles'
     - 'access cache utility'
 contributor:
   title: Contributor
