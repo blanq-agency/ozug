@@ -46,6 +46,9 @@ tabs:
                 - image
                 - table
                 - small
+                - alignleft
+                - aligncenter
+                - alignright
   sidebar:
     display: Sidebar
     sections:
