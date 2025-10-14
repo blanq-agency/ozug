@@ -231,6 +231,11 @@ tabs:
                                     fields:
                                       -
                                         import: media_audio_embed
+                    h5p_embed:
+                      display: 'h5p Embed'
+                      fields:
+                        -
+                          import: h5p_embed
           -
             handle: converter
             field:

@@ -14,6 +14,8 @@ const mix = require('laravel-mix');
 mix
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/media.js', 'public/js')
+    .js('resources/js/iframe-cookie.js', 'public/js')
+    .js('resources/js/h5p-resizer.js', 'public/js')
     .js('resources/js/cp.js', 'public/vendor/app/js')
     .extract()
     .vue(3)

@@ -1,0 +1,14 @@
+title: 'h5p Embed'
+fields:
+  -
+    handle: titel
+    field:
+      type: text
+      display: Titel
+      localizable: false
+  -
+    handle: source
+    field:
+      type: text
+      display: Source
+      localizable: false
