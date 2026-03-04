@@ -9,11 +9,13 @@ use Statamic\View\View;
 use Jfcherng\Diff\Differ;
 use Statamic\Facades\User;
 use Statamic\Facades\Entry;
+use Illuminate\Http\Request;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
 use Statamic\Modifiers\CoreModifiers;
+use Textandbytes\Converter\Converter;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
@@ -208,6 +210,51 @@ class CommentariesController extends Controller
 
         // redirect to the current commentary detail view and show the comparison result
         return $this->show($locale, $commentarySlug, $versionTimestamp, str_replace($lineDelimiter, '<br />', $versionComparisonResult));
+    }
+
+    public function print(Request $request, $locale, $commentarySlug)
+    {
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $commentarySlug)
+            ->first();
+
+        $cacheKey = "commentary_print:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}";
+
+        if (config('app.env') !== 'local' && Cache::has($cacheKey)) {
+            $file = Cache::get($cacheKey);
+
+            return response()
+                ->file($file, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$commentarySlug.'.pdf"',
+                ]);
+        }
+
+        app()->setLocale($locale);
+
+        if (! $entry) {
+            abort(404);
+        }
+
+        if ($entry['status'] !== 'published' && ! User::current()) {
+            abort(404);
+        }
+
+        $file = (new Converter)->entryToHtmlPdf($entry, [
+            'text' => $request->text ?? 'md',
+        ]);
+
+        if (config('app.env') !== 'local') {
+            Cache::put($cacheKey, $file, now()->addDays(7));
+        }
+
+        return response()
+            ->file($file, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="'.$commentarySlug.'.pdf"',
+            ]);
     }
 
     private function _showFootnotesInline($content) {

@@ -31,6 +31,9 @@ Route::get('{locale}/kommentierungen/{commentarySlug}/versions/{versionTimestamp
 // commentary detail view
 Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController::class, 'show'])
     ->middleware(Localization::class);
+// commentary print view
+Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'print'])
+    ->middleware(Localization::class);
 // commentary revision comparison (previously published version – revision timestamp selected)
 Route::get('{locale}/commentaries/{commentaryId}/revisions/{revisionTimestamp1}/compare/{revisionTimestamp2}/versions/{versionTimestamp}', [CommentariesController::class, 'compareRevisions'])
     ->middleware(Localization::class);

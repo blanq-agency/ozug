@@ -24,6 +24,11 @@ mix
         require('tailwindcss/nesting'),
         require('tailwindcss'),
     ])
+    .postCss('resources/css/print.css', 'public/css', [
+        require('postcss-import'),
+        require('tailwindcss/nesting'),
+        require('tailwindcss'),
+    ])
     .alias({
         '@': 'resources/js',
     })

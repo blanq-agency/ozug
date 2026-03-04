@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a4bb9d1d193ea314bf6ed862b0c92db",
+    "content-hash": "84a70561fa8e7b7f721b24ae67a20a78",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -4483,6 +4483,70 @@
             "time": "2021-05-24T14:05:38+00:00"
         },
         {
+            "name": "pontedilana/php-weasyprint",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pontedilana/php-weasyprint.git",
+                "reference": "702d76185acf1ffeff8b3e1064ff05ec1f33d990"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pontedilana/php-weasyprint/zipball/702d76185acf1ffeff8b3e1064ff05ec1f33d990",
+                "reference": "702d76185acf1ffeff8b3e1064ff05ec1f33d990",
+                "shasum": ""
+            },
+            "require": {
+                "php": "7.4.* || 8.0.* || 8.1.* || 8.2.* || 8.3.* || 8.4.*",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "symfony/process": "^5.4 || ^6.2 || ^7"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.64",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^1.12",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pontedilana\\PhpWeasyPrint\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pontedilana Dev Team",
+                    "homepage": "https://www.pontedilana.it"
+                }
+            ],
+            "description": "PHP library allowing PDF generation from an url or a html page. Wrapper for Kozea/WeasyPrint.",
+            "keywords": [
+                "WeasyPrint",
+                "pdf",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/pontedilana/php-weasyprint/issues",
+                "source": "https://github.com/pontedilana/php-weasyprint/tree/1.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/endelwar",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/endelwar",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2024-11-04T15:01:40+00:00"
+        },
+        {
             "name": "pragmarx/yaml",
             "version": "v1.3.1",
             "source": {
@@ -8911,7 +8975,7 @@
         },
         {
             "name": "textandbytes/converter",
-            "version": "dev-main",
+            "version": "dev-feature/pdf-export",
             "dist": {
                 "type": "path",
                 "url": "addons/textandbytes/converter",
@@ -8949,7 +9013,7 @@
         },
         {
             "name": "textandbytes/footnotes",
-            "version": "dev-main",
+            "version": "dev-feature/pdf-export",
             "dist": {
                 "type": "path",
                 "url": "addons/textandbytes/footnotes",
@@ -12104,5 +12168,5 @@
         "php": "^8.3.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

@@ -37,6 +37,10 @@ return [
 
     'fathom' => [
         'site_id' => env('FATHOM_SITE_ID'),
-    ]
+    ],
+
+    'weasyprint' => [
+        'bin' => env('WEASYPRINT_BIN'),
+    ],
 
 ];

@@ -4,16 +4,23 @@ namespace Textandbytes\Converter;
 
 use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
+use Illuminate\Support\Traits\Localizable;
+use Pontedilana\PhpWeasyPrint\Pdf;
 use Statamic\Support\Str;
+use Statamic\View\View;
 use Textandbytes\Converter\Marks\ParagraphNumber;
 use Textandbytes\Converter\Nodes\Cleaner;
 use Textandbytes\Converter\Nodes\Footnote;
 use Tiptap\Editor;
 use Tiptap\Marks;
 use Tiptap\Nodes;
+use TOC\MarkupFixer;
+use TOC\TocGenerator;
 
 class Converter
 {
+    use Localizable;
+
     public function htmlToProsemirror($html)
     {
         /* ProseMirror input must be UTF-8. Samples coming from tests will be
@@ -93,6 +100,47 @@ class Converter
         $pdfFile = $dir.'/'.Gotenberg::save($request, $dir);
 
         unlink($wordFile);
+
+        return $pdfFile;
+    }
+
+    public function entryToHtml($entry, $params = [])
+    {
+        $markupFixer = new MarkupFixer;
+        $allTextContent = '';
+
+        foreach ($entry->content as $block) {
+            if ($block['type'] === 'text') {
+                $allTextContent .= $block['text'];
+            }
+        }
+
+        $allTextContent = $markupFixer->fix($allTextContent);
+
+        $tocGenerator = new TocGenerator;
+        $toc = $tocGenerator->getHtmlMenu($allTextContent);
+
+        return $this->withLocale($entry->locale(), fn () => (new View)
+            ->template('commentaries.print')
+            ->layout('print')
+            ->cascadeContent($entry)
+            ->with([
+                'content' => $allTextContent,
+                'toc' => $toc,
+                ...$params,
+            ])
+            ->render());
+    }
+
+    public function entryToHtmlPdf($entry, $params = [])
+    {
+        $html = $this->entryToHtml($entry, $params);
+
+        $pdfFile = storage_path('app').'/weasyprint-'.uniqid().'.pdf';
+
+        $pdf = new Pdf(config('services.weasyprint.bin'));
+        $pdf->setTimeout(30);
+        $pdf->generateFromHtml($html, $pdfFile);
 
         return $pdfFile;
     }
