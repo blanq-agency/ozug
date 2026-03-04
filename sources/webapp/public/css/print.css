@@ -965,3 +965,76 @@ footnote {
         text-decoration: underline;
     }
 
+.content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+.content th, .content td {
+        border: 1px solid black;
+        padding: 0.3rem 0.5rem;
+        text-align: left;
+    }
+
+.content th {
+        font-weight: bold;
+    }
+
+.content figure {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+.content figure img {
+        max-width: 100%;
+        height: auto;
+    }
+
+.content figcaption {
+        margin-top: 0.4rem;
+        font-size: 0.85rem;
+    }
+
+.content .media-placeholder {
+        background-color: #f0f0f0;
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #707070;
+    }
+
+.content .media-grid {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+.content .media-grid-row {
+        display: table-row;
+        -moz-column-break-inside: avoid;
+             break-inside: avoid;
+    }
+
+.content .media-grid-cell {
+        display: table-cell;
+        width: 50%;
+        vertical-align: top;
+        padding: 0.25rem;
+    }
+
+.content .media-grid-cell:first-child {
+            padding-left: 0;
+        }
+
+.content .media-grid-cell:last-child {
+            padding-right: 0;
+        }
+
+.content .media-grid-cell figure {
+            margin: 0;
+        }
+

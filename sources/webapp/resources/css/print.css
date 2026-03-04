@@ -183,4 +183,63 @@ footnote {
     a {
         text-decoration: underline;
     }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 0.3rem 0.5rem;
+        text-align: left;
+    }
+    th {
+        font-weight: bold;
+    }
+    figure {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    figure img {
+        max-width: 100%;
+        height: auto;
+    }
+    figcaption {
+        margin-top: 0.4rem;
+        font-size: 0.85rem;
+    }
+    .media-placeholder {
+        background-color: #f0f0f0;
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #707070;
+    }
+    .media-grid {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .media-grid-row {
+        display: table-row;
+        break-inside: avoid;
+    }
+    .media-grid-cell {
+        display: table-cell;
+        width: 50%;
+        vertical-align: top;
+        padding: 0.25rem;
+        &:first-child {
+            padding-left: 0;
+        }
+        &:last-child {
+            padding-right: 0;
+        }
+        figure {
+            margin: 0;
+        }
+    }
 }

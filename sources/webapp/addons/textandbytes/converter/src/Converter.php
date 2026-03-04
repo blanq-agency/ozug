@@ -106,30 +106,29 @@ class Converter
 
     public function entryToHtml($entry, $params = [])
     {
-        $markupFixer = new MarkupFixer;
-        $allTextContent = '';
+        return $this->withLocale($entry->locale(), function () use ($entry, $params) {
+            $html = (new View)
+                ->template('commentaries.print-content')
+                ->cascadeContent($entry)
+                ->render();
 
-        foreach ($entry->content as $block) {
-            if ($block['type'] === 'text') {
-                $allTextContent .= $block['text'];
-            }
-        }
+            $markupFixer = new MarkupFixer;
+            $html = $markupFixer->fix($html);
 
-        $allTextContent = $markupFixer->fix($allTextContent);
+            $tocGenerator = new TocGenerator;
+            $toc = $tocGenerator->getHtmlMenu($html);
 
-        $tocGenerator = new TocGenerator;
-        $toc = $tocGenerator->getHtmlMenu($allTextContent);
-
-        return $this->withLocale($entry->locale(), fn () => (new View)
-            ->template('commentaries.print')
-            ->layout('print')
-            ->cascadeContent($entry)
-            ->with([
-                'content' => $allTextContent,
-                'toc' => $toc,
-                ...$params,
-            ])
-            ->render());
+            return (new View)
+                ->template('commentaries.print')
+                ->layout('print')
+                ->cascadeContent($entry)
+                ->with([
+                    'content' => $html,
+                    'toc' => $toc,
+                    ...$params,
+                ])
+                ->render();
+        });
     }
 
     public function entryToHtmlPdf($entry, $params = [])
