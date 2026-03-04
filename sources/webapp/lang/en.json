@@ -140,5 +140,6 @@
   "dashboard_welcome_widget_title_start": "Welcome to",
   "dashboard_welcome_widget_text": "The publishing platform for open access commentaries in Germany.",
 
-  "media_not_available_in_pdf": "Media content – not available in PDF"
+  "media_not_available_in_pdf": "Media content – not available in PDF",
+  "status_of_processing": "Status of processing:"
 }

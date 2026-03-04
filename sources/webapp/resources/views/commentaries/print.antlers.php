@@ -16,6 +16,9 @@
         {{ trans:edited_by }} {{ assigned_editors | pluck('name') | join(' / ') }}
     </p>
 </header>
+<section class="status-of-processing">
+    <p>{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</p>
+</section>
 <section class="citation">
     <p class="citation-label">
         {{ trans:suggested_citation }}

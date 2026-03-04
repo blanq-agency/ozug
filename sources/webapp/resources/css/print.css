@@ -89,6 +89,10 @@ footnote {
     }
 }
 
+.status-of-processing {
+    margin-bottom: 1.5rem;
+}
+
 .citation {
     margin-bottom: 1.5rem;
     > * + * {
