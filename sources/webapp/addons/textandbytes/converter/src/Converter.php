@@ -2,6 +2,9 @@
 
 namespace Textandbytes\Converter;
 
+use chillerlan\QRCode\Output\QRMarkupSVG;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
 use Illuminate\Support\Traits\Localizable;
@@ -107,9 +110,16 @@ class Converter
     public function entryToHtml($entry, $params = [])
     {
         return $this->withLocale($entry->locale(), function () use ($entry, $params) {
+            $articleUrl = $entry->absoluteUrl();
+            $qrCode = $this->generateQrCodeDataUri($articleUrl);
+
             $html = (new View)
                 ->template('commentaries.print-content')
                 ->cascadeContent($entry)
+                ->with([
+                    'qr_code' => $qrCode,
+                    'article_url' => $articleUrl,
+                ])
                 ->render();
 
             $markupFixer = new MarkupFixer;
@@ -125,6 +135,8 @@ class Converter
                 ->with([
                     'content' => $html,
                     'toc' => $toc,
+                    'qr_code' => $qrCode,
+                    'article_url' => $articleUrl,
                     ...$params,
                 ])
                 ->render();
@@ -139,9 +151,22 @@ class Converter
 
         $pdf = new Pdf(config('services.weasyprint.bin'));
         $pdf->setTimeout(30);
+        $pdf->setOption('pdf-variant', 'pdf/x-4');
+        $pdf->setOption('full-fonts', true);
         $pdf->generateFromHtml($html, $pdfFile);
 
         return $pdfFile;
+    }
+
+    protected function generateQrCodeDataUri(string $url): string
+    {
+        $options = new QROptions([
+            'outputInterface' => QRMarkupSVG::class,
+            'svgUseCssProperties' => false,
+            'quietzoneSize' => 2,
+        ]);
+
+        return (new QRCode($options))->render($url);
     }
 
     protected function makeParagraph($text)

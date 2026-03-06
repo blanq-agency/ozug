@@ -67,7 +67,10 @@
                         </figure>
                     {{ else }}
                         <figure>
-                            <div class="media-placeholder">{{ trans:media_not_available_in_pdf }}</div>
+                            <div class="qr-media">
+                                <img src="{{ qr_code }}" class="qr-code-img" />
+                                <a href="{{ article_url }}">{{ article_url }}</a>
+                            </div>
                             {{ if title || description }}
                                 <figcaption>
                                     {{ if title }}<strong>{{ title | sanitize }}</strong>{{ /if }}
@@ -83,9 +86,12 @@
         </div>
 
     {{ else }}
-    
+
         <figure>
-            <div class="media-placeholder">{{ trans:media_not_available_in_pdf }}</div>
+            <div class="qr-media">
+                <img src="{{ qr_code }}" class="qr-code-img" />
+                <a href="{{ article_url }}">{{ article_url }}</a>
+            </div>
             {{ if title || description }}
                 <figcaption>
                     {{ if title }}<strong>{{ title | sanitize }}</strong>{{ /if }}

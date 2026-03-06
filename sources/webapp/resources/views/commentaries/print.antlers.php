@@ -1,3 +1,6 @@
+<span class="running-title">{{ title }}</span>
+<span class="running-authors">{{ assigned_authors | pluck('name') | join(' / ') }}</span>
+<span class="running-date">{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</span>
 <header class="header">
     <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
     {{ if original_language && original_language !== site }}
