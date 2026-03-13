@@ -83,6 +83,21 @@
     @top-right { content: none; }
 }
 
+@page clear-page {
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+}
+
+@page toc-page {
+    @top-left { content: none; }
+    @top-right { content: none; }
+}
+
+/* Typography */
+
 html {
     font-size: 10pt;
     font-family: librecaslon, serif;
@@ -94,6 +109,8 @@ html {
         font-size: 12pt;
     }
 }
+
+/* Footnotes */
 
 footnote {
     float: footnote;
@@ -114,9 +131,11 @@ footnote {
     left: 0;
 }
 
-/* Layout */
+/* Header */
 
 .header {
+    page: clear-page;
+    break-before: right;
     text-align: center;
     margin-bottom: 15mm;
     > * + * {
@@ -148,6 +167,83 @@ footnote {
     }
 }
 
+/* Title Pages */
+
+.volume-page {
+    page: clear-page;
+    break-after: always;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    > * + * {
+        margin-top: 1rem;
+    }
+    &-info {
+        font-size: 1.2rem;
+    }
+}
+
+/* Table of Contents */
+
+.entry-toc {
+    page-break-before: always;
+    margin-bottom: 1.5rem;
+    > * + * {
+        margin-top: 0.75rem;
+    }
+    ul ul {
+        margin-left: 1rem;
+    }
+    a {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        text-decoration: none;
+        &::after {
+            content: target-counter(attr(href), page);
+        }
+    }
+}
+
+.entries-toc {
+    page: toc-page;
+    break-before: right;
+    > * + * {
+        margin-top: 0.75rem;
+    }
+    li + li {
+        margin-top: 0.35rem;
+    }
+    ol ol {
+        margin-left: 1rem;
+    }
+    .toc-group {
+        font-weight: bold;
+        margin-top: 0.75rem;
+    }
+    a {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        text-decoration: none;
+        font-weight: normal;
+        &::after {
+            content: target-counter(attr(href), page);
+        }
+    }
+}
+
+/* Section */
+
+.section {
+    break-before: always;
+}
+
+/* Metadata */
+
 .status-of-processing {
     margin-bottom: 1.5rem;
 }
@@ -174,30 +270,6 @@ footnote {
     }
 }
 
-.toc {
-    page-break-before: always;
-    margin-bottom: 1.5rem;
-    > * + * {
-        margin-top: 0.75rem;
-    }
-    &-label {
-        text-transform: uppercase;
-    }
-    &-list {
-        ul ul {
-            margin-left: 1rem;
-        }
-        a {
-            display: flex;
-            justify-content: space-between;
-            gap: 0.5rem;
-            &::after {
-                content: target-counter(attr(href), page);
-            }
-        }
-    }
-}
-
 /* Content */
 
 .content {
@@ -207,6 +279,8 @@ footnote {
     }
     p {
         text-align: justify;
+        orphans: 2;
+        widows: 2;
     }
     .paragraph-nr {
         width: 1rem;
@@ -221,14 +295,17 @@ footnote {
         font-size: 1.2rem;
         margin-top: 1.6rem;
         text-transform: uppercase;
+        break-after: avoid;
     }
     h3 {
         font-size: 1.2rem;
         margin-top: 1.2rem;
+        break-after: avoid;
     }
     h4, h5, h6 {
         margin-top: 1.1rem;
         font-size: 1.1rem;
+        break-after: avoid;
     }
     ul {
         list-style-type: disc;

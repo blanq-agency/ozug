@@ -9,6 +9,7 @@ use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
 use Illuminate\Support\Traits\Localizable;
 use Pontedilana\PhpWeasyPrint\Pdf;
+use Statamic\Entries\Entry;
 use Statamic\Support\Str;
 use Statamic\View\View;
 use Textandbytes\Converter\Marks\ParagraphNumber;
@@ -110,23 +111,12 @@ class Converter
     public function entryToHtml($entry, $params = [])
     {
         return $this->withLocale($entry->locale(), function () use ($entry, $params) {
-            $articleUrl = $entry->absoluteUrl();
-            $qrCode = $this->generateQrCodeDataUri($articleUrl);
-
-            $html = (new View)
-                ->template('commentaries.print-content')
-                ->cascadeContent($entry)
-                ->with([
-                    'qr_code' => $qrCode,
-                    'article_url' => $articleUrl,
-                ])
-                ->render();
-
-            $markupFixer = new MarkupFixer;
-            $html = $markupFixer->fix($html);
+            $html = $this->renderEntryContent($entry);
 
             $tocGenerator = new TocGenerator;
             $toc = $tocGenerator->getHtmlMenu($html);
+
+            $entryUrl = $entry->absoluteUrl();
 
             return (new View)
                 ->template('commentaries.print')
@@ -135,8 +125,8 @@ class Converter
                 ->with([
                     'content' => $html,
                     'toc' => $toc,
-                    'qr_code' => $qrCode,
-                    'article_url' => $articleUrl,
+                    'qr_code' => $this->generateQrCodeDataUri($entryUrl),
+                    'entry_url' => $entryUrl,
                     ...$params,
                 ])
                 ->render();
@@ -147,10 +137,79 @@ class Converter
     {
         $html = $this->entryToHtml($entry, $params);
 
-        $pdfFile = storage_path('app').'/weasyprint-'.uniqid().'.pdf';
+        return $this->renderWeasyPdf($html, 30);
+    }
+
+    public function estimateEntryPages(Entry $entry): int
+    {
+        return 1;
+    }
+
+    public function entriesToHtml(array $entries, $tree, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate): string
+    {
+        return $this->withLocale($locale, function () use ($entries, $tree, $volumeNumber, $totalVolumes, $generationDate) {
+            $tocGenerator = new TocGenerator;
+            $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
+
+            $entryData = collect($entries)->map(function ($entry) use ($tocGenerator) {
+                $html = $this->renderEntryContent($entry);
+                $html = preg_replace('/<(h[1-6][^>]*)\bid="([^"]*)"/', '<$1id="' . $entry->id() . '-$2"', $html);
+                $toc = $tocGenerator->getHtmlMenu($html);
+
+                return array_merge($entry->toAugmentedArray(), [
+                    'toc' => $toc,
+                    'rendered_content' => $html,
+                ]);
+            })->all();
+
+            $tocTree = $this->buildTocTree($tree->pages(), $entryIds);
+            $tocHtml = $this->renderTocTree($tocTree);
+
+            return (new View)
+                ->template('commentaries.print-full')
+                ->layout('print')
+                ->with([
+                    'entries' => $entryData,
+                    'toc_html' => $tocHtml,
+                    'volume_number' => $volumeNumber,
+                    'total_volumes' => $totalVolumes,
+                    'generation_date' => $generationDate,
+                    'text' => 'md',
+                ])
+                ->render();
+        });
+    }
+
+    public function entriesToHtmlPdf(array $entries, $tree, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate): string
+    {
+        $html = $this->entriesToHtml($entries, $tree, $locale, $volumeNumber, $totalVolumes, $generationDate);
+
+        return $this->renderWeasyPdf($html, 600);
+    }
+
+    protected function renderEntryContent($entry): string
+    {
+        $entryUrl = $entry->absoluteUrl();
+        $qrCode = $this->generateQrCodeDataUri($entryUrl);
+
+        $html = (new View)
+            ->template('commentaries.print-content')
+            ->cascadeContent($entry)
+            ->with([
+                'qr_code' => $qrCode,
+                'entry_url' => $entryUrl,
+            ])
+            ->render();
+
+        return (new MarkupFixer)->fix($html);
+    }
+
+    protected function renderWeasyPdf(string $html, int $timeout = 30): string
+    {
+        $pdfFile = storage_path('app') . '/weasyprint-' . uniqid() . '.pdf';
 
         $pdf = new Pdf(config('services.weasyprint.bin'));
-        $pdf->setTimeout(30);
+        $pdf->setTimeout($timeout);
         $pdf->setOption('pdf-variant', 'pdf/x-4');
         $pdf->setOption('full-fonts', true);
         $pdf->generateFromHtml($html, $pdfFile);
@@ -167,6 +226,62 @@ class Converter
         ]);
 
         return (new QRCode($options))->render($url);
+    }
+
+    protected function renderTocTree(array $items): string
+    {
+        $html = '<ol>';
+
+        foreach ($items as $item) {
+            if ($item['type'] === 'group') {
+                $html .= '<li class="toc-group">' . e($item['title']);
+                $html .= $this->renderTocTree($item['children']);
+                $html .= '</li>';
+            } else {
+                $html .= '<li><a href="#entry-' . $item['id'] . '">' . e($item['title']) . '</a>';
+                if (!empty($item['children'])) {
+                    $html .= $this->renderTocTree($item['children']);
+                }
+                $html .= '</li>';
+            }
+        }
+
+        $html .= '</ol>';
+
+        return $html;
+    }
+
+    protected function buildTocTree($pages, array $entryIds): array
+    {
+        $tree = [];
+
+        foreach ($pages->all() as $page) {
+            $entry = $page->entry();
+
+            if (!$entry->published()) {
+                continue;
+            }
+
+            $blueprint = $entry->blueprint()->handle();
+            $children = $this->buildTocTree($page->pages(), $entryIds);
+
+            if ($blueprint === 'commentary' && in_array($entry->id(), $entryIds)) {
+                $tree[] = [
+                    'type' => 'entry',
+                    'id' => $entry->id(),
+                    'title' => $entry->get('title'),
+                    'children' => $children,
+                ];
+            } elseif (!empty($children)) {
+                $tree[] = [
+                    'type' => 'group',
+                    'title' => $entry->get('title'),
+                    'children' => $children,
+                ];
+            }
+        }
+
+        return $tree;
     }
 
     protected function makeParagraph($text)

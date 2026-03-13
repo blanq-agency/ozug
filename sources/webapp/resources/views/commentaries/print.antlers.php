@@ -1,6 +1,7 @@
 <span class="running-title">{{ title }}</span>
 <span class="running-authors">{{ assigned_authors | pluck('name') | join(' / ') }}</span>
 <span class="running-date">{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</span>
+
 <header class="header">
     <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
     {{ if original_language && original_language !== site }}
@@ -19,9 +20,11 @@
         {{ trans:edited_by }} {{ assigned_editors | pluck('name') | join(' / ') }}
     </p>
 </header>
+
 <section class="status-of-processing">
     <p>{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</p>
 </section>
+
 <section class="citation">
     <p class="citation-label">
         {{ trans:suggested_citation }}
@@ -33,17 +36,18 @@
         {{ trans:short_citation }}: {{ suggested_citation_short }}
     </p>
 </section>
+
 <section class="legal-text">
     {{ legal_text }}
 </section>
-<section class="toc">
-    <p class="toc-label">
+
+<section class="entry-toc">
+    <p class="header-label">
         {{ trans:table_of_contents }}
     </p>
-    <div class="toc-list">
-        {{ toc }}
-    </div>
+    {{ toc }}
 </section>
+
 <main class="content">
     {{ content }}
 </main>

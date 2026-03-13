@@ -31,6 +31,9 @@
   <div class="flex justify-between md:border-r border-ok-dark-gray pb-8">
     <div class="flex flex-col pl-8 pt-8">
       <span class="text-xs">&copy; {{$ date('Y') $}}, {{ config:app.name }}</span>
+      <a href="/{{ site:short_locale }}/kommentierungen/print-full" class="text-xs underline mt-1">
+        {{ trans:download_full_pdf }}
+      </a>
     </div>
 
     <div class="flex flex-row pt-6 mr-4 space-x-2">

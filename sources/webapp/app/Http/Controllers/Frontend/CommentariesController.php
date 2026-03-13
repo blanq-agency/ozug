@@ -212,7 +212,7 @@ class CommentariesController extends Controller
         return $this->show($locale, $commentarySlug, $versionTimestamp, str_replace($lineDelimiter, '<br />', $versionComparisonResult));
     }
 
-    public function print(Request $request, $locale, $commentarySlug)
+    public function downloadPdf(Request $request, $locale, $commentarySlug)
     {
         $entry = Entry::query()
             ->where('collection', 'commentaries')
@@ -220,41 +220,59 @@ class CommentariesController extends Controller
             ->where('slug', $commentarySlug)
             ->first();
 
-        $cacheKey = "commentary_print:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}";
+        if (!$entry) {
+            abort(404);
+        }
 
-        if (config('app.env') !== 'local' && Cache::has($cacheKey)) {
-            $file = Cache::get($cacheKey);
-
-            return response()
-                ->file($file, [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="'.$commentarySlug.'.pdf"',
-                ]);
+        if ($entry['status'] !== 'published' && !User::current()) {
+            abort(404);
         }
 
         app()->setLocale($locale);
 
-        if (! $entry) {
-            abort(404);
-        }
-
-        if ($entry['status'] !== 'published' && ! User::current()) {
-            abort(404);
-        }
-
-        $file = (new Converter)->entryToHtmlPdf($entry, [
+        $generate = fn () => (new Converter)->entryToHtmlPdf($entry, [
             'text' => $request->text ?? 'md',
         ]);
 
-        if (config('app.env') !== 'local') {
-            Cache::put($cacheKey, $file, now()->addDays(7));
+        if (config('app.env') === 'local') {
+            $file = $generate();
+        } else {
+            $cacheKey = "commentary_pdf:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}";
+            $file = Cache::remember($cacheKey, now()->addDays(7), $generate);
         }
 
-        return response()
-            ->file($file, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="'.$commentarySlug.'.pdf"',
-            ]);
+        return response()->file($file, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "inline; filename=\"{$commentarySlug}.pdf\"",
+        ]);
+    }
+
+    public function downloadFullPdf(Request $request, $locale)
+    {
+        $manifestPath = storage_path("app/full-pdf/{$locale}/manifest.json");
+
+        if (!File::exists($manifestPath)) {
+            abort(404);
+        }
+
+        $manifest = json_decode(File::get($manifestPath), true);
+        $volume = (int) $request->query('volume', 1);
+
+        if ($volume < 1 || $volume > count($manifest['files'])) {
+            abort(404);
+        }
+
+        $filename = $manifest['files'][$volume - 1];
+        $filePath = storage_path("app/full-pdf/{$locale}/{$filename}");
+
+        if (!File::exists($filePath)) {
+            abort(404);
+        }
+
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "inline; filename=\"{$filename}\"",
+        ]);
     }
 
     private function _showFootnotesInline($content) {

@@ -25,14 +25,18 @@ Route::get('{locale}/{usersType}/{slug}', [UsersController::class, 'show'])
     ->whereIn('usersType', ['autoren', 'herausgeber'])
     ->middleware(Localization::class);
 
+// full PDF download
+Route::get('{locale}/kommentierungen/print-full', [CommentariesController::class, 'downloadFullPdf'])
+    ->middleware(Localization::class);
+
 // commentary revision detail view
 Route::get('{locale}/kommentierungen/{commentarySlug}/versions/{versionTimestamp}', [CommentariesController::class, 'show'])
     ->middleware(Localization::class);
 // commentary detail view
 Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController::class, 'show'])
     ->middleware(Localization::class);
-// commentary print view
-Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'print'])
+// commentary PDF download
+Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
     ->middleware(Localization::class);
 // commentary revision comparison (previously published version – revision timestamp selected)
 Route::get('{locale}/commentaries/{commentaryId}/revisions/{revisionTimestamp1}/compare/{revisionTimestamp2}/versions/{versionTimestamp}', [CommentariesController::class, 'compareRevisions'])

@@ -12,6 +12,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $commands = [
         Commands\ImportDocuments::class,
+        Commands\GenerateFullPdf::class,
     ];
     
     protected $routes = [
