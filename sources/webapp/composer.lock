@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84a70561fa8e7b7f721b24ae67a20a78",
+    "content-hash": "70c05e713a3517d665d8062ed2959035",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -1696,6 +1696,54 @@
                 "source": "https://github.com/jacksleight/statamic-bard-texstyle/tree/3.6.0"
             },
             "time": "2025-08-08T15:08:29+00:00"
+        },
+        {
+            "name": "jacksleight/statamic-distill",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacksleight/statamic-distill.git",
+                "reference": "bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacksleight/statamic-distill/zipball/bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a",
+                "reference": "bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a",
+                "shasum": ""
+            },
+            "require": {
+                "statamic/cms": "^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JackSleight\\StatamicDistill\\ServiceProvider",
+                        "JackSleight\\StatamicDistill\\StillServiceProvider"
+                    ]
+                },
+                "statamic": {
+                    "name": "Distill",
+                    "description": "This Statamic addon allows you to filter, fetch or index the individual values, sets and relations within your entries, from both root and deeply nested fields."
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JackSleight\\StatamicDistill\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/jacksleight/statamic-distill/issues",
+                "source": "https://github.com/jacksleight/statamic-distill/tree/1.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jacksleight",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-28T10:23:30+00:00"
         },
         {
             "name": "james-heinrich/getid3",

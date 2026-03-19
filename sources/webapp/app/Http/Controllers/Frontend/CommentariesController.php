@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Jobs\GenerateCommentaryPdf;
+use App\Jobs\GenerateLegalDomainPdf;
 use Carbon\Carbon;
+use ZipStream\ZipStream;
 use TOC\MarkupFixer;
 use TOC\TocGenerator;
 use Statamic\View\View;
@@ -12,10 +15,10 @@ use Statamic\Facades\Entry;
 use Illuminate\Http\Request;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Statamic\Modifiers\CoreModifiers;
-use Textandbytes\Converter\Converter;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
@@ -228,50 +231,88 @@ class CommentariesController extends Controller
             abort(404);
         }
 
-        app()->setLocale($locale);
+        $text = $request->text ?? 'md';
+        $disk = Storage::disk('pdf');
+        $path = "commentary/{$locale}/{$commentarySlug}-{$text}.pdf";
 
-        $generate = fn () => (new Converter)->entryToHtmlPdf($entry, [
-            'text' => $request->text ?? 'md',
-        ]);
-
-        if (config('app.env') === 'local') {
-            $file = $generate();
-        } else {
-            $cacheKey = "commentary_pdf:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}";
-            $file = Cache::remember($cacheKey, now()->addDays(7), $generate);
+        if ($disk->exists($path)) {
+            return response()->file($disk->path($path), [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => "inline; filename=\"{$commentarySlug}.pdf\"",
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma' => 'no-cache',
+            ]);
         }
 
-        return response()->file($file, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => "inline; filename=\"{$commentarySlug}.pdf\"",
-        ]);
+        GenerateCommentaryPdf::dispatch($entry->id(), $locale);
+
+        return (new View)
+            ->template('commentaries/print-pending')
+            ->layout('layout')
+            ->with(['title' => __('pdf_pending_title')])
+            ->render();
     }
 
-    public function downloadFullPdf(Request $request, $locale)
+    public function downloadLegalDomainPdf($locale, $legalDomainSlug)
     {
-        $manifestPath = storage_path("app/full-pdf/{$locale}/manifest.json");
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $legalDomainSlug)
+            ->first();
 
-        if (!File::exists($manifestPath)) {
+        if (!$entry || $entry->blueprint()->handle() !== 'legal_domain') {
             abort(404);
         }
 
-        $manifest = json_decode(File::get($manifestPath), true);
-        $volume = (int) $request->query('volume', 1);
+        $disk = Storage::disk('pdf');
+        $dir = "legal-domain/{$locale}/{$legalDomainSlug}";
+        $manifestPath = "{$dir}/manifest.json";
 
-        if ($volume < 1 || $volume > count($manifest['files'])) {
-            abort(404);
+        if (!$disk->exists($manifestPath)) {
+            GenerateLegalDomainPdf::dispatch($entry->id(), $locale);
+
+            return (new View)
+                ->template('commentaries/print-pending')
+                ->layout('layout')
+                ->with(['title' => __('pdf_pending_title')])
+                ->render();
         }
 
-        $filename = $manifest['files'][$volume - 1];
-        $filePath = storage_path("app/full-pdf/{$locale}/{$filename}");
+        $manifest = json_decode($disk->get($manifestPath), true);
+        $files = $manifest['files'];
 
-        if (!File::exists($filePath)) {
-            abort(404);
+        if (count($files) === 1) {
+            $filePath = $disk->path("{$dir}/{$files[0]}");
+
+            if (!file_exists($filePath)) {
+                abort(404);
+            }
+
+            return response()->file($filePath, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => "inline; filename=\"{$files[0]}\"",
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma' => 'no-cache',
+            ]);
         }
 
-        return response()->file($filePath, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => "inline; filename=\"{$filename}\"",
+        return response()->stream(function () use ($disk, $dir, $files, $legalDomainSlug) {
+            $zip = new ZipStream(
+                outputName: "{$legalDomainSlug}.zip",
+                sendHttpHeaders: false,
+            );
+
+            foreach ($files as $filename) {
+                $zip->addFileFromPath($filename, $disk->path("{$dir}/{$filename}"));
+            }
+
+            $zip->finish();
+        }, 200, [
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => "attachment; filename=\"{$legalDomainSlug}.zip\"",
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
         ]);
     }
 

@@ -13,6 +13,7 @@
         "gotenberg/gotenberg-php": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
         "jacksleight/statamic-bard-texstyle": "^3.0",
+        "jacksleight/statamic-distill": "^1.1",
         "jfcherng/php-diff": "^6.12",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",

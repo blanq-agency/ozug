@@ -25,8 +25,8 @@ Route::get('{locale}/{usersType}/{slug}', [UsersController::class, 'show'])
     ->whereIn('usersType', ['autoren', 'herausgeber'])
     ->middleware(Localization::class);
 
-// full PDF download
-Route::get('{locale}/kommentierungen/print-full', [CommentariesController::class, 'downloadFullPdf'])
+// legal domain PDF download
+Route::get('{locale}/kommentierungen/{legalDomainSlug}/pdf', [CommentariesController::class, 'downloadLegalDomainPdf'])
     ->middleware(Localization::class);
 
 // commentary revision detail view

@@ -8,6 +8,7 @@ use chillerlan\QRCode\QROptions;
 use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
 use Illuminate\Support\Traits\Localizable;
+use JackSleight\StatamicDistill\Facades\Distill;
 use Pontedilana\PhpWeasyPrint\Pdf;
 use Statamic\Entries\Entry;
 use Statamic\Support\Str;
@@ -24,6 +25,10 @@ use TOC\TocGenerator;
 class Converter
 {
     use Localizable;
+
+    // If the page layout changes run `php artisan converter:calibrate-pdf-estimator` to recalculate these numbers
+    const WORDS_PER_PAGE = 479;
+    const MEDIA_PER_PAGE = 2.8;
 
     public function htmlToProsemirror($html)
     {
@@ -140,14 +145,51 @@ class Converter
         return $this->renderWeasyPdf($html, 30);
     }
 
-    public function estimateEntryPages(Entry $entry): int
+    public function getEntryContentCounts(Entry $entry): array
     {
-        return 1;
+        $content = $entry->augmentedValue('content');
+        
+        $words = str_word_count(Distill::text($content));
+        $media = Distill::query($content)
+            ->type([
+                'set:image',
+                'set:image_embed',
+                'set:video',
+                'set:video_embed',
+                'set:audio',
+                'set:audio_embed',
+                'set:h5p_embed',
+            ])
+            ->count();
+
+        return [
+            'words' => $words,
+            'media' => $media,
+        ];
     }
 
-    public function entriesToHtml(array $entries, $tree, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate): string
+    public function estimateEntryPages(Entry $entry): float
     {
-        return $this->withLocale($locale, function () use ($entries, $tree, $volumeNumber, $totalVolumes, $generationDate) {
+        $counts = $this->getEntryContentCounts($entry);
+
+        $pages = $counts['words'] / static::WORDS_PER_PAGE
+            + $counts['media'] / static::MEDIA_PER_PAGE
+            + 1    // entry title page
+            + 1    // entry TOC
+            + 0.5; // blank page padding for odd-page starts
+
+        return max($pages, 1);
+    }
+
+    public static function estimateVolumeOverheadPages(): float
+    {
+        return 1   // volume title page
+            + 1;   // volume TOC
+    }
+
+    public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null): string
+    {
+        return $this->withLocale($locale, function () use ($entries, $tocPages, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle) {
             $tocGenerator = new TocGenerator;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
@@ -162,7 +204,7 @@ class Converter
                 ]);
             })->all();
 
-            $tocTree = $this->buildTocTree($tree->pages(), $entryIds);
+            $tocTree = $this->buildTocTree($tocPages, $entryIds);
             $tocHtml = $this->renderTocTree($tocTree);
 
             return (new View)
@@ -174,20 +216,21 @@ class Converter
                     'volume_number' => $volumeNumber,
                     'total_volumes' => $totalVolumes,
                     'generation_date' => $generationDate,
+                    'legal_domain_title' => $legalDomainTitle,
                     'text' => 'md',
                 ])
                 ->render();
         });
     }
 
-    public function entriesToHtmlPdf(array $entries, $tree, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate): string
+    public function entriesToHtmlPdf(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null): string
     {
-        $html = $this->entriesToHtml($entries, $tree, $locale, $volumeNumber, $totalVolumes, $generationDate);
+        $html = $this->entriesToHtml($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle);
 
         return $this->renderWeasyPdf($html, 600);
     }
 
-    protected function renderEntryContent($entry): string
+    public function renderEntryContent($entry): string
     {
         $entryUrl = $entry->absoluteUrl();
         $qrCode = $this->generateQrCodeDataUri($entryUrl);
@@ -204,7 +247,7 @@ class Converter
         return (new MarkupFixer)->fix($html);
     }
 
-    protected function renderWeasyPdf(string $html, int $timeout = 30): string
+    public function renderWeasyPdf(string $html, int $timeout = 30): string
     {
         $pdfFile = storage_path('app') . '/weasyprint-' . uniqid() . '.pdf';
 

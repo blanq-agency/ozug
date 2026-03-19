@@ -144,5 +144,6 @@
   "media_not_available_in_pdf": "Medieninhalt – im PDF nicht verfügbar",
   "status_of_processing": "Stand der Bearbeitung:",
   "volume": "Band",
-  "download_full_pdf": "Gesamtkommentar als PDF"
+  "pdf_pending_title": "PDF wird erstellt",
+  "pdf_pending_message": "Das PDF wird gerade erstellt. Bitte versuchen Sie es in ein paar Minuten erneut."
 }

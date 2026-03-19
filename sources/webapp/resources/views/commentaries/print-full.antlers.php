@@ -1,6 +1,9 @@
 <div class="volume-page">
     <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
     <h1 class="header-title">Open Access Kommentar</h1>
+    {{ if legal_domain_title }}
+        <p class="volume-page-info">{{ legal_domain_title }}</p>
+    {{ /if }}
     <p class="volume-page-info">{{ generation_date }}</p>
     {{ if total_volumes > 1 }}
         <p class="volume-page-info">{{ trans:volume }} {{ volume_number }} / {{ total_volumes }}</p>
