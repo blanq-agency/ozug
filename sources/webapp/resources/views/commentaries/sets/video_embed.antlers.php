@@ -1,4 +1,5 @@
 {{ partial src="commentaries/sets/partials/media_chrome_dependencies" }}
+{{ partial src="commentaries/sets/partials/iframe-cookie_dependencies" }}
 
 <figure class="mx-auto w-full {{ width_limit ? 'max-w-[476px]' : null }}">
   {{ if

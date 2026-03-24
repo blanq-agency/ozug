@@ -14,10 +14,17 @@ const mix = require('laravel-mix');
 mix
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/media.js', 'public/js')
+    .js('resources/js/iframe-cookie.js', 'public/js')
+    .js('resources/js/h5p-resizer.js', 'public/js')
     .js('resources/js/cp.js', 'public/vendor/app/js')
     .extract()
     .vue(3)
     .postCss('resources/css/app.css', 'public/css', [
+        require('postcss-import'),
+        require('tailwindcss/nesting'),
+        require('tailwindcss'),
+    ])
+    .postCss('resources/css/print.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss/nesting'),
         require('tailwindcss'),
