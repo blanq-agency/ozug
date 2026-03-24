@@ -25,11 +25,18 @@ Route::get('{locale}/{usersType}/{slug}', [UsersController::class, 'show'])
     ->whereIn('usersType', ['autoren', 'herausgeber'])
     ->middleware(Localization::class);
 
+// legal domain PDF download
+Route::get('{locale}/kommentierungen/{legalDomainSlug}/pdf', [CommentariesController::class, 'downloadLegalDomainPdf'])
+    ->middleware(Localization::class);
+
 // commentary revision detail view
 Route::get('{locale}/kommentierungen/{commentarySlug}/versions/{versionTimestamp}', [CommentariesController::class, 'show'])
     ->middleware(Localization::class);
 // commentary detail view
 Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController::class, 'show'])
+    ->middleware(Localization::class);
+// commentary PDF download
+Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
     ->middleware(Localization::class);
 // commentary revision comparison (previously published version – revision timestamp selected)
 Route::get('{locale}/commentaries/{commentaryId}/revisions/{revisionTimestamp1}/compare/{revisionTimestamp2}/versions/{versionTimestamp}', [CommentariesController::class, 'compareRevisions'])

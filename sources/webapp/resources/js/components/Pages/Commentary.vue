@@ -23,19 +23,29 @@
           {{ commentary.title }}
         </div>
 
-        <FlyoutMenuFullWidth
-          v-if="versions && activeVersion"
-          :label="$t('version') + ': ' + activeVersion.label_date_only"
-          class="flex items-center justify-end py-2 md:py-4"
-          menu-classes="top-16">
-          <VersionsPanel
-            :versions="versions"
-            :active-version="activeVersion"
-            @on-select="loadVersionWithTimestamp"
-            @on-compare="compareVersions">
-          </VersionsPanel>
-        </FlyoutMenuFullWidth>
-        <div v-else class="py-2 md:py-4">&nbsp;</div>
+        <div class="py-2 md:py-4 flex items-center justify-end gap-4">
+          <FlyoutMenuFullWidth
+            v-if="versions && activeVersion"
+            :label="$t('version') + ': ' + activeVersion.label_date_only"
+            class="flex items-center justify-end"
+            menu-classes="top-16">
+            <VersionsPanel
+              :versions="versions"
+              :active-version="activeVersion"
+              @on-select="loadVersionWithTimestamp"
+              @on-compare="compareVersions">
+            </VersionsPanel>
+          </FlyoutMenuFullWidth>
+          <div class="text-xs tracking-widest uppercase flex items-baseline font-medium">
+            <div class="mr-1.5">PDF:</div>
+            <button @click="downloadCommentary('md')" class="w-3 h-4 flex items-center justify-center font-serif">
+              <span class="text-[0.7rem]">A</span>
+            </button>
+            <button @click="downloadCommentary('lg')" class="w-3 h-4 flex items-center justify-center font-serif">
+              <span class="text-[0.8rem]">A</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -146,12 +156,22 @@
         {{ $t('print_commentary') }}
       </h2>
 
-      <p class="print:hidden">
+      <p class="print:hidden flex gap-4">
         <button @click="printCommentary()" class="ok-button">
           <span class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
-            </svg> <span class="ml-2">{{ $t('print') }}</span>
+            </svg>
+            <span class="ml-2" v-if="!printing">{{ $t('print') }}</span>
+            <span class="ml-2" v-if="printing">{{ $t('printing') }}</span>
+          </span>
+        </button>
+        <button @click="downloadCommentary('md')" class="ok-button">
+          <span class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            <span class="ml-2">{{ $t('pdf') }}</span>
           </span>
         </button>
       </p>
@@ -201,8 +221,25 @@
     }
   })
 
+  let printIframe;
+  const printing = ref(false);
   const printCommentary = () => {
-    window.print()
+    if (!printIframe) {
+      printIframe = document.createElement('iframe');
+      printIframe.style.display = 'none';
+      document.body.appendChild(printIframe);
+      printIframe.onload = () => {
+        setTimeout(() => {
+          printIframe.focus();
+          printIframe.contentWindow.print();
+        }, 1);
+      };
+    }
+    printing.value = true;
+    printIframe.src = '/' + props.locale + '/kommentierungen/' + props.commentary.slug + '/print';
+    setTimeout(() => {
+      printing.value = false;
+    }, 3000);
   }
 
   const activeVersion = computed(() => {
@@ -232,6 +269,10 @@
   const compareVersions = (versions) => {
     // compare the two selected revisions, redirect to the commentary detail view and display comparison result in a modal dialog
     window.location.href = '/' + props.locale + '/commentaries/' + props.commentary.id + '/revisions/' + versions[0].timestamp + '/compare/' + versions[1].timestamp + (props.versionTimestamp ? '/versions/' + props.versionTimestamp : '')
+  }
+
+  const downloadCommentary = (text) => {
+    window.location.href = '/' + props.locale + '/kommentierungen/' + props.commentary.slug + '/print?text=' + text;
   }
 </script>
 

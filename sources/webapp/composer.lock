@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a4bb9d1d193ea314bf6ed862b0c92db",
+    "content-hash": "70c05e713a3517d665d8062ed2959035",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -258,6 +258,165 @@
                 "source": "https://github.com/caseyamcl/toc/tree/v3.2.0"
             },
             "time": "2024-12-08T16:12:05+00:00"
+        },
+        {
+            "name": "chillerlan/php-qrcode",
+            "version": "5.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chillerlan/php-qrcode.git",
+                "reference": "7b66282572fc14075c0507d74d9837dab25b38d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/7b66282572fc14075c0507d74d9837dab25b38d6",
+                "reference": "7b66282572fc14075c0507d74d9837dab25b38d6",
+                "shasum": ""
+            },
+            "require": {
+                "chillerlan/php-settings-container": "^2.1.6 || ^3.2.1",
+                "ext-mbstring": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "chillerlan/php-authenticator": "^4.3.1 || ^5.2.1",
+                "ext-fileinfo": "*",
+                "phan/phan": "^5.5.2",
+                "phpcompatibility/php-compatibility": "10.x-dev",
+                "phpmd/phpmd": "^2.15",
+                "phpunit/phpunit": "^9.6",
+                "setasign/fpdf": "^1.8.2",
+                "slevomat/coding-standard": "^8.23.0",
+                "squizlabs/php_codesniffer": "^4.0.0"
+            },
+            "suggest": {
+                "chillerlan/php-authenticator": "Yet another Google authenticator! Also creates URIs for mobile apps.",
+                "setasign/fpdf": "Required to use the QR FPDF output.",
+                "simple-icons/simple-icons": "SVG icons that you can use to embed as logos in the QR Code"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chillerlan\\QRCode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Kazuhiko Arase",
+                    "homepage": "https://github.com/kazuhikoarase/qrcode-generator"
+                },
+                {
+                    "name": "ZXing Authors",
+                    "homepage": "https://github.com/zxing/zxing"
+                },
+                {
+                    "name": "Ashot Khanamiryan",
+                    "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder"
+                },
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/chillerlan/php-qrcode/graphs/contributors"
+                }
+            ],
+            "description": "A QR Code generator and reader with a user-friendly API. PHP 7.4+",
+            "homepage": "https://github.com/chillerlan/php-qrcode",
+            "keywords": [
+                "phpqrcode",
+                "qr",
+                "qr code",
+                "qr-reader",
+                "qrcode",
+                "qrcode-generator",
+                "qrcode-reader"
+            ],
+            "support": {
+                "docs": "https://php-qrcode.readthedocs.io",
+                "issues": "https://github.com/chillerlan/php-qrcode/issues",
+                "source": "https://github.com/chillerlan/php-qrcode"
+            },
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/codemasher",
+                    "type": "Ko-Fi"
+                }
+            ],
+            "time": "2025-11-23T23:51:44+00:00"
+        },
+        {
+            "name": "chillerlan/php-settings-container",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chillerlan/php-settings-container.git",
+                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
+                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "^2.15",
+                "phpstan/phpstan": "^1.11",
+                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chillerlan\\Settings\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
+                }
+            ],
+            "description": "A container class for immutable settings objects. Not a DI container.",
+            "homepage": "https://github.com/chillerlan/php-settings-container",
+            "keywords": [
+                "Settings",
+                "configuration",
+                "container",
+                "helper"
+            ],
+            "support": {
+                "issues": "https://github.com/chillerlan/php-settings-container/issues",
+                "source": "https://github.com/chillerlan/php-settings-container"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate?hosted_button_id=WLYUNAT9ZTJZ4",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://ko-fi.com/codemasher",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2024-07-16T11:13:48+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -1537,6 +1696,54 @@
                 "source": "https://github.com/jacksleight/statamic-bard-texstyle/tree/3.6.0"
             },
             "time": "2025-08-08T15:08:29+00:00"
+        },
+        {
+            "name": "jacksleight/statamic-distill",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacksleight/statamic-distill.git",
+                "reference": "bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacksleight/statamic-distill/zipball/bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a",
+                "reference": "bf35eeaaebcf154a83f57bcc5f1b15a0f28ed08a",
+                "shasum": ""
+            },
+            "require": {
+                "statamic/cms": "^5.0|^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JackSleight\\StatamicDistill\\ServiceProvider",
+                        "JackSleight\\StatamicDistill\\StillServiceProvider"
+                    ]
+                },
+                "statamic": {
+                    "name": "Distill",
+                    "description": "This Statamic addon allows you to filter, fetch or index the individual values, sets and relations within your entries, from both root and deeply nested fields."
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JackSleight\\StatamicDistill\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/jacksleight/statamic-distill/issues",
+                "source": "https://github.com/jacksleight/statamic-distill/tree/1.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jacksleight",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-28T10:23:30+00:00"
         },
         {
             "name": "james-heinrich/getid3",
@@ -4481,6 +4688,70 @@
                 }
             ],
             "time": "2021-05-24T14:05:38+00:00"
+        },
+        {
+            "name": "pontedilana/php-weasyprint",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pontedilana/php-weasyprint.git",
+                "reference": "702d76185acf1ffeff8b3e1064ff05ec1f33d990"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pontedilana/php-weasyprint/zipball/702d76185acf1ffeff8b3e1064ff05ec1f33d990",
+                "reference": "702d76185acf1ffeff8b3e1064ff05ec1f33d990",
+                "shasum": ""
+            },
+            "require": {
+                "php": "7.4.* || 8.0.* || 8.1.* || 8.2.* || 8.3.* || 8.4.*",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "symfony/process": "^5.4 || ^6.2 || ^7"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.64",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^1.12",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pontedilana\\PhpWeasyPrint\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pontedilana Dev Team",
+                    "homepage": "https://www.pontedilana.it"
+                }
+            ],
+            "description": "PHP library allowing PDF generation from an url or a html page. Wrapper for Kozea/WeasyPrint.",
+            "keywords": [
+                "WeasyPrint",
+                "pdf",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/pontedilana/php-weasyprint/issues",
+                "source": "https://github.com/pontedilana/php-weasyprint/tree/1.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/endelwar",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/endelwar",
+                    "type": "ko_fi"
+                }
+            ],
+            "time": "2024-11-04T15:01:40+00:00"
         },
         {
             "name": "pragmarx/yaml",
@@ -8911,13 +9182,14 @@
         },
         {
             "name": "textandbytes/converter",
-            "version": "dev-main",
+            "version": "dev-feature/pdf-export",
             "dist": {
                 "type": "path",
                 "url": "addons/textandbytes/converter",
-                "reference": "4e9e8191e0f2c10b70873107f754ae206e4eb548"
+                "reference": "7efff49cd5dc4bf5e9af1ed8e75da34c05b9f31b"
             },
             "require": {
+                "chillerlan/php-qrcode": "^5.0",
                 "phpoffice/phpword": "^1.1"
             },
             "require-dev": {
@@ -8949,7 +9221,7 @@
         },
         {
             "name": "textandbytes/footnotes",
-            "version": "dev-main",
+            "version": "dev-feature/pdf-export",
             "dist": {
                 "type": "path",
                 "url": "addons/textandbytes/footnotes",
@@ -12104,5 +12376,5 @@
         "php": "^8.3.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

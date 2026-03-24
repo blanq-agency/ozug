@@ -69,5 +69,10 @@ array_unshift($legalDomains, ['id' => null, 'label' => __('legal_domain_filter_l
         <div class="bibliography-bard-field mt-4">
             {{ bibliography }}
         </div>
+        <div>
+            <a href="/<?= $site->handle() ?>/kommentierungen/<?= $slug ?>/pdf" class="ok-button">
+                <?= __('download_pdf') ?>
+            </a>
+        </div>
     </template>
 </commentaries>
