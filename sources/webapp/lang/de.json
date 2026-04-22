@@ -145,5 +145,7 @@
   "status_of_processing": "Stand der Bearbeitung:",
   "volume": "Band",
   "pdf_pending_title": "PDF wird erstellt",
-  "pdf_pending_message": "Das PDF wird gerade erstellt. Bitte versuchen Sie es in ein paar Minuten erneut."
+  "pdf_pending_message": "Das PDF wird gerade erstellt. Bitte versuchen Sie es in ein paar Minuten erneut.",
+  "full_table_of_contents": "Inhaltsverzeichnis",
+  "last_change": "Letzte Änderung:"
 }

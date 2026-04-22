@@ -79,14 +79,4 @@ array_unshift($legalDomains, ['id' => null, 'label' => __('legal_domain_filter_l
   title="{{ title }}"
   :commentaries='<?= json_encode($commentaries, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) ?>'
   :legal-domains='<?= json_encode($legalDomains, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) ?>'>
-    <template v-slot:bibliography>
-        <div class="bibliography-bard-field mt-4">
-            {{ bibliography }}
-        </div>
-        <div>
-            <a href="/<?= $site->handle() ?>/kommentierungen/<?= $slug ?>/pdf" class="ok-button">
-                <?= __('download_pdf') ?>
-            </a>
-        </div>
-    </template>
 </commentaries>

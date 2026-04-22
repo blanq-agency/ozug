@@ -1,82 +1,18 @@
 @import url('./fonts.css');
 @import 'tailwindcss/base';
 
-/* Page */
+/* Running Strings */
 
 .running-title { string-set: article-title content(); }
 .running-authors { string-set: author-names content(); }
-.running-date { string-set: version-date content(); }
 
 .running-title,
-.running-authors,
-.running-date {
+.running-authors {
     position: absolute;
     clip: rect(0, 0, 0, 0);
 }
 
-@page {
-    size: A4;
-    margin: 20mm;
-    @footnote {
-        border-top: 0.5pt solid black;
-        padding-top: 0.5rem;
-        padding-left: 1.75rem;
-    }
-}
-
-@page :left {
-    @top-left {
-        content: string(article-title);
-        font-size: 0.8rem;
-        vertical-align: bottom;
-        padding-bottom: 5mm;
-    }
-    @bottom-left {
-        content: counter(page);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-    @bottom-center {
-        content: string(author-names);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-    @bottom-right {
-        content: string(version-date);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-}
-
-@page :right {
-    @top-right {
-        content: string(article-title);
-        font-size: 0.8rem;
-        vertical-align: bottom;
-        padding-bottom: 5mm;
-    }
-    @bottom-left {
-        content: string(version-date);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-    @bottom-center {
-        content: string(author-names);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-    @bottom-right {
-        content: counter(page);
-        font-size: 0.8rem;
-        vertical-align: top;
-        padding-top: 5mm;
-    }
-}
+/* Page */
 
 @page :first {
     @top-left { content: none; }
@@ -89,11 +25,6 @@
     @bottom-left { content: none; }
     @bottom-center { content: none; }
     @bottom-right { content: none; }
-}
-
-@page toc-page {
-    @top-left { content: none; }
-    @top-right { content: none; }
 }
 
 /* Typography */
@@ -167,30 +98,12 @@ footnote {
     }
 }
 
-/* Title Pages */
-
-.volume-page {
-    page: clear-page;
-    break-after: always;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    > * + * {
-        margin-top: 1rem;
-    }
-    &-info {
-        font-size: 1.2rem;
-    }
-}
-
 /* Table of Contents */
 
 .entry-toc {
     page-break-before: always;
     margin-bottom: 1.5rem;
+    font-size: 0.9rem;
     > * + * {
         margin-top: 0.75rem;
     }
@@ -198,55 +111,14 @@ footnote {
         margin-left: 1rem;
     }
     a {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.5rem;
         text-decoration: none;
         &::after {
-            content: target-counter(attr(href), page);
+            content: leader('.') ' ' target-counter(attr(href), page);
         }
     }
-}
-
-.entries-toc {
-    page: toc-page;
-    break-before: right;
-    > * + * {
-        margin-top: 0.75rem;
-    }
-    li + li {
-        margin-top: 0.35rem;
-    }
-    ol ol {
-        margin-left: 1rem;
-    }
-    .toc-group {
-        font-weight: bold;
-        margin-top: 0.75rem;
-    }
-    a {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.5rem;
-        text-decoration: none;
-        font-weight: normal;
-        &::after {
-            content: target-counter(attr(href), page);
-        }
-    }
-}
-
-/* Section */
-
-.section {
-    break-before: always;
 }
 
 /* Metadata */
-
-.status-of-processing {
-    margin-bottom: 1.5rem;
-}
 
 .citation {
     margin-bottom: 1.5rem;

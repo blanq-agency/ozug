@@ -149,6 +149,13 @@ class CommentariesController extends Controller
                 ->with(array_merge(['locale' => $locale], $commentaryData))
                 ->render(); // Render to string.
         }
+        else if ($commentaryData['blueprint']['handle'] === 'outline') {
+            $view = (new View)
+                ->template('commentaries/outline')
+                ->layout('layout')
+                ->with(array_merge(['locale' => $locale], $commentaryData))
+                ->render(); // Render to string.
+        }
         else {
             abort(404);
         }
