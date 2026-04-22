@@ -197,6 +197,11 @@ class Converter
             $entryData = collect($entries)->map(function ($entry) use ($tocGenerator) {
                 $html = $this->renderEntryContent($entry);
                 $html = preg_replace('/<(h[1-6][^>]*)\bid="([^"]*)"/', '<$1id="' . $entry->id() . '-$2"', $html);
+                $html = preg_replace(
+                    '/<span class="paragraph-nr">([^<]+)<\/span>/',
+                    '<span class="paragraph-nr">$1</span><span class="paragraph-nr paragraph-nr--right">$1</span>',
+                    $html
+                );
                 $toc = $tocGenerator->getHtmlMenu($html);
 
                 return array_merge($entry->toAugmentedArray(), [

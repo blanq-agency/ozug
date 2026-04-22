@@ -31,6 +31,9 @@
         vertical-align: top;
         padding-top: 5mm;
     }
+    @right-top { content: ''; background: white; }
+    @right-middle { content: ''; background: white; }
+    @right-bottom { content: ''; background: white; }
 }
 
 @page :right {
@@ -51,6 +54,17 @@
         font-size: 0.8rem;
         vertical-align: top;
         padding-top: 5mm;
+    }
+    @left-top { content: ''; background: white; }
+    @left-middle { content: ''; background: white; }
+    @left-bottom { content: ''; background: white; }
+}
+
+.content {
+    .paragraph-nr--right {
+        left: auto;
+        right: -1.75rem;
+        text-align: left;
     }
 }
 
