@@ -60,6 +60,7 @@ class CalibratePdfEstimator extends Command
                 ->layout('print')
                 ->with([
                     'entries' => $entryData,
+                    'stylesheet' => 'print-legal-domain.css',
                     'text' => 'md',
                 ])
                 ->render();

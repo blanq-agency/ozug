@@ -81,6 +81,11 @@ class GenerateLegalDomainPdf implements ShouldQueue, ShouldBeUnique
 
         $totalVolumes = count($volumes);
         $generationDate = now()->format('d.m.Y');
+        $lastChangeDate = collect($entries)
+            ->map(fn ($e) => $e->date())
+            ->filter()
+            ->max()?->format('d.m.Y');
+        $bibliography = $entry->augmentedValue('bibliography');
         $slug = $entry->slug();
         $dir = "legal-domain/{$this->locale}/{$slug}";
 
@@ -104,6 +109,8 @@ class GenerateLegalDomainPdf implements ShouldQueue, ShouldBeUnique
                 $totalVolumes,
                 $generationDate,
                 $legalDomainTitle,
+                $lastChangeDate,
+                $bibliography,
             );
 
             $filename = $totalVolumes > 1

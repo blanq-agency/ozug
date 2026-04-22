@@ -1,55 +1,58 @@
 <div class="volume-page">
-    <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
-    <h1 class="header-title">Open Access Kommentar</h1>
-    {{ if legal_domain_title }}
-        <p class="volume-page-info">{{ legal_domain_title }}</p>
+    <h1 class="header-title">{{ legal_domain_title }}</h1>
+    {{ if bibliography }}
+        <div class="volume-page-bibliography">{{ bibliography }}</div>
     {{ /if }}
-    <p class="volume-page-info">{{ generation_date }}</p>
+    {{ if last_change_date }}
+        <p class="volume-page-info">{{ trans:last_change }} {{ last_change_date }}</p>
+    {{ /if }}
     {{ if total_volumes > 1 }}
         <p class="volume-page-info">{{ trans:volume }} {{ volume_number }} / {{ total_volumes }}</p>
     {{ /if }}
+    <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
 </div>
 
 <nav class="entries-toc">
-    <p class="header-label">{{ trans:table_of_contents }}</p>
+    <p class="header-label">{{ trans:full_table_of_contents }}</p>
     {{ toc_html }}
 </nav>
 
 {{ entries }}
 
-    <span class="running-title">{{ title }}</span>
-    <span class="running-authors">{{ assigned_authors | pluck('name') | join(' / ') }}</span>
-    <span class="running-date">{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</span>
-
     <header class="header" id="entry-{{ id }}">
+        <span class="running-title">{{ title }}</span>
+        <span class="running-authors">{{ assigned_authors | pluck('name') | join(' / ') }}</span>
         {{ if original_language && original_language !== site }}
             <div class="header-translation">
                 {{ trans key="ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited." original_language="{ trans :key="original_language" }" }}
             </div>
         {{ /if }}
-        <p class="header-label">{{ trans:commentary_on }}</p>
+        {{ unless hide_labels }}
+            <p class="header-label">{{ trans:commentary_on }}</p>
+        {{ /unless }}
         <h2 class="header-title">{{ title }}</h2>
         <p class="header-authors">
-            {{ trans:commentary_by }} {{ assigned_authors | pluck('name') | join(' / ') }}<br>
-            {{ trans:edited_by }} {{ assigned_editors | pluck('name') | join(' / ') }}
+            {{ unless hide_labels }}{{ trans:commentary_by }} {{ /unless }}{{ assigned_authors | pluck('name') | join(' / ') }}
         </p>
     </header>
 
-    <section class="status-of-processing">
-        <p>{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</p>
-    </section>
-
-    <section class="citation">
-        <p class="citation-label">
-            {{ trans:suggested_citation }}
-        </p>
-        <p class="citation-text">
-            {{ suggested_citation_long }}
-        </p>
-        <p class="citation-text">
-            {{ trans:short_citation }}: {{ suggested_citation_short }}
-        </p>
-    </section>
+    {{ if suggested_citation_long || suggested_citation_short }}
+        <section class="citation">
+            {{ if suggested_citation_long }}
+                <p class="citation-label">
+                    {{ trans:suggested_citation }}
+                </p>
+                <p class="citation-text">
+                    {{ suggested_citation_long }}
+                </p>
+            {{ /if }}
+            {{ if suggested_citation_short }}
+                <p class="citation-text">
+                    {{ trans:short_citation }}: {{ suggested_citation_short }}
+                </p>
+            {{ /if }}
+        </section>
+    {{ /if }}
 
     {{ if legal_text }}
         <section class="legal-text">

@@ -281,6 +281,14 @@ tabs:
               always_save: false
               localizable: true
           -
+            handle: hide_labels
+            field:
+              type: toggle
+              display: 'Hide labels'
+              instructions: 'Hide the "Kommentierung zu" and "Eine Kommentierung von" labels on this contribution''s PDF title page.'
+              localizable: false
+              always_save: false
+          -
             handle: assigned_authors
             field:
               display: 'Assigned Authors'
