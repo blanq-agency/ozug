@@ -27,7 +27,7 @@ class Converter
     use Localizable;
 
     // If the page layout changes run `php artisan converter:calibrate-pdf-estimator` to recalculate these numbers
-    const WORDS_PER_PAGE = 479;
+    const WORDS_PER_PAGE = 307;
     const MEDIA_PER_PAGE = 2.8;
 
     public function htmlToProsemirror($html)
@@ -132,6 +132,7 @@ class Converter
                     'toc' => $toc,
                     'qr_code' => $this->generateQrCodeDataUri($entryUrl),
                     'entry_url' => $entryUrl,
+                    'stylesheet' => 'print-commentary.css',
                     ...$params,
                 ])
                 ->render();
@@ -187,9 +188,9 @@ class Converter
             + 1;   // volume TOC
     }
 
-    public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null): string
+    public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null, ?string $lastChangeDate = null, $bibliography = null): string
     {
-        return $this->withLocale($locale, function () use ($entries, $tocPages, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle) {
+        return $this->withLocale($locale, function () use ($entries, $tocPages, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
             $tocGenerator = new TocGenerator;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
@@ -217,15 +218,18 @@ class Converter
                     'total_volumes' => $totalVolumes,
                     'generation_date' => $generationDate,
                     'legal_domain_title' => $legalDomainTitle,
+                    'last_change_date' => $lastChangeDate,
+                    'bibliography' => $bibliography,
+                    'stylesheet' => 'print-legal-domain.css',
                     'text' => 'md',
                 ])
                 ->render();
         });
     }
 
-    public function entriesToHtmlPdf(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null): string
+    public function entriesToHtmlPdf(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null, ?string $lastChangeDate = null, $bibliography = null): string
     {
-        $html = $this->entriesToHtml($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle);
+        $html = $this->entriesToHtml($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography);
 
         return $this->renderWeasyPdf($html, 600);
     }
