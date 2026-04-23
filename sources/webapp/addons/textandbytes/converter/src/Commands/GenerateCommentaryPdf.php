@@ -56,10 +56,7 @@ class GenerateCommentaryPdf extends Command
                 $entrySlug = $entry->slug();
                 $this->info("Processing: {$entry->get('title')} ({$entrySlug})");
 
-                $disk->delete([
-                    "commentary/{$locale}/{$entrySlug}-md.pdf",
-                    "commentary/{$locale}/{$entrySlug}-lg.pdf",
-                ]);
+                $disk->delete("commentary/{$locale}/{$entrySlug}.pdf");
 
                 if ($this->option('sync')) {
                     GenerateCommentaryPdfJob::dispatchSync($entry->id(), $locale);

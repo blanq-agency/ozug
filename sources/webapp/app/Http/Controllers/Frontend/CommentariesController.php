@@ -12,7 +12,6 @@ use Statamic\View\View;
 use Jfcherng\Diff\Differ;
 use Statamic\Facades\User;
 use Statamic\Facades\Entry;
-use Illuminate\Http\Request;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -222,7 +221,7 @@ class CommentariesController extends Controller
         return $this->show($locale, $commentarySlug, $versionTimestamp, str_replace($lineDelimiter, '<br />', $versionComparisonResult));
     }
 
-    public function downloadPdf(Request $request, $locale, $commentarySlug)
+    public function downloadPdf($locale, $commentarySlug)
     {
         $entry = Entry::query()
             ->where('collection', 'commentaries')
@@ -238,9 +237,8 @@ class CommentariesController extends Controller
             abort(404);
         }
 
-        $text = $request->text ?? 'md';
         $disk = Storage::disk('pdf');
-        $path = "commentary/{$locale}/{$commentarySlug}-{$text}.pdf";
+        $path = "commentary/{$locale}/{$commentarySlug}.pdf";
 
         if ($disk->exists($path)) {
             return response()->file($disk->path($path), [
