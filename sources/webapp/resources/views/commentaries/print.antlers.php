@@ -49,9 +49,11 @@
     </section>
 {{ /if }}
 
-<section class="legal-text">
-    {{ legal_text }}
-</section>
+{{ if legal_text }}
+    <section class="legal-text">
+        {{ legal_text }}
+    </section>
+{{ /if }}
 
 <section class="entry-toc">
     <p class="header-label">
