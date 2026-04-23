@@ -34,10 +34,7 @@ class GeneratePdfs
     {
         $disk = Storage::disk('pdf');
 
-        $disk->delete([
-            "commentary/{$locale}/{$slug}-md.pdf",
-            "commentary/{$locale}/{$slug}-lg.pdf",
-        ]);
+        $disk->delete("commentary/{$locale}/{$slug}.pdf");
 
         if ($event instanceof EntrySaved) {
             GenerateCommentaryPdf::dispatch($entry->id(), $locale);

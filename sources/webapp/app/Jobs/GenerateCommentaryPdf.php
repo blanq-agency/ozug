@@ -42,11 +42,8 @@ class GenerateCommentaryPdf implements ShouldQueue, ShouldBeUnique
         $disk = Storage::disk('pdf');
         $slug = $entry->slug();
 
-        foreach (['md', 'lg'] as $text) {
-            $file = $converter->entryToHtmlPdf($entry, ['text' => $text]);
-            $path = "commentary/{$this->locale}/{$slug}-{$text}.pdf";
-            $disk->put($path, file_get_contents($file));
-            @unlink($file);
-        }
+        $file = $converter->entryToHtmlPdf($entry, ['text' => 'md']);
+        $disk->put("commentary/{$this->locale}/{$slug}.pdf", file_get_contents($file));
+        @unlink($file);
     }
 }
