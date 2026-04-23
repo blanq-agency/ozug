@@ -13,6 +13,8 @@
 }
 
 @page :left {
+    margin-left: 16mm;
+    margin-right: 24mm;
     @top-left {
         content: string(article-title);
         font-size: 0.8rem;
@@ -37,6 +39,8 @@
 }
 
 @page :right {
+    margin-left: 24mm;
+    margin-right: 16mm;
     @top-right {
         content: string(article-title);
         font-size: 0.8rem;
