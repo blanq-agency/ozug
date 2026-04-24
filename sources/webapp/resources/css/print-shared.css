@@ -205,6 +205,8 @@ footnote {
         border: 1px solid black;
         padding: 0.3rem 0.5rem;
         text-align: left;
+        hyphens: auto;
+        overflow-wrap: break-word;
     }
     th {
         font-weight: bold;
