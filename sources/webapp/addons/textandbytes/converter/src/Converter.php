@@ -133,6 +133,7 @@ class Converter
                     'qr_code' => $this->generateQrCodeDataUri($entryUrl),
                     'entry_url' => $entryUrl,
                     'stylesheet' => 'print-commentary.css',
+                    'locale' => $entry->locale(),
                     ...$params,
                 ])
                 ->render();
@@ -190,7 +191,7 @@ class Converter
 
     public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null, ?string $lastChangeDate = null, $bibliography = null): string
     {
-        return $this->withLocale($locale, function () use ($entries, $tocPages, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
+        return $this->withLocale($locale, function () use ($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
             $tocGenerator = new TocGenerator;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
@@ -226,6 +227,7 @@ class Converter
                     'last_change_date' => $lastChangeDate,
                     'bibliography' => $bibliography,
                     'stylesheet' => 'print-legal-domain.css',
+                    'locale' => $locale,
                     'text' => 'md',
                 ])
                 ->render();

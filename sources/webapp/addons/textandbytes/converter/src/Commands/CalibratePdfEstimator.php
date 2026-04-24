@@ -61,6 +61,7 @@ class CalibratePdfEstimator extends Command
                 ->with([
                     'entries' => $entryData,
                     'stylesheet' => 'print-legal-domain.css',
+                    'locale' => $locale,
                     'text' => 'md',
                 ])
                 ->render();
