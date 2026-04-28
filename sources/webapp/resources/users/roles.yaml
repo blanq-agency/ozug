@@ -50,12 +50,26 @@ admin:
     - 'edit users'
     - 'create users'
     - 'delete users'
+    - 'assign roles'
     - 'access cache utility'
-contributor:
-  title: Contributor
+autorin:
+  title: AutorIn
   permissions:
     - 'access cp'
-    - 'access en site'
     - 'access de site'
+    - 'access en site'
+    - 'view legal_domains entries'
     - 'view commentaries entries'
     - 'edit commentaries entries'
+herausgeberin:
+  title: HerausgeberIn
+  permissions:
+    - 'access cp'
+    - 'access de site'
+    - 'access en site'
+    - 'view legal_domains entries'
+    - 'view commentaries entries'
+    - 'edit commentaries entries'
+    - 'edit other authors commentaries entries'
+contributor:
+  title: Contributor

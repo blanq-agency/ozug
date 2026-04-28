@@ -32,7 +32,7 @@ tabs:
               type: bard
               display: Bibliography
               instructions: 'Hinweis: Erscheint auf der Übersichtsseite zu dem Kommentar.'
-              localizable: false
+              localizable: true
               buttons:
                 - h2
                 - h3
