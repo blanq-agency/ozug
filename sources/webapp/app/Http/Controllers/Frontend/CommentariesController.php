@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Jobs\GenerateCommentaryPdf;
+use App\Jobs\GenerateLegalDomainPdf;
 use Carbon\Carbon;
+use ZipStream\ZipStream;
 use TOC\MarkupFixer;
 use TOC\TocGenerator;
 use Statamic\View\View;
@@ -11,8 +14,9 @@ use Statamic\Facades\User;
 use Statamic\Facades\Entry;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Statamic\Modifiers\CoreModifiers;
 use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
@@ -144,6 +148,13 @@ class CommentariesController extends Controller
                 ->with(array_merge(['locale' => $locale], $commentaryData))
                 ->render(); // Render to string.
         }
+        else if ($commentaryData['blueprint']['handle'] === 'outline') {
+            $view = (new View)
+                ->template('commentaries/outline')
+                ->layout('layout')
+                ->with(array_merge(['locale' => $locale], $commentaryData))
+                ->render(); // Render to string.
+        }
         else {
             abort(404);
         }
@@ -208,6 +219,106 @@ class CommentariesController extends Controller
 
         // redirect to the current commentary detail view and show the comparison result
         return $this->show($locale, $commentarySlug, $versionTimestamp, str_replace($lineDelimiter, '<br />', $versionComparisonResult));
+    }
+
+    public function downloadPdf($locale, $commentarySlug)
+    {
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $commentarySlug)
+            ->first();
+
+        if (!$entry) {
+            abort(404);
+        }
+
+        if ($entry['status'] !== 'published' && !User::current()) {
+            abort(404);
+        }
+
+        $disk = Storage::disk('pdf');
+        $path = "commentary/{$locale}/{$commentarySlug}.pdf";
+
+        if ($disk->exists($path)) {
+            return response()->file($disk->path($path), [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => "inline; filename=\"{$commentarySlug}.pdf\"",
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma' => 'no-cache',
+            ]);
+        }
+
+        GenerateCommentaryPdf::dispatch($entry->id(), $locale);
+
+        return (new View)
+            ->template('commentaries/print-pending')
+            ->layout('layout')
+            ->with(['title' => __('pdf_pending_title')])
+            ->render();
+    }
+
+    public function downloadLegalDomainPdf($locale, $legalDomainSlug)
+    {
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $legalDomainSlug)
+            ->first();
+
+        if (!$entry || $entry->blueprint()->handle() !== 'legal_domain') {
+            abort(404);
+        }
+
+        $disk = Storage::disk('pdf');
+        $dir = "legal-domain/{$locale}/{$legalDomainSlug}";
+        $manifestPath = "{$dir}/manifest.json";
+
+        if (!$disk->exists($manifestPath)) {
+            GenerateLegalDomainPdf::dispatch($entry->id(), $locale);
+
+            return (new View)
+                ->template('commentaries/print-pending')
+                ->layout('layout')
+                ->with(['title' => __('pdf_pending_title')])
+                ->render();
+        }
+
+        $manifest = json_decode($disk->get($manifestPath), true);
+        $files = $manifest['files'];
+
+        if (count($files) === 1) {
+            $filePath = $disk->path("{$dir}/{$files[0]}");
+
+            if (!file_exists($filePath)) {
+                abort(404);
+            }
+
+            return response()->file($filePath, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => "inline; filename=\"{$files[0]}\"",
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma' => 'no-cache',
+            ]);
+        }
+
+        return response()->stream(function () use ($disk, $dir, $files, $legalDomainSlug) {
+            $zip = new ZipStream(
+                outputName: "{$legalDomainSlug}.zip",
+                sendHttpHeaders: false,
+            );
+
+            foreach ($files as $filename) {
+                $zip->addFileFromPath($filename, $disk->path("{$dir}/{$filename}"));
+            }
+
+            $zip->finish();
+        }, 200, [
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => "attachment; filename=\"{$legalDomainSlug}.zip\"",
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ]);
     }
 
     private function _showFootnotesInline($content) {

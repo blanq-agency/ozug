@@ -128,6 +128,8 @@
 
   "print_commentary": "Kommentierung drucken",
   "print": "Drucken",
+  "printing": "Drucken…",
+  "pdf": "PDF",
 
   "versions": "Versionen",
 
@@ -137,5 +139,13 @@
   "current_version": "Aktuelle Version",
 
   "dashboard_welcome_widget_title_start": "Willkommen beim",
-  "dashboard_welcome_widget_text": "Der Publikationsplattform für Open-Access-Kommentare in Deutschland."
+  "dashboard_welcome_widget_text": "Der Publikationsplattform für Open-Access-Kommentare in Deutschland.",
+
+  "media_not_available_in_pdf": "Medieninhalt – im PDF nicht verfügbar",
+  "status_of_processing": "Stand der Bearbeitung:",
+  "volume": "Band",
+  "pdf_pending_title": "PDF wird erstellt",
+  "pdf_pending_message": "Das PDF wird gerade erstellt. Bitte versuchen Sie es in ein paar Minuten erneut.",
+  "full_table_of_contents": "Inhaltsverzeichnis",
+  "last_change": "Letzte Änderung:"
 }

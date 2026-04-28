@@ -35,6 +35,7 @@
       pdf_commentary_path: '<?php echo Storage::url('commentaries/pdf/') ?>',
       pdf_commentary_filename: '{{ pdf_commentary:basename }}',
       additional_documents: {{ additional_documents | to_json | sanitize:true }},
+      hide_labels: {{ if hide_labels }}true{{ else }}false{{ /if }},
     }"
     :versions="[
       {{ revisions:commentary :id='id' :locale='locale' }}
