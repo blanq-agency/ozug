@@ -50,7 +50,7 @@
           {{ $t("ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited.", { original_language: $t(commentary.original_language) }) }}
         </div>
 
-        <div class="font-sans text-xs tracking-widest uppercase">
+        <div v-if="!commentary.hide_labels" class="font-sans text-xs tracking-widest uppercase">
           {{ $t('commentary_on') }}
         </div>
 
@@ -60,7 +60,7 @@
 
         <div class="text-center lg:text-xl">
           <p v-if="commentary.assigned_authors && commentary.assigned_authors.length > 0 && commentary.assigned_authors[0] !== ''">
-            {{ $t('commentary_by') }}
+            <template v-if="!commentary.hide_labels">{{ $t('commentary_by') }} </template>
             <i>
               <template v-for="assigned_author, index in commentary.assigned_authors">
                 <span v-if="index !== 0"> / </span>

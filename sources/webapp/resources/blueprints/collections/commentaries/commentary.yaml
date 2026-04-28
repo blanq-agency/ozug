@@ -285,7 +285,7 @@ tabs:
             field:
               type: toggle
               display: 'Hide labels'
-              instructions: 'Hide the "Kommentierung zu" and "Eine Kommentierung von" labels on this contribution''s PDF title page.'
+              instructions: 'Hide the "Kommentierung zu" and "Eine Kommentierung von" labels on this contribution''s title page (both web and PDF).'
               localizable: false
               always_save: false
           -
