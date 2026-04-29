@@ -147,3 +147,24 @@ if ($show_latest_commentaries) {
     ></commentaries>
   </p>
 {{ /if }}
+
+{{ collection:supporters as="supporters" sort="title" }}
+  {{ if supporters }}
+    <div class="mt-16 flex justify-between text-sm uppercase">
+      <span>{{ trans:supporters_heading }}:</span>
+    </div>
+    <div class="mt-2 overflow-hidden grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-px">
+      {{ supporters }}
+        {{ if link }}
+          <a href="{{ link }}" target="_blank" rel="nofollow noopener" class="bg-white p-8 flex items-center justify-center aspect-video hover:bg-ok-orange transition h-full">
+            <img src="{{ logo }}" alt="{{ title }}" loading="lazy" class="max-h-full max-w-full object-contain">
+          </a>
+        {{ else }}
+          <div class="bg-white p-8 flex items-center justify-center aspect-video h-full">
+            <img src="{{ logo }}" alt="{{ title }}" loading="lazy" class="max-h-full max-w-full object-contain">
+          </div>
+        {{ /if }}
+      {{ /supporters }}
+    </div>
+  {{ /if }}
+{{ /collection:supporters }}
