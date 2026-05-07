@@ -49,7 +49,7 @@
 
             <div class="text-sm text-center lg:text-base attribution">
               <p v-if="commentary.assigned_authors.length > 0 && commentary.assigned_authors[0] !== ''">
-                {{ $t('commentary_by') }} <i>{{ commentary.assigned_authors.join(' ' + $t('and') + ' ') }}</i>
+                <template v-if="!commentary.hide_labels">{{ $t('commentary_by') }} </template><i>{{ commentary.assigned_authors.join(' ' + $t('and') + ' ') }}</i>
               </p>
               <p v-if="commentary.assigned_editors.length > 0 && commentary.assigned_editors[0] !== ''">
                 {{ $t('edited_by') }} <i>{{ commentary.assigned_editors.join(' ' + $t('and') + ' ') }}</i>

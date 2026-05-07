@@ -22,6 +22,7 @@ $commentaries = Entry::query()
               'legal_domain' => null,
               'assigned_authors' => [],
               'assigned_editors' => [],
+              'hide_labels' => false,
           ];
       }
 
@@ -48,6 +49,7 @@ $commentaries = Entry::query()
               'assigned_editors' => $commentary['assigned_editors']->map(function ($editor, $key) {
                   return $editor['name'];
               })->toArray(),
+              'hide_labels' => (bool) $commentary->value('hide_labels'),
           ];
       }
   })

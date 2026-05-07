@@ -34,6 +34,7 @@ if ($show_latest_commentaries) {
           'assigned_editors' => $commentary['assigned_editors']->map(function ($editor, $key) {
             return $editor['name'];
           })->toArray(),
+          'hide_labels' => (bool) $commentary->value('hide_labels'),
         ];
       })
       ->toArray();
