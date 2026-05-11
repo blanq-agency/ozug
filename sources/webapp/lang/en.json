@@ -146,5 +146,7 @@
   "pdf_pending_title": "PDF being generated",
   "pdf_pending_message": "The PDF is currently being generated. Please try again in a few minutes.",
   "full_table_of_contents": "Table of Contents",
-  "last_change": "Last change:"
+  "last_change": "Last change:",
+
+  "supporters_heading": "Who supports the OAK"
 }
