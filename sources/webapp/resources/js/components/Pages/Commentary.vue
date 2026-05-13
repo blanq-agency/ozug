@@ -60,7 +60,7 @@
 
         <div class="text-center lg:text-xl">
           <p v-if="commentary.assigned_authors && commentary.assigned_authors.length > 0 && commentary.assigned_authors[0] !== ''">
-            <template v-if="!commentary.hide_labels">{{ $t('commentary_by') }} </template>
+            <template v-if="!commentary.hide_labels">{{ $t('commentary_by') + ' ' }}</template>
             <i>
               <template v-for="assigned_author, index in commentary.assigned_authors">
                 <span v-if="index !== 0"> / </span>
