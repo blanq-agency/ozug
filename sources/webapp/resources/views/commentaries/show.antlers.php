@@ -6,7 +6,7 @@
     :commentary="{
       id: '{{ id }}',
       slug: '{{ slug }}',
-      title: '{{ title }}',
+      title: '{{ title | add_slashes | sanitize:true }}',
       doi: '{{ doi }}',
       date: '{{ date iso_format="DD.MM.YYYY" }}',
       assigned_editors: [
