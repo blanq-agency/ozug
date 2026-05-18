@@ -32,7 +32,7 @@ class GenerateCommentaryPdf implements ShouldQueue, ShouldBeUnique
     {
         $entry = Entry::find($this->entryId);
 
-        if (!$entry || !$entry->published()) {
+        if (!$entry) {
             return;
         }
 
