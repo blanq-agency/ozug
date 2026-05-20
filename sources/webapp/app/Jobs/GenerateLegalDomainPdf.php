@@ -82,7 +82,7 @@ class GenerateLegalDomainPdf implements ShouldQueue, ShouldBeUnique
         $totalVolumes = count($volumes);
         $generationDate = now()->format('d.m.Y');
         $lastChangeDate = collect($entries)
-            ->map(fn ($e) => $e->date())
+            ->map(fn ($e) => $e->lastModified())
             ->filter()
             ->max()?->format('d.m.Y');
         $bibliography = $entry->augmentedValue('bibliography');

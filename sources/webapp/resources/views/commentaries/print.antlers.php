@@ -22,7 +22,7 @@
 </header>
 
 <section class="status-of-processing">
-    <p>{{ trans:status_of_processing }} {{ date format="d.m.Y" }}</p>
+    <p>{{ trans:status_of_processing }} {{ last_modified format="d.m.Y" }}</p>
     {{ licenses }}
         <p>{{ trans:license }}: <a href="{{ extern_url }}">{{ title_long }}</a></p>
     {{ /licenses }}

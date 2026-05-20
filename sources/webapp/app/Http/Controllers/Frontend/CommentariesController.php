@@ -230,6 +230,10 @@ class CommentariesController extends Controller
         $disk = Storage::disk('pdf');
         $path = "commentary/{$locale}/{$commentarySlug}.pdf";
 
+        if ($disk->exists($path) && $disk->lastModified($path) < $entry->lastModified()->getTimestamp()) {
+            $disk->delete($path);
+        }
+
         if ($disk->exists($path)) {
             return response()->file($disk->path($path), [
                 'Content-Type' => 'application/pdf',
