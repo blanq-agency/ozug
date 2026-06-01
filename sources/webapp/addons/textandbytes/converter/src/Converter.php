@@ -2,9 +2,6 @@
 
 namespace Textandbytes\Converter;
 
-use chillerlan\QRCode\Output\QRMarkupSVG;
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
 use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
 use Illuminate\Support\Traits\Localizable;
@@ -130,7 +127,6 @@ class Converter
                 ->with([
                     'content' => $html,
                     'toc' => $toc,
-                    'qr_code' => $this->generateQrCodeDataUri($entryUrl),
                     'entry_url' => $entryUrl,
                     'stylesheet' => 'print-commentary.css',
                     'locale' => $entry->locale(),
@@ -244,13 +240,11 @@ class Converter
     public function renderEntryContent($entry): string
     {
         $entryUrl = $entry->absoluteUrl();
-        $qrCode = $this->generateQrCodeDataUri($entryUrl);
 
         $html = (new View)
             ->template('commentaries.print-content')
             ->cascadeContent($entry)
             ->with([
-                'qr_code' => $qrCode,
                 'entry_url' => $entryUrl,
             ])
             ->render();
@@ -269,17 +263,6 @@ class Converter
         $pdf->generateFromHtml($html, $pdfFile);
 
         return $pdfFile;
-    }
-
-    protected function generateQrCodeDataUri(string $url): string
-    {
-        $options = new QROptions([
-            'outputInterface' => QRMarkupSVG::class,
-            'svgUseCssProperties' => false,
-            'quietzoneSize' => 2,
-        ]);
-
-        return (new QRCode($options))->render($url);
     }
 
     protected function renderTocTree(array $items): string

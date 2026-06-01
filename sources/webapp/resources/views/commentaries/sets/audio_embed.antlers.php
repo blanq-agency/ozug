@@ -1,6 +1,6 @@
 {{ partial src="commentaries/sets/partials/media_chrome_dependencies" }}
 
-<figure class="flex flex-col">
+<figure class="flex flex-col" id="{{ id }}">
   <media-controller audio>
     {{ audio }}
       <audio slot="media" src="{{ url }}"></audio>

@@ -70,8 +70,9 @@
                     {{ else }}
                         <figure>
                             <div class="qr-media">
-                                <img src="{{ qr_code }}" class="qr-code-img" />
-                                <a href="{{ entry_url }}">{{ entry_url }}</a>
+                                {{ media_url = entry_url + '#' + id }}
+                                <img src="{{ qr_code :url="media_url" }}" class="qr-code-img" />
+                                <a href="{{ media_url }}">{{ media_url }}</a>
                             </div>
                             {{ if title || description }}
                                 <figcaption>
@@ -91,8 +92,9 @@
 
         <figure data-media>
             <div class="qr-media">
-                <img src="{{ qr_code }}" class="qr-code-img" />
-                <a href="{{ entry_url }}">{{ entry_url }}</a>
+                {{ media_url = entry_url + '#' + id }}
+                <img src="{{ qr_code :url="media_url" }}" class="qr-code-img" />
+                <a href="{{ media_url }}">{{ media_url }}</a>
             </div>
             {{ if title || description }}
                 <figcaption>
