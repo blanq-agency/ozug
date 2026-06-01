@@ -153,6 +153,7 @@ footnote {
         text-align: justify;
         orphans: 2;
         widows: 2;
+        overflow-wrap: break-word;
     }
     .paragraph-nr {
         width: 1rem;
@@ -222,6 +223,7 @@ footnote {
     figcaption {
         margin-top: 0.4rem;
         font-size: 0.85rem;
+        overflow-wrap: break-word;
     }
     .media-placeholder {
         background-color: #f0f0f0;
@@ -232,6 +234,7 @@ footnote {
     }
     .media-grid {
         display: table;
+        table-layout: fixed;
         width: 100%;
         border-collapse: collapse;
         margin-top: 1rem;
