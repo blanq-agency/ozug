@@ -1,6 +1,6 @@
 {{ partial src="commentaries/sets/partials/media_chrome_dependencies" }}
 
-<figure class="mx-auto {{ width_limit ? 'max-w-[476px]' : null }}">
+<figure class="mx-auto {{ width_limit ? 'max-w-[476px]' : null }}" id="{{ id }}">
   <media-controller class="w-full">
     {{ video }}
       <video

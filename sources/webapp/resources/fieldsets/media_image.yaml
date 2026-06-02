@@ -23,3 +23,11 @@ fields:
       display: Description
       localizable: false
       replicator_preview: false
+  -
+    handle: link
+    field:
+      input_type: url
+      type: text
+      display: Link
+      localizable: false
+      replicator_preview: false

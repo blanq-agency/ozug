@@ -1,5 +1,5 @@
 {{ if title || description }}
-  <figcaption class="mt-2 lg:mt-4">
+  <figcaption class="mt-2 lg:mt-4 break-words">
     {{ if title }}
       <span class="text-sm lg:text-base font-medium">{{ title | sanitize }}</span>
     {{ /if }}

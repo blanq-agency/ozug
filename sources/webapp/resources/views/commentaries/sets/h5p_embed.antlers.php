@@ -1,7 +1,7 @@
 {{ partial src="commentaries/sets/partials/h5p_dependencies" }}
 {{ partial src="commentaries/sets/partials/iframe-cookie_dependencies" }}
 
-<figure class="mx-auto w-full {{ width_limit ? 'max-w-[476px]' : null }}">
+<figure class="mx-auto w-full {{ width_limit ? 'max-w-[476px]' : null }}" id="{{ id }}">
     <div class="relative w-full aspect-video" data-oak-marketing-cookies-consent>
         <iframe
           data-src="{{ source }}"

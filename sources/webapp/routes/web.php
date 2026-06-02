@@ -38,6 +38,9 @@ Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController:
 // commentary PDF download
 Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
     ->middleware(Localization::class);
+// commentary print HTML preview (used to debug the PDF source markup)
+Route::get('{locale}/kommentierungen/{commentarySlug}/print-preview', [CommentariesController::class, 'downloadPreview'])
+    ->middleware(Localization::class);
 // commentary revision comparison (previously published version – revision timestamp selected)
 Route::get('{locale}/commentaries/{commentaryId}/revisions/{revisionTimestamp1}/compare/{revisionTimestamp2}/versions/{versionTimestamp}', [CommentariesController::class, 'compareRevisions'])
     ->middleware(Localization::class);

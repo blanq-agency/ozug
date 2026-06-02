@@ -10,6 +10,10 @@ class ServiceProvider extends AddonServiceProvider
         Fieldtypes\Converter::class,
     ];
 
+    protected $tags = [
+        Tags\QrCode::class,
+    ];
+
     protected $commands = [
         Commands\ImportDocuments::class,
         Commands\GenerateCommentaryPdf::class,

@@ -22,6 +22,7 @@ use Jfcherng\Diff\Factory\RendererFactory;
 use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
 use Statamic\Facades\Term;
+use Textandbytes\Converter\Converter;
 
 class CommentariesController extends Controller
 {
@@ -250,6 +251,27 @@ class CommentariesController extends Controller
             ->layout('layout')
             ->with(['title' => __('pdf_pending_title')])
             ->render();
+    }
+
+    public function downloadPreview($locale, $commentarySlug)
+    {
+        abort_unless(app()->environment('local'), 404);
+
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $commentarySlug)
+            ->first();
+
+        if (!$entry) {
+            abort(404);
+        }
+
+        if ($entry['status'] !== 'published' && !User::current()) {
+            abort(404);
+        }
+
+        return (new Converter)->entryToHtml($entry, ['text' => 'md']);
     }
 
     public function downloadLegalDomainPdf($locale, $legalDomainSlug)
