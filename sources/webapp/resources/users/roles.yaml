@@ -64,6 +64,7 @@ admin:
     - 'delete users'
     - 'assign roles'
     - 'access cache utility'
+    - 'manage translations'
 autorin:
   title: AutorIn
   permissions:
