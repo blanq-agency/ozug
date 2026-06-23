@@ -88,6 +88,13 @@
             {{ /media_grid }}
         </div>
 
+    {{ elseif type == "accordion" }}
+
+        <div data-words>
+            {{ if title }}<strong>{{ title | sanitize }}</strong>{{ /if }}
+            {{ content }}
+        </div>
+
     {{ else }}
 
         <figure data-media>
