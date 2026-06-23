@@ -83,7 +83,7 @@
             {{ 'creative_commons_license' | trans }}
           </h2>
           <p>
-            {{ config:app:name }}, {{ 'commentary_on' | trans }} {{ page:title }}
+            {{ config:app:name }}, {{ 'license_commentary_on' | trans }} {{ page:title }}
             <span>
               {{ 'creative_commons_text' | trans }}
               <a href="{{ extern_url }}" class="underline">{{ title_long }} {{ 'license' | trans | ucfirst }}</a>.
