@@ -86,3 +86,9 @@ herausgeberin:
     - 'edit other authors commentaries entries'
 contributor:
   title: Contributor
+  permissions:
+    - 'access cp'
+    - 'access de site'
+    - 'access en site'
+    - 'view legal_domains entries'
+    - 'view commentaries entries'

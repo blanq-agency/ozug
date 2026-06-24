@@ -33,10 +33,7 @@ class EntryPolicy
         $user = User::fromUser($user);
 
         if ($entry->collectionHandle() == 'commentaries') {
-            $assigned_authors = $entry->assigned_authors->pluck('id')->toArray();
-            $assigned_editors = $entry->assigned_editors->pluck('id')->toArray();
-
-            return $user->toArray()['is_admin'] || (in_array($user->id, $assigned_editors) || in_array($user->id, $assigned_authors));
+            return $this->assignedToCommentary($user, $entry);
         }
         else {
             if ($this->hasAnotherAuthor($user, $entry)) {
@@ -92,11 +89,16 @@ class EntryPolicy
     {
         $user = User::fromUser($user);
 
-        if ($this->hasAnotherAuthor($user, $entry)) {
-            return $user->hasPermission("publish other authors {$entry->collectionHandle()} entries");
+        if ($entry->collectionHandle() == 'commentaries') {
+            return $this->assignedToCommentary($user, $entry, ['assigned_editors']);
         }
+        else {
+            if ($this->hasAnotherAuthor($user, $entry)) {
+                return $user->hasPermission("publish other authors {$entry->collectionHandle()} entries");
+            }
 
-        return $user->hasPermission("publish {$entry->collectionHandle()} entries");
+            return $user->hasPermission("publish {$entry->collectionHandle()} entries");
+        }
     }
 
     protected function hasAnotherAuthor($user, $entry)
@@ -106,5 +108,17 @@ class EntryPolicy
         }
 
         return ! $entry->authors()->contains($user->id());
+    }
+
+    protected function assignedToCommentary($user, $entry, array $fields = ['assigned_authors', 'assigned_editors'])
+    {
+        if ($entry->blueprint()->hasField('assigned_authors') === false) {
+            return false;
+        }
+
+        return collect($fields)
+            ->flatMap(fn ($field) => collect($entry->value($field)))
+            ->filter()
+            ->contains($user->id());
     }
 }
