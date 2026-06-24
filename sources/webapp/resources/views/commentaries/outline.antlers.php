@@ -1,15 +1,35 @@
 <?php
 
+use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 
-// get the list of commentaries that have valid content
-$commentaries = Entry::query()
+$directChildren = Entry::query()
   ->where('collection', 'commentaries')
   ->where('locale', $site->handle())
   ->where('status', 'published')
   ->where('parent', $id)
   ->orderBy('order', 'asc')
-  ->get()
+  ->get();
+
+$directChildIds = $directChildren->map(fn ($child) => $child->id())->all();
+
+$page = Collection::findByHandle('commentaries')
+  ->structure()
+  ->in($site->handle())
+  ->find($id);
+
+$deepCommentaries = $page
+  ? $page->flattenedPages()
+    ->filter(fn ($p) => $p->entry()->blueprint()->handle() === 'commentary')
+    ->filter(fn ($p) => $p->entry()->published())
+    ->map(fn ($p) => $p->entry())
+    ->reject(fn ($entry) => in_array($entry->id(), $directChildIds))
+    ->values()
+  : collect();
+
+// get the list of commentaries that have valid content
+$commentaries = $directChildren
+  ->concat($deepCommentaries)
   ->map(function ($commentary, $key) {
       $blueprint = $commentary->blueprint()->handle();
 
