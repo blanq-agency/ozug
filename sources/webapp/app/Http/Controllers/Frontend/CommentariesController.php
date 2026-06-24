@@ -14,6 +14,7 @@ use Statamic\Facades\User;
 use Statamic\Facades\Entry;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
+use App\Services\SharedUniqueSlugifier;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -107,8 +108,9 @@ class CommentariesController extends Controller
             if (count($content) > 0) {
                 $allTextContent = '';
 
-                // Add anchor attributes to the heading elements.
-                $markupFixer = new MarkupFixer();
+                // Add anchor attributes to the heading elements. Share a single
+                // slugifier across all blocks so duplicate headings get unique ids.
+                $markupFixer = new MarkupFixer(null, new SharedUniqueSlugifier());
                 foreach ($content as &$value) {
                     if ($value['type'] === 'text') {
                         $value['text'] = $markupFixer->fix($value['text']);
