@@ -241,17 +241,24 @@ tabs:
                       icon: expand-vertical
                       fields:
                         -
-                          handle: title
+                          handle: panels
                           field:
-                            type: text
-                            display: Title
-                            localizable: true
-                        -
-                          handle: content
-                          field:
-                            type: bard
-                            display: Content
-                            localizable: true
+                            type: grid
+                            display: Panels
+                            mode: stacked
+                            fields:
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                                  localizable: true
+                              -
+                                handle: content
+                                field:
+                                  type: bard
+                                  display: Content
+                                  localizable: true
           -
             handle: converter
             field:

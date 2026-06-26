@@ -90,10 +90,12 @@
 
     {{ elseif type == "accordion" }}
 
+        {{ panels }}
         <div data-words>
             {{ if title }}<strong>{{ title | sanitize }}</strong>{{ /if }}
             {{ content }}
         </div>
+        {{ /panels }}
 
     {{ else }}
 

@@ -1,6 +1,11 @@
-<details class="commentary-accordion">
-  <summary class="commentary-accordion__summary">{{ title | sanitize }}</summary>
-  <div class="commentary-accordion__content">
-    {{ content }}
-  </div>
-</details>
+{{ _id = id }}
+<div class="accordion">
+  {{ panels }}
+    <details class="accordion__item" name="accordion-{{ _id }}">
+      <summary>{{ title | sanitize }}</summary>
+      <div class="accordion__content">
+        {{ content }}
+      </div>
+    </details>
+  {{ /panels }}
+</div>
