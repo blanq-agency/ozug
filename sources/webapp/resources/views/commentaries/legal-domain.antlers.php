@@ -3,33 +3,18 @@
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 
-$directChildren = Entry::query()
-  ->where('collection', 'commentaries')
-  ->where('locale', $site->handle())
-  ->where('status', 'published')
-  ->where('parent', $id)
-  ->orderBy('order', 'asc')
-  ->get();
-
-$directChildIds = $directChildren->map(fn ($child) => $child->id())->all();
-
 $page = Collection::findByHandle('commentaries')
   ->structure()
   ->in($site->handle())
   ->find($id);
 
-$deepCommentaries = $page
-  ? $page->flattenedPages()
-    ->filter(fn ($p) => $p->entry()->blueprint()->handle() === 'commentary')
-    ->filter(fn ($p) => $p->entry()->published())
-    ->map(fn ($p) => $p->entry())
-    ->reject(fn ($entry) => in_array($entry->id(), $directChildIds))
-    ->values()
-  : collect();
+$childDepth = $page ? $page->depth() + 1 : null;
 
 // get the list of commentaries that have valid content
-$commentaries = $directChildren
-  ->concat($deepCommentaries)
+$commentaries = collect($page?->flattenedPages())
+  ->filter(fn ($p) => $p->entry()?->published())
+  ->filter(fn ($p) => $p->depth() === $childDepth || $p->entry()->blueprint()->handle() === 'commentary')
+  ->map(fn ($p) => $p->entry())
   ->map(function ($commentary, $key) {
       $blueprint = $commentary->blueprint()->handle();
 
