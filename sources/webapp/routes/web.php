@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// local-only login bypass for development and automated testing
+if (app()->environment('local')) {
+    Route::get('/!/skip/{handle}', function ($handle) {
+        $user = \Statamic\Facades\User::findByEmail("{$handle}@example.test");
+
+        abort_unless($user, 404);
+
+        auth()->login($user);
+
+        return redirect('/');
+    });
+}
+
 Route::get('/', function () {
   return redirect('/de');
 });
