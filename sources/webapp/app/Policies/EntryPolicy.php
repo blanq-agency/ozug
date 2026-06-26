@@ -33,7 +33,15 @@ class EntryPolicy
         $user = User::fromUser($user);
 
         if ($entry->collectionHandle() == 'commentaries') {
-            return $this->assignedToCommentary($user, $entry);
+            if ($user->hasRole('herausgeberin')) {
+                return $this->assignedToCommentary($user, $entry, ['assigned_editors']);
+            }
+
+            if ($user->hasRole('autorin')) {
+                return $this->assignedToCommentary($user, $entry, ['assigned_authors']);
+            }
+
+            return false;
         }
         else {
             if ($this->hasAnotherAuthor($user, $entry)) {
@@ -90,7 +98,8 @@ class EntryPolicy
         $user = User::fromUser($user);
 
         if ($entry->collectionHandle() == 'commentaries') {
-            return $this->assignedToCommentary($user, $entry, ['assigned_editors']);
+            return $user->hasRole('herausgeberin')
+                && $this->assignedToCommentary($user, $entry, ['assigned_editors']);
         }
         else {
             if ($this->hasAnotherAuthor($user, $entry)) {

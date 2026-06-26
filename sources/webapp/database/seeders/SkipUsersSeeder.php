@@ -17,8 +17,8 @@ class SkipUsersSeeder extends Seeder
 
         $users = [
             ['handle' => 'admin', 'name' => 'Skip Admin', 'roles' => ['admin']],
-            ['handle' => 'author', 'name' => 'Skip Author', 'roles' => ['contributor']],
-            ['handle' => 'editor', 'name' => 'Skip Editor', 'roles' => ['contributor']],
+            ['handle' => 'author', 'name' => 'Skip Author', 'roles' => ['autorin']],
+            ['handle' => 'editor', 'name' => 'Skip Editor', 'roles' => ['herausgeberin']],
         ];
 
         foreach ($users as $data) {
@@ -31,6 +31,7 @@ class SkipUsersSeeder extends Seeder
             $user->setPreference('locale', 'en');
             $user->save();
 
+            collect($user->roles())->each(fn ($role) => $user->removeRole($role));
             collect($data['roles'])->each(fn ($role) => $user->assignRole($role));
             $user->save();
 
