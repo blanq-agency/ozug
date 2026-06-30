@@ -129,6 +129,23 @@ tabs:
               visibility: visible
               always_save: false
               localizable: false
+  api:
+    display: API
+    sections:
+      -
+        fields:
+          -
+            handle: api_tokens
+            field:
+              type: api_tokens
+              display: 'API Tokens'
+              instructions: 'Generate and revoke API tokens for this user. A token is shown only once, when it is created.'
+              listable: hidden
+              instructions_position: above
+              visibility: visible
+              always_save: false
+              if: 'role:admin'
+              localizable: false
   multilingual_descriptive_info:
     display: 'Multilingual Descriptive Info'
     sections:

@@ -1,0 +1,19 @@
+{
+    "name": "textandbytes/api-tokens",
+    "autoload": {
+        "psr-4": {
+            "Textandbytes\\ApiTokens\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "API Tokens",
+            "description": "API tokens fieldtype for managing user API tokens"
+        },
+        "laravel": {
+            "providers": [
+                "Textandbytes\\ApiTokens\\ServiceProvider"
+            ]
+        }
+    }
+}

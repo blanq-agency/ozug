@@ -25,6 +25,7 @@
         "ryanmitchell/statamic-translation-manager": "^2.2",
         "sentry/sentry-laravel": "^4.6",
         "statamic/cms": "^5.20.0",
+        "textandbytes/api-tokens": "*",
         "textandbytes/converter": "*",
         "textandbytes/footnotes": "*",
         "tightenco/ziggy": "^1.0"
@@ -93,6 +94,10 @@
         {
             "type": "path",
             "url": "addons/textandbytes/converter"
+        },
+        {
+            "type": "path",
+            "url": "addons/textandbytes/api-tokens"
         }
     ]
 }

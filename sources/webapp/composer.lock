@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4cb3522df8e551725ecc0ff95ea0e359",
+    "content-hash": "c317239cc8b87a5d2742e74621b239ef",
     "packages": [
         {
             "name": "ajthinking/archetype",
@@ -9432,6 +9432,35 @@
                 }
             ],
             "time": "2025-12-04T18:11:45+00:00"
+        },
+        {
+            "name": "textandbytes/api-tokens",
+            "version": "dev-task/0705",
+            "dist": {
+                "type": "path",
+                "url": "addons/textandbytes/api-tokens",
+                "reference": "68663764f28d911e19f0dd6a025307629ce751b9"
+            },
+            "type": "library",
+            "extra": {
+                "statamic": {
+                    "name": "API Tokens",
+                    "description": "API tokens fieldtype for managing user API tokens"
+                },
+                "laravel": {
+                    "providers": [
+                        "Textandbytes\\ApiTokens\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Textandbytes\\ApiTokens\\": "src"
+                }
+            },
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "textandbytes/converter",
