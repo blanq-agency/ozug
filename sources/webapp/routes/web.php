@@ -50,6 +50,7 @@ Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController:
     ->middleware(Localization::class);
 // commentary PDF download
 Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
+    ->name('commentaries.print')
     ->middleware(Localization::class);
 // commentary print HTML preview (used to debug the PDF source markup)
 Route::get('{locale}/kommentierungen/{commentarySlug}/print-preview', [CommentariesController::class, 'downloadPreview'])
