@@ -93,7 +93,7 @@ class RecordResource implements Responsable
             'title' => $entry->title,
             'language' => $entry->locale ?? 'de',
             'date' => $entry->date ? $entry->date->format('Y-m-d') : null,
-            'publisher' => 'PLACEHOLDER Publisher',
+            'publisher' => 'Open Access Kommentar',
             'creators' => $creators,
             'contributors' => $contributors,
             'rights' => 'https://creativecommons.org/licenses/by/4.0/',

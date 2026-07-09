@@ -12,9 +12,9 @@ use Statamic\Facades\Collection;
 
 class OaiController extends Controller
 {
-    protected string $repositoryName = 'PLACEHOLDER Repository Name';
+    protected string $repositoryName = 'Open Access Kommentar';
 
-    protected string $adminEmail = 'placeholder@example.com';
+    protected string $adminEmail = 'mail@oa-kommentar.de';
 
     protected string $baseUrl;
 
