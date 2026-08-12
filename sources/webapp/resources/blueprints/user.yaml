@@ -40,6 +40,26 @@ tabs:
               listable: true
               localizable: false
           -
+            handle: orcid
+            field:
+              type: text
+              display: ORCID
+              listable: hidden
+              visibility: visible
+              always_save: false
+              localizable: false
+              validate:
+                - 'regex:/^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/'
+          -
+            handle: affiliation
+            field:
+              type: text
+              display: Affiliation
+              listable: hidden
+              visibility: visible
+              always_save: false
+              localizable: false
+          -
             handle: legal_domain
             field:
               mode: select
