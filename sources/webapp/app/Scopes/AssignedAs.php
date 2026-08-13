@@ -26,10 +26,17 @@ class AssignedAs extends Filter
  
     public function autoApply()
     {
-        // automatically apply this filter if the user is a contributor
-        if (User::current()->toArray()['is_contributor']) {
+        $user = User::current()->toArray();
+
+        if ($user['is_herausgeberin']) {
             return [
-                'assigned_as' => 'both',
+                'assigned_as' => 'editor',
+            ];
+        }
+
+        if ($user['is_autorin']) {
+            return [
+                'assigned_as' => 'author',
             ];
         }
     }

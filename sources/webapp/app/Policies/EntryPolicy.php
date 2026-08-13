@@ -33,10 +33,15 @@ class EntryPolicy
         $user = User::fromUser($user);
 
         if ($entry->collectionHandle() == 'commentaries') {
-            $assigned_authors = $entry->assigned_authors->pluck('id')->toArray();
-            $assigned_editors = $entry->assigned_editors->pluck('id')->toArray();
+            if ($user->hasRole('herausgeberin')) {
+                return $this->assignedToCommentary($user, $entry, ['assigned_editors']);
+            }
 
-            return $user->toArray()['is_admin'] || (in_array($user->id, $assigned_editors) || in_array($user->id, $assigned_authors));
+            if ($user->hasRole('autorin')) {
+                return $this->assignedToCommentary($user, $entry, ['assigned_authors']);
+            }
+
+            return false;
         }
         else {
             if ($this->hasAnotherAuthor($user, $entry)) {
@@ -92,8 +97,9 @@ class EntryPolicy
     {
         $user = User::fromUser($user);
 
-        if ($this->hasAnotherAuthor($user, $entry)) {
-            return $user->hasPermission("publish other authors {$entry->collectionHandle()} entries");
+        if ($entry->collectionHandle() == 'commentaries') {
+            return $user->hasRole('herausgeberin')
+                && $this->assignedToCommentary($user, $entry, ['assigned_editors']);
         }
 
         return $user->hasPermission("publish {$entry->collectionHandle()} entries");
