@@ -26,6 +26,15 @@ tabs:
               validate:
                 - required
           -
+            handle: doi
+            field:
+              display: DOI
+              type: text
+              instructions: 'Use the actions menu to create a DOI for the current version of this collection'
+              read_only: true
+              always_save: false
+              localizable: false
+          -
             handle: bibliography
             field:
               remove_empty_nodes: false
