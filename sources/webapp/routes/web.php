@@ -19,6 +19,14 @@ use Illuminate\Support\Facades\Route;
 // local-only login bypass for development and automated testing
 if (app()->environment('local')) {
     Route::get('/!/skip/{handle}', function ($handle) {
+        $host = request()->getHost();
+
+        abort_unless(
+            \Illuminate\Support\Str::endsWith($host, ['.test', '.localhost', '.ts.net'])
+                || in_array($host, ['localhost', '127.0.0.1', '::1']),
+            404
+        );
+
         $user = \Statamic\Facades\User::findByEmail("{$handle}@example.test");
 
         abort_unless($user, 404);
