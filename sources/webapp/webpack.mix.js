@@ -16,7 +16,6 @@ mix
     .js('resources/js/media.js', 'public/js')
     .js('resources/js/iframe-cookie.js', 'public/js')
     .js('resources/js/h5p-resizer.js', 'public/js')
-    .js('resources/js/cp.js', 'public/vendor/app/js')
     .extract()
     .vue(3)
     .postCss('resources/css/app.css', 'public/css', [
@@ -53,6 +52,8 @@ mix
           },
     })
     .sourceMaps();
+
+mix.babel('resources/js/cp.js', 'public/vendor/app/js/cp.js');
 
 if (mix.inProduction()) {
     mix.version();
