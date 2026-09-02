@@ -51,7 +51,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         var values = response.data;
         _this2.store.values.content = JSON.parse(values.data);
-      })["catch"](function (e) {})["finally"](function (e) {
+      })["catch"](function (e) {
+        _this2.reportError(e);
+      })["finally"](function (e) {
         _this2.converting = false;
         _this2.$progress.complete('convert' + _this2._uid);
         _this2.$refs.input.value = null;
@@ -68,7 +70,9 @@ __webpack_require__.r(__webpack_exports__);
         responseType: 'blob'
       }).then(function (response) {
         _this3.downloadFile(response);
-      })["catch"](function (e) {})["finally"](function (e) {
+      })["catch"](function (e) {
+        _this3.reportError(e);
+      })["finally"](function (e) {
         _this3.converting = false;
         _this3.$progress.complete('convert' + _this3._uid);
       });
@@ -83,7 +87,9 @@ __webpack_require__.r(__webpack_exports__);
         responseType: 'blob'
       }).then(function (response) {
         _this4.downloadFile(response);
-      })["catch"](function (e) {})["finally"](function (e) {
+      })["catch"](function (e) {
+        _this4.reportError(e);
+      })["finally"](function (e) {
         _this4.converting = false;
         _this4.$progress.complete('convert' + _this4._uid);
       });
@@ -98,9 +104,25 @@ __webpack_require__.r(__webpack_exports__);
         responseType: 'blob'
       }).then(function (response) {
         _this5.downloadFile(response);
-      })["catch"](function (e) {})["finally"](function (e) {
+      })["catch"](function (e) {
+        _this5.reportError(e);
+      })["finally"](function (e) {
         _this5.converting = false;
         _this5.$progress.complete('convert' + _this5._uid);
+      });
+    },
+    reportError: function reportError(e) {
+      var _this6 = this;
+      var data = e.response ? e.response.data : null;
+      var message = data instanceof Blob ? data.text().then(function (text) {
+        try {
+          return JSON.parse(text).message;
+        } catch (err) {
+          return null;
+        }
+      }) : Promise.resolve(data ? data.message : null);
+      message.then(function (message) {
+        return _this6.$toast.error(message || __('Export failed'));
       });
     },
     downloadFile: function downloadFile(response) {

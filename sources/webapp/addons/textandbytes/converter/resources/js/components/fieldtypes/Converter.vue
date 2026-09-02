@@ -73,6 +73,7 @@ export default {
                 const values = response.data;
                 this.store.values.content = JSON.parse(values.data);
             }).catch(e => {
+                this.reportError(e);
             }).finally(e => {
                 this.converting = false;
                 this.$progress.complete('convert' + this._uid);
@@ -89,6 +90,7 @@ export default {
             }, { responseType: 'blob' }).then(response => {
                 this.downloadFile(response);
             }).catch(e => {
+                this.reportError(e);
             }).finally(e => {
                 this.converting = false;
                 this.$progress.complete('convert' + this._uid);
@@ -103,6 +105,7 @@ export default {
             }, { responseType: 'blob' }).then(response => {
                 this.downloadFile(response);
             }).catch(e => {
+                this.reportError(e);
             }).finally(e => {
                 this.converting = false;
                 this.$progress.complete('convert' + this._uid);
@@ -117,10 +120,25 @@ export default {
             }, { responseType: 'blob' }).then(response => {
                 this.downloadFile(response);
             }).catch(e => {
+                this.reportError(e);
             }).finally(e => {
                 this.converting = false;
                 this.$progress.complete('convert' + this._uid);
             })
+        },
+
+        reportError(e) {
+            const data = e.response ? e.response.data : null;
+            const message = data instanceof Blob
+                ? data.text().then(text => {
+                    try {
+                        return JSON.parse(text).message;
+                    } catch (err) {
+                        return null;
+                    }
+                })
+                : Promise.resolve(data ? data.message : null);
+            message.then(message => this.$toast.error(message || __('Export failed')));
         },
 
         downloadFile(response) {
