@@ -141,7 +141,7 @@ class Converter
     {
         $html = $this->entryToHtml($entry, $params);
 
-        return $this->renderWeasyPdf($html, 30);
+        return $this->renderWeasyPdf($html, 300);
     }
 
     public function getEntryContentCounts(Entry $entry): array
