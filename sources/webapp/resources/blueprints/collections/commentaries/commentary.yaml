@@ -90,6 +90,9 @@ tabs:
                 - h4
                 - h5
                 - h6
+                - heading_7
+                - heading_8
+                - heading_9
                 - paragraph_nr
                 - bold
                 - italic
