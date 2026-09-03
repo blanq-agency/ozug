@@ -88,6 +88,14 @@ tabs:
               listable: false
               localizable: true
           -
+            handle: show_nested_commentaries
+            field:
+              type: toggle
+              display: 'Verschachtelte Kommentierungen anzeigen'
+              instructions: 'Hinweis: Listet auf der Übersichtsseite alle untergeordneten Kommentierungen auf, nicht nur die direkt untergeordneten.'
+              default: false
+              localizable: false
+          -
             handle: licenses
             field:
               type: terms
