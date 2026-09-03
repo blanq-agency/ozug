@@ -17,7 +17,6 @@ use Tiptap\Editor;
 use Tiptap\Marks;
 use Tiptap\Nodes;
 use TOC\MarkupFixer;
-use TOC\TocGenerator;
 
 class Converter
 {
@@ -116,8 +115,7 @@ class Converter
         return $this->withLocale($entry->locale(), function () use ($entry, $params) {
             $html = $this->renderEntryContent($entry);
 
-            $tocGenerator = new TocGenerator;
-            $toc = $tocGenerator->getHtmlMenu($html);
+            $toc = (new TocBuilder)->build($html);
 
             $entryUrl = $entry->absoluteUrl();
 
@@ -189,10 +187,10 @@ class Converter
     public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null, ?string $lastChangeDate = null, $bibliography = null): string
     {
         return $this->withLocale($locale, function () use ($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
-            $tocGenerator = new TocGenerator;
+            $tocBuilder = new TocBuilder;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
-            $entryData = collect($entries)->map(function ($entry) use ($tocGenerator) {
+            $entryData = collect($entries)->map(function ($entry) use ($tocBuilder) {
                 $html = $this->renderEntryContent($entry);
                 $html = preg_replace('/<(h[1-6][^>]*)\bid="([^"]*)"/', '<$1id="' . $entry->id() . '-$2"', $html);
                 $html = preg_replace(
@@ -200,7 +198,7 @@ class Converter
                     '<span class="paragraph-nr">$1</span><span class="paragraph-nr paragraph-nr--right">$1</span>',
                     $html
                 );
-                $toc = $tocGenerator->getHtmlMenu($html);
+                $toc = $tocBuilder->build($html);
 
                 return array_merge($entry->toAugmentedArray(), [
                     'toc' => $toc,

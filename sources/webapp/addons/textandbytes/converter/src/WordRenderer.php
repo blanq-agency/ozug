@@ -66,6 +66,15 @@ class WordRenderer
         $this->word->addTitleStyle(6, [
             'size' => 12,
         ]);
+        $this->word->addTitleStyle(7, [
+            'size' => 12,
+        ]);
+        $this->word->addTitleStyle(8, [
+            'size' => 12,
+        ]);
+        $this->word->addTitleStyle(9, [
+            'size' => 12,
+        ]);
 
         $this->word->setDefaultParagraphStyle([
             'spacing' => $this->lineHeight(1.08),
@@ -134,8 +143,27 @@ class WordRenderer
     {
         $textRun = new TextRun();
         $this->renderNodes($node->content ?? [], $textRun);
-        $cursor->addTitle($textRun, $node->attrs->level ?? 1);
+        $cursor->addTitle($textRun, $this->headingDepth($node));
         $cursor->addTextBreak();
+    }
+
+    protected function headingDepth($node)
+    {
+        $depth = (int) ($node->attrs->level ?? 1);
+
+        if ($depth !== 6) {
+            return $depth;
+        }
+
+        $classes = preg_split('/\s+/', $node->attrs->class ?? '', -1, PREG_SPLIT_NO_EMPTY);
+
+        foreach ([7, 8, 9] as $extended) {
+            if (in_array('heading-'.$extended, $classes)) {
+                return $extended;
+            }
+        }
+
+        return $depth;
     }
 
     protected function renderParagraph($node, $cursor)
