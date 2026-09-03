@@ -297,8 +297,11 @@
       @apply font-sans tracking-wider text-lg mt-3 mb-6 print:break-inside-avoid print:break-after-avoid
     }
 
-    :deep(h6) {
-      @apply font-sans tracking-wider text-base uppercase text-ok-gray mt-3 mb-6 print:break-inside-avoid print:break-after-avoid
+    :deep(h6),
+    :deep(.heading-7),
+    :deep(.heading-8),
+    :deep(.heading-9) {
+      @apply font-sans tracking-wider text-base mt-3 mb-6 print:break-inside-avoid print:break-after-avoid
     }
 
     :deep(ul) {
@@ -349,6 +352,8 @@
     :deep(h2),
     :deep(h3),
     :deep(h4),
+    :deep(h5),
+    :deep(h6),
     :deep(p) {
       @apply scroll-mt-12 md:scroll-mt-16 lg:scroll-mt-24
     }
