@@ -8,7 +8,7 @@
       slug: '{{ slug }}',
       title: '{{ title | add_slashes | sanitize:true }}',
       doi: '{{ doi }}',
-      date: '{{ date iso_format="DD.MM.YYYY" }}',
+      date: '{{ last_modified iso_format="DD.MM.YYYY" }}',
       assigned_editors: [
         {{ foreach:assigned_editors as="assigned_editor" }}
           {
