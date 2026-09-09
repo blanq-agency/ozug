@@ -9,11 +9,12 @@ $page = Collection::findByHandle('commentaries')
   ->find($id);
 
 $childDepth = $page ? $page->depth() + 1 : null;
+$showNestedCommentaries = (bool) $page?->entry()?->value('show_nested_commentaries');
 
 // get the list of commentaries that have valid content
 $commentaries = collect($page?->flattenedPages())
   ->filter(fn ($p) => $p->entry()?->published())
-  ->filter(fn ($p) => $p->depth() === $childDepth || $p->entry()->blueprint()->handle() === 'commentary')
+  ->filter(fn ($p) => $p->depth() === $childDepth || ($showNestedCommentaries && $p->entry()->blueprint()->handle() === 'commentary'))
   ->map(fn ($p) => $p->entry())
   ->map(function ($commentary, $key) {
       $blueprint = $commentary->blueprint()->handle();

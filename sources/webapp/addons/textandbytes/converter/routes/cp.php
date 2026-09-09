@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Statamic\Facades\Entry;
@@ -35,7 +36,12 @@ Route::post('converter/entry-word', function (Request $request) {
 Route::post('converter/entry-pdf', function (Request $request) {
     $values = $request->json()->all();
     $entry = Entry::find($values['id']);
-    $file = (new Converter)->entryToPdf($entry);
+
+    try {
+        $file = (new Converter)->entryToPdf($entry);
+    } catch (ConnectException $e) {
+        abort(503, __('The PDF service is not reachable. Check that Gotenberg is running.'));
+    }
 
     return response()
         ->download($file, "{$entry->slug}.pdf")

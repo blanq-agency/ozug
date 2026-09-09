@@ -16,7 +16,7 @@ class GenerateCommentaryPdf implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 120;
+    public $timeout = 360;
 
     public function __construct(
         protected string $entryId,

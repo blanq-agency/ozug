@@ -7,7 +7,6 @@ use App\Jobs\GenerateLegalDomainPdf;
 use Carbon\Carbon;
 use ZipStream\ZipStream;
 use TOC\MarkupFixer;
-use TOC\TocGenerator;
 use Statamic\View\View;
 use Jfcherng\Diff\Differ;
 use Statamic\Facades\User;
@@ -27,6 +26,7 @@ use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
 use Statamic\Facades\Term;
 use Textandbytes\Converter\Converter;
+use Textandbytes\Converter\TocBuilder;
 
 class CommentariesController extends Controller
 {
@@ -122,7 +122,7 @@ class CommentariesController extends Controller
                 }
 
                 // Generate table of contents from the heading elements.
-                $toc = (new TocGenerator())->getHtmlMenu($allTextContent);
+                $toc = (new TocBuilder)->build($allTextContent);
             }
 
             $view = (new View)
