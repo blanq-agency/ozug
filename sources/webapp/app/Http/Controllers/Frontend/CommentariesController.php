@@ -452,6 +452,12 @@ class CommentariesController extends Controller
             if (empty($revisionData['licenses'])) {
                 $revisionData['licenses'] = $originalCommentary['licenses'];
             }
+            if (empty($revisionData['suggested_citation_long'])) {
+                $revisionData['suggested_citation_long'] = $originalCommentary['suggested_citation_long'];
+            }
+            if (empty($revisionData['suggested_citation_short'])) {
+                $revisionData['suggested_citation_short'] = $originalCommentary['suggested_citation_short'];
+            }
         }
 
         if (gettype($revisionData['licenses'] ?? null) === 'string') {
