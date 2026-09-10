@@ -16,7 +16,7 @@ use Statamic\Facades\Entry;
 use Statamic\Fields\Value;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
-use App\Services\SharedUniqueSlugifier;
+use Textandbytes\Converter\SharedUniqueSlugifier;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;

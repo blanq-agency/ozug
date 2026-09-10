@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Textandbytes\Converter;
 
 use Cocur\Slugify\Slugify;
 use Cocur\Slugify\SlugifyInterface;
