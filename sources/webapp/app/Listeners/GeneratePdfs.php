@@ -27,6 +27,8 @@ class GeneratePdfs
             $this->handleCommentary($event, $entry, $locale, $slug);
         } elseif ($blueprint === 'legal_domain') {
             $this->handleLegalDomain($event, $entry, $locale, $slug);
+        } else {
+            $this->handleAncestor($entry, $locale);
         }
     }
 
@@ -40,12 +42,20 @@ class GeneratePdfs
             GenerateCommentaryPdf::dispatch($entry->id(), $locale);
         }
 
+        $this->handleAncestor($entry, $locale);
+    }
+
+    protected function handleAncestor($entry, string $locale): void
+    {
         $ancestor = CommentaryTree::findLegalDomainAncestor($entry, $locale);
 
-        if ($ancestor) {
-            $disk->deleteDirectory("legal-domain/{$locale}/{$ancestor->slug()}");
-            GenerateLegalDomainPdf::dispatch($ancestor->id(), $locale);
+        if (!$ancestor) {
+            return;
         }
+
+        Storage::disk('pdf')->deleteDirectory("legal-domain/{$locale}/{$ancestor->slug()}");
+
+        GenerateLegalDomainPdf::dispatch($ancestor->id(), $locale);
     }
 
     protected function handleLegalDomain(EntrySaved|EntryDeleted $event, $entry, string $locale, string $slug): void
