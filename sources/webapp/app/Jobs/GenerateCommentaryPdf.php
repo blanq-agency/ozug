@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Entry;
 use Textandbytes\Converter\Converter;
 
-class GenerateCommentaryPdf implements ShouldQueue, ShouldBeUnique
+class GenerateCommentaryPdf implements ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 360;
+
+    public $uniqueFor = 3600;
 
     public function __construct(
         protected string $entryId,
