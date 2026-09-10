@@ -23,8 +23,8 @@ class Converter
     use Localizable;
 
     // If the page layout changes run `php artisan converter:calibrate-pdf-estimator` to recalculate these numbers
-    const WORDS_PER_PAGE = 307;
-    const MEDIA_PER_PAGE = 2.8;
+    const WORDS_PER_PAGE = 234;
+    const MEDIA_PER_PAGE = 3.3;
 
     public function htmlToProsemirror($html)
     {
