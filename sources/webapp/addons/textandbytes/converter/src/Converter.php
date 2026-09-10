@@ -146,7 +146,8 @@ class Converter
     {
         $content = $entry->augmentedValue('content');
         
-        $words = str_word_count(Distill::text($content));
+        preg_match_all('/\p{L}+/u', Distill::text($content), $matches);
+        $words = count($matches[0]);
         $media = Distill::query($content)
             ->type([
                 'set:image',
@@ -172,8 +173,8 @@ class Converter
         $pages = $counts['words'] / static::WORDS_PER_PAGE
             + $counts['media'] / static::MEDIA_PER_PAGE
             + 1    // entry title page
-            + 1    // entry TOC
-            + 0.5; // blank page padding for odd-page starts
+            + 2.5  // entry TOC
+            + 1.5; // blank page padding for odd-page starts
 
         return max($pages, 1);
     }
