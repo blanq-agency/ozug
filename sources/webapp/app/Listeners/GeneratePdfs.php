@@ -6,12 +6,12 @@ use App\Jobs\GenerateCommentaryPdf;
 use App\Jobs\GenerateLegalDomainPdf;
 use App\Services\CommentaryTree;
 use Illuminate\Support\Facades\Storage;
-use Statamic\Events\EntryDeleted;
+use Statamic\Events\EntryDeleting;
 use Statamic\Events\EntrySaved;
 
 class GeneratePdfs
 {
-    public function handle(EntrySaved|EntryDeleted $event): void
+    public function handle(EntrySaved|EntryDeleting $event): void
     {
         $entry = $event->entry;
 
@@ -32,7 +32,7 @@ class GeneratePdfs
         }
     }
 
-    protected function handleCommentary(EntrySaved|EntryDeleted $event, $entry, string $locale, string $slug): void
+    protected function handleCommentary(EntrySaved|EntryDeleting $event, $entry, string $locale, string $slug): void
     {
         $disk = Storage::disk('pdf');
 
@@ -58,7 +58,7 @@ class GeneratePdfs
         GenerateLegalDomainPdf::dispatch($ancestor->id(), $locale);
     }
 
-    protected function handleLegalDomain(EntrySaved|EntryDeleted $event, $entry, string $locale, string $slug): void
+    protected function handleLegalDomain(EntrySaved|EntryDeleting $event, $entry, string $locale, string $slug): void
     {
         Storage::disk('pdf')->deleteDirectory("legal-domain/{$locale}/{$slug}");
 
