@@ -55,7 +55,8 @@ class CommentariesController extends Controller
             }
 
             // Create a unique cache key based on the request parameters
-            $cacheKey = "commentary_view:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}:{$versionTimestamp}:" . ($versionComparisonResult ? md5($versionComparisonResult) : '');
+            $navVersion = Cache::get('nav-version', 0);
+            $cacheKey = "commentary_view:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}:{$navVersion}:{$versionTimestamp}:" . ($versionComparisonResult ? md5($versionComparisonResult) : '');
 
             // Check if the view is already cached
             if (config('app.env') !== 'local' && Cache::has($cacheKey)) {
@@ -451,6 +452,12 @@ class CommentariesController extends Controller
             if (empty($revisionData['licenses'])) {
                 $revisionData['licenses'] = $originalCommentary['licenses'];
             }
+            if (empty($revisionData['suggested_citation_long'])) {
+                $revisionData['suggested_citation_long'] = $originalCommentary['suggested_citation_long'];
+            }
+            if (empty($revisionData['suggested_citation_short'])) {
+                $revisionData['suggested_citation_short'] = $originalCommentary['suggested_citation_short'];
+            }
         }
 
         if (gettype($revisionData['licenses'] ?? null) === 'string') {
@@ -463,6 +470,8 @@ class CommentariesController extends Controller
         $revisionData['legal_text'] = empty($revisionData['legal_text'])
             ? null
             : (new CoreModifiers())->bardHtml($revisionData['legal_text']);
+
+        $revisionData['last_modified'] = Carbon::createFromTimestamp($revision['date']);
 
         // include the human-readable timestamp of the revision in the revision data
         $revisionData['human_readable_timestamp'] = $this->_getLocaleFormattedTimestamp($revision['date'], $locale);
