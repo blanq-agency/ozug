@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Services\CommentaryTree;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,11 +14,13 @@ use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Textandbytes\Converter\Converter;
 
-class GenerateLegalDomainPdf implements ShouldQueue, ShouldBeUnique
+class GenerateLegalDomainPdf implements ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 900;
+
+    public $uniqueFor = 3600;
 
     public function __construct(
         protected string $entryId,
