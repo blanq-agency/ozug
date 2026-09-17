@@ -34,6 +34,7 @@ admin:
     - 'delete other authors commentaries entries'
     - 'configure navs'
     - 'configure globals'
+    - 'view licenses terms'
     - 'view avatars assets'
     - 'upload avatars assets'
     - 'edit avatars assets'
@@ -64,6 +65,7 @@ admin:
     - 'delete users'
     - 'assign roles'
     - 'access cache utility'
+    - 'manage translations'
 autorin:
   title: AutorIn
   permissions:
@@ -73,6 +75,7 @@ autorin:
     - 'view legal_domains entries'
     - 'view commentaries entries'
     - 'edit commentaries entries'
+    - 'view licenses terms'
 herausgeberin:
   title: HerausgeberIn
   permissions:
@@ -83,5 +86,8 @@ herausgeberin:
     - 'view commentaries entries'
     - 'edit commentaries entries'
     - 'edit other authors commentaries entries'
+    - 'view licenses terms'
 contributor:
   title: Contributor
+api:
+  title: API

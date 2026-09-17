@@ -17,7 +17,6 @@ use Tiptap\Editor;
 use Tiptap\Marks;
 use Tiptap\Nodes;
 use TOC\MarkupFixer;
-use TOC\TocGenerator;
 
 class Converter
 {
@@ -100,14 +99,15 @@ class Converter
     {
         $wordFile = $this->entryToWord($entry);
 
-        $dir = storage_path('app');
-        $request = Gotenberg::libreOffice(config('services.gotenberg.url'))
-            ->convert(Stream::path($wordFile));
-        $pdfFile = $dir.'/'.Gotenberg::save($request, $dir);
+        try {
+            $dir = storage_path('app');
+            $request = Gotenberg::libreOffice(config('services.gotenberg.url'))
+                ->convert(Stream::path($wordFile));
 
-        unlink($wordFile);
-
-        return $pdfFile;
+            return $dir.'/'.Gotenberg::save($request, $dir);
+        } finally {
+            unlink($wordFile);
+        }
     }
 
     public function entryToHtml($entry, $params = [])
@@ -115,8 +115,7 @@ class Converter
         return $this->withLocale($entry->locale(), function () use ($entry, $params) {
             $html = $this->renderEntryContent($entry);
 
-            $tocGenerator = new TocGenerator;
-            $toc = $tocGenerator->getHtmlMenu($html);
+            $toc = (new TocBuilder)->build($html);
 
             $entryUrl = $entry->absoluteUrl();
 
@@ -140,14 +139,15 @@ class Converter
     {
         $html = $this->entryToHtml($entry, $params);
 
-        return $this->renderWeasyPdf($html, 30);
+        return $this->renderWeasyPdf($html, 300);
     }
 
     public function getEntryContentCounts(Entry $entry): array
     {
         $content = $entry->augmentedValue('content');
         
-        $words = str_word_count(Distill::text($content));
+        preg_match_all('/\p{L}+/u', Distill::text($content), $matches);
+        $words = count($matches[0]);
         $media = Distill::query($content)
             ->type([
                 'set:image',
@@ -173,8 +173,8 @@ class Converter
         $pages = $counts['words'] / static::WORDS_PER_PAGE
             + $counts['media'] / static::MEDIA_PER_PAGE
             + 1    // entry title page
-            + 1    // entry TOC
-            + 0.5; // blank page padding for odd-page starts
+            + 2.5  // entry TOC
+            + 1.5; // blank page padding for odd-page starts
 
         return max($pages, 1);
     }
@@ -188,10 +188,10 @@ class Converter
     public function entriesToHtml(array $entries, $tocPages, string $locale, int $volumeNumber, int $totalVolumes, string $generationDate, ?string $legalDomainTitle = null, ?string $lastChangeDate = null, $bibliography = null): string
     {
         return $this->withLocale($locale, function () use ($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
-            $tocGenerator = new TocGenerator;
+            $tocBuilder = new TocBuilder;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
-            $entryData = collect($entries)->map(function ($entry) use ($tocGenerator) {
+            $entryData = collect($entries)->map(function ($entry) use ($tocBuilder) {
                 $html = $this->renderEntryContent($entry);
                 $html = preg_replace('/<(h[1-6][^>]*)\bid="([^"]*)"/', '<$1id="' . $entry->id() . '-$2"', $html);
                 $html = preg_replace(
@@ -199,7 +199,7 @@ class Converter
                     '<span class="paragraph-nr">$1</span><span class="paragraph-nr paragraph-nr--right">$1</span>',
                     $html
                 );
-                $toc = $tocGenerator->getHtmlMenu($html);
+                $toc = $tocBuilder->build($html);
 
                 return array_merge($entry->toAugmentedArray(), [
                     'toc' => $toc,

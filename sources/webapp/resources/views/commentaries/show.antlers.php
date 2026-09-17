@@ -8,7 +8,7 @@
       slug: '{{ slug }}',
       title: '{{ title | add_slashes | sanitize:true }}',
       doi: '{{ doi }}',
-      date: '{{ date iso_format="DD.MM.YYYY" }}',
+      date: '{{ last_modified iso_format="DD.MM.YYYY" }}',
       assigned_editors: [
         {{ foreach:assigned_editors as="assigned_editor" }}
           {
@@ -83,7 +83,7 @@
             {{ 'creative_commons_license' | trans }}
           </h2>
           <p>
-            {{ config:app:name }}, {{ 'commentary_on' | trans }} {{ page:title }}
+            {{ config:app:name }}, {{ unless page:hide_labels }}{{ 'license_commentary_on' | trans }} {{ /unless }}{{ page:title }}
             <span>
               {{ 'creative_commons_text' | trans }}
               <a href="{{ extern_url }}" class="underline">{{ title_long }} {{ 'license' | trans | ucfirst }}</a>.

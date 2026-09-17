@@ -1,15 +1,21 @@
 <?php
 
+use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 
+$page = Collection::findByHandle('commentaries')
+  ->structure()
+  ->in($site->handle())
+  ->find($id);
+
+$childDepth = $page ? $page->depth() + 1 : null;
+$showNestedCommentaries = (bool) $page?->entry()?->value('show_nested_commentaries');
+
 // get the list of commentaries that have valid content
-$commentaries = Entry::query()
-  ->where('collection', 'commentaries')
-  ->where('locale', $site->handle())
-  ->where('status', 'published')
-  ->where('parent', $id)
-  ->orderBy('order', 'asc')
-  ->get()
+$commentaries = collect($page?->flattenedPages())
+  ->filter(fn ($p) => $p->entry()?->published())
+  ->filter(fn ($p) => $p->depth() === $childDepth || ($showNestedCommentaries && $p->entry()->blueprint()->handle() === 'commentary'))
+  ->map(fn ($p) => $p->entry())
   ->map(function ($commentary, $key) {
       $blueprint = $commentary->blueprint()->handle();
 

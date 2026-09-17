@@ -37,6 +37,27 @@ return [
             'cp_css' => 'background: #dee3e9; border-radius: 3px; padding: 1px 3px;',
         ],
 
+        'heading_7' => [
+            'type' => 'heading_6',
+            'name' => 'Heading 7',
+            'ident' => '7',
+            'class' => 'heading-7',
+        ],
+
+        'heading_8' => [
+            'type' => 'heading_6',
+            'name' => 'Heading 8',
+            'ident' => '8',
+            'class' => 'heading-8',
+        ],
+
+        'heading_9' => [
+            'type' => 'heading_6',
+            'name' => 'Heading 9',
+            'ident' => '9',
+            'class' => 'heading-9',
+        ],
+
     ],
 
     /*

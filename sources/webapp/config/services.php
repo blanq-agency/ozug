@@ -43,4 +43,11 @@ return [
         'bin' => env('WEASYPRINT_BIN'),
     ],
 
+    'datacite' => [
+        'url' => env('DATACITE_URL', 'https://api.test.datacite.org'),
+        'prefix' => env('DATACITE_PREFIX'),
+        'username' => env('DATACITE_USERNAME'),
+        'password' => env('DATACITE_PASSWORD'),
+    ],
+
 ];

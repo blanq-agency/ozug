@@ -46,7 +46,7 @@ app.config.globalProperties.emitter = emitter
 app
   .use(FloatingVue)
   .use(i18nVue, {
-    resolve: (lang) => import(`../../lang/${lang}.json`)
+    resolve: (lang) => Promise.resolve({ default: window.__translations ?? {} })
   })
   .mount('#app')
 

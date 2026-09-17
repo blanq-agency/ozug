@@ -26,6 +26,15 @@ tabs:
               validate:
                 - required
           -
+            handle: doi
+            field:
+              display: DOI
+              type: text
+              instructions: 'Use the actions menu to create a DOI for the current version of this collection'
+              read_only: true
+              always_save: false
+              localizable: false
+          -
             handle: bibliography
             field:
               remove_empty_nodes: false
@@ -78,6 +87,14 @@ tabs:
               max_items: 1
               listable: false
               localizable: true
+          -
+            handle: show_nested_commentaries
+            field:
+              type: toggle
+              display: 'Verschachtelte Kommentierungen anzeigen'
+              instructions: 'Hinweis: Listet auf der Übersichtsseite alle untergeordneten Kommentierungen auf, nicht nur die direkt untergeordneten.'
+              default: false
+              localizable: false
           -
             handle: licenses
             field:

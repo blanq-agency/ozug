@@ -7,11 +7,13 @@ use App\Jobs\GenerateLegalDomainPdf;
 use Carbon\Carbon;
 use ZipStream\ZipStream;
 use TOC\MarkupFixer;
-use TOC\TocGenerator;
 use Statamic\View\View;
 use Jfcherng\Diff\Differ;
 use Statamic\Facades\User;
+use Statamic\Data\AugmentedCollection;
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
+use Statamic\Fields\Value;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
 use App\Services\SharedUniqueSlugifier;
@@ -24,6 +26,7 @@ use Jfcherng\Diff\Renderer\RendererConstant;
 use PragmaRX\Yaml\Package\Facade as YamlFacade;
 use Statamic\Facades\Term;
 use Textandbytes\Converter\Converter;
+use Textandbytes\Converter\TocBuilder;
 
 class CommentariesController extends Controller
 {
@@ -52,7 +55,8 @@ class CommentariesController extends Controller
             }
 
             // Create a unique cache key based on the request parameters
-            $cacheKey = "commentary_view:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}:{$versionTimestamp}:" . ($versionComparisonResult ? md5($versionComparisonResult) : '');
+            $navVersion = Cache::get('nav-version', 0);
+            $cacheKey = "commentary_view:{$locale}:{$commentarySlug}:{$entry->get('updated_at')}:{$navVersion}:{$versionTimestamp}:" . ($versionComparisonResult ? md5($versionComparisonResult) : '');
 
             // Check if the view is already cached
             if (config('app.env') !== 'local' && Cache::has($cacheKey)) {
@@ -119,7 +123,7 @@ class CommentariesController extends Controller
                 }
 
                 // Generate table of contents from the heading elements.
-                $toc = (new TocGenerator())->getHtmlMenu($allTextContent);
+                $toc = (new TocBuilder)->build($allTextContent);
             }
 
             $view = (new View)
@@ -429,11 +433,11 @@ class CommentariesController extends Controller
                 $revisionData['title'] = $originalCommentary['title'];
             }
             if (empty($revisionData['assigned_authors'])) {
-                $revisionData['assigned_authors'] = $originalCommentary['assigned_authors']
+                $revisionData['assigned_authors'] = collect($originalCommentary['assigned_authors'])
                     ->map(fn ($author) => $author['id']);
             }
             if (empty($revisionData['assigned_editors'])) {
-                $revisionData['assigned_editors'] = $originalCommentary['assigned_editors']
+                $revisionData['assigned_editors'] = collect($originalCommentary['assigned_editors'])
                     ->map(fn ($editor) => $editor['id']);
             }
             if (empty($revisionData['original_language'])) {
@@ -448,23 +452,26 @@ class CommentariesController extends Controller
             if (empty($revisionData['licenses'])) {
                 $revisionData['licenses'] = $originalCommentary['licenses'];
             }
+            if (empty($revisionData['suggested_citation_long'])) {
+                $revisionData['suggested_citation_long'] = $originalCommentary['suggested_citation_long'];
+            }
+            if (empty($revisionData['suggested_citation_short'])) {
+                $revisionData['suggested_citation_short'] = $originalCommentary['suggested_citation_short'];
+            }
         }
 
-        if (gettype($revisionData['licenses']) === 'string') {
+        if (gettype($revisionData['licenses'] ?? null) === 'string') {
             // Get the assigned license as object.
             $revisionData['licenses'] = Term::find('licenses::' . $revisionData['licenses']);
         }
 
         // convert the structured data from the 'content' and 'legal_text' fields into html
-        $modifiers = new CoreModifiers();
-        $revisionData['content'] = $modifiers->bardHtml($revisionData['content']);
-        $revisionData['legal_text'] = $modifiers->bardHtml($revisionData['legal_text']);
+        $revisionData['content'] = $this->_augmentRevisionContent($revisionData);
+        $revisionData['legal_text'] = empty($revisionData['legal_text'])
+            ? null
+            : (new CoreModifiers())->bardHtml($revisionData['legal_text']);
 
-        // add anchor attributes to the heading elements
-        if ($revisionData['content']) {
-            $markupFixer = new MarkupFixer();
-            $revisionData['content'] = $markupFixer->fix($revisionData['content']);
-        }
+        $revisionData['last_modified'] = Carbon::createFromTimestamp($revision['date']);
 
         // include the human-readable timestamp of the revision in the revision data
         $revisionData['human_readable_timestamp'] = $this->_getLocaleFormattedTimestamp($revision['date'], $locale);
@@ -473,6 +480,28 @@ class CommentariesController extends Controller
         $revisionData['status'] = $revision['action'] === 'publish' ? 'published' : 'revision';
 
         return $revisionData;
+    }
+
+    private function _augmentRevisionContent($revisionData)
+    {
+        $field = Blueprint::find('collections/commentaries/' . $revisionData['blueprint']['handle'])
+            ?->field('content');
+
+        if (!$field || empty($revisionData['content'])) {
+            return [];
+        }
+
+        $value = new Value(
+            $revisionData['content'],
+            'content',
+            $field->fieldtype(),
+            Entry::find($revisionData['id'])
+        );
+
+        return (new AugmentedCollection(['content' => $value]))
+            ->withShallowNesting()
+            ->withEvaluation()
+            ->toArray()['content'];
     }
 
     private function _getRevisionContentFromRevisionFile($revisionFile, $locale)

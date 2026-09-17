@@ -101,8 +101,13 @@ class EntryPolicy
             return $user->hasRole('herausgeberin')
                 && $this->assignedToCommentary($user, $entry, ['assigned_editors']);
         }
+        else {
+            if ($this->hasAnotherAuthor($user, $entry)) {
+                return $user->hasPermission("publish other authors {$entry->collectionHandle()} entries");
+            }
 
-        return $user->hasPermission("publish {$entry->collectionHandle()} entries");
+            return $user->hasPermission("publish {$entry->collectionHandle()} entries");
+        }
     }
 
     protected function hasAnotherAuthor($user, $entry)
@@ -112,5 +117,17 @@ class EntryPolicy
         }
 
         return ! $entry->authors()->contains($user->id());
+    }
+
+    protected function assignedToCommentary($user, $entry, array $fields = ['assigned_authors', 'assigned_editors'])
+    {
+        if ($entry->blueprint()->hasField('assigned_authors') === false) {
+            return false;
+        }
+
+        return collect($fields)
+            ->flatMap(fn ($field) => collect($entry->value($field)))
+            ->filter()
+            ->contains($user->id());
     }
 }
