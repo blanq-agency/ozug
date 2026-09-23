@@ -21,7 +21,7 @@ class DataCite
         $date = $entry->lastModified();
 
         return $this->create(array_filter([
-            'doi' => $this->doi("{$legalDomain->slug()}-{$entry->slug()}", $date),
+            'doi' => $this->doi("{$legalDomain->slug()}-{$entry->slug()}", $entry->locale(), $date),
             'url' => $this->commentaryUrl($entry),
             'titles' => [['title' => $entry->get('title')]],
             'creators' => $this->people($entry->value('assigned_authors')),
@@ -33,10 +33,10 @@ class DataCite
                 'resourceType' => 'Commentary',
             ],
             'subjects' => $this->subjects($legalDomain),
-            'language' => 'de',
+            'language' => $entry->locale(),
             'rightsList' => $this->rightsList($entry),
             'version' => $this->version($date),
-            'relatedIdentifiers' => $this->relatedIdentifiers($legalDomain),
+            'relatedIdentifiers' => $this->relatedIdentifiers($entry, $legalDomain),
         ]));
     }
 
@@ -45,7 +45,7 @@ class DataCite
         $date = $this->collectionDate($commentaries);
 
         return $this->create(array_filter([
-            'doi' => $this->doi($legalDomain->slug(), $date),
+            'doi' => $this->doi($legalDomain->slug(), $legalDomain->locale(), $date),
             'url' => url($legalDomain->url()),
             'titles' => [['title' => $legalDomain->get('title')]],
             'creators' => $this->people($this->gather($commentaries, 'assigned_authors')),
@@ -56,9 +56,10 @@ class DataCite
                 'resourceTypeGeneral' => 'Collection',
             ],
             'subjects' => $this->subjects($legalDomain),
-            'language' => 'de',
+            'language' => $legalDomain->locale(),
             'rightsList' => $this->rightsList($legalDomain),
             'version' => $this->version($date),
+            'relatedIdentifiers' => $this->relatedIdentifiers($legalDomain),
         ]));
     }
 
@@ -84,9 +85,9 @@ class DataCite
         return $date;
     }
 
-    public function doi(string $suffix, Carbon $date): string
+    public function doi(string $suffix, string $locale, Carbon $date): string
     {
-        return config('services.datacite.prefix')."/oak:{$suffix}:{$this->version($date)}";
+        return config('services.datacite.prefix')."/oak:{$suffix}:{$locale}:{$this->version($date)}";
     }
 
     public function version(Carbon $date): string
@@ -170,17 +171,20 @@ class DataCite
         ])];
     }
 
-    protected function relatedIdentifiers(Entry $legalDomain): ?array
+    protected function relatedIdentifiers(Entry $entry, ?Entry $legalDomain = null): array
     {
-        if (! $doi = $legalDomain->get('doi')) {
-            return null;
-        }
-
-        return [[
-            'relatedIdentifier' => $doi,
-            'relatedIdentifierType' => 'DOI',
-            'relationType' => 'IsPartOf',
-        ]];
+        return collect([
+            'IsPartOf' => $legalDomain?->data()->get('doi'),
+            'IsTranslationOf' => $entry->locale() !== 'de' ? $entry->root()->data()->get('doi') : null,
+        ])
+            ->filter()
+            ->map(fn ($doi, $relationType) => [
+                'relatedIdentifier' => $doi,
+                'relatedIdentifierType' => 'DOI',
+                'relationType' => $relationType,
+            ])
+            ->values()
+            ->all();
     }
 
     protected function create(array $attributes): string

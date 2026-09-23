@@ -128,6 +128,7 @@ class Converter
                     'content' => $html,
                     'toc' => $toc,
                     'entry_url' => $entryUrl,
+                    'doi' => $entry->data()->get('doi'),
                     'stylesheet' => 'print-commentary.css',
                     'locale' => $entry->locale(),
                     ...$params,

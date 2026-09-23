@@ -66,7 +66,7 @@ class RecordResource implements Responsable
 
         $identifiers = array_filter([
             "oai:{$domain}:commentary:{$entry->id}",
-            $entry->doi,
+            $entry->data()->get('doi'),
             $entry->absoluteUrl(),
         ]);
 

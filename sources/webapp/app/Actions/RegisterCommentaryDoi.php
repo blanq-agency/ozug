@@ -51,8 +51,8 @@ class RegisterCommentaryDoi extends Action
             throw new RuntimeException(__('Only published commentaries can be registered, because the DOI has to point at a page a reader can open.'));
         }
 
-        if ($entry->locale() !== 'de') {
-            throw new RuntimeException(__('DOIs are registered against the German original, not its translations.'));
+        if ($entry->locale() !== 'de' && ! $entry->root()->data()->get('doi')) {
+            throw new RuntimeException(__('Register the DOI for the German original first, because the DOI of its English version has to reference it.'));
         }
 
         if ($entry->hasWorkingCopy()) {
