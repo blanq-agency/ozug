@@ -48,7 +48,11 @@ class DataCite
             'doi' => $this->doi($legalDomain->slug(), $legalDomain->locale(), $date),
             'url' => url($legalDomain->url()),
             'titles' => [['title' => $legalDomain->get('title')]],
-            'creators' => $this->people($this->gather($commentaries, 'assigned_authors')),
+            'creators' => $this->people(
+                $this->gather($commentaries, 'assigned_authors')
+                    ->merge($this->gather($commentaries, 'assigned_editors'))
+                    ->unique()
+            ),
             'contributors' => $this->people($this->gather($commentaries, 'assigned_editors'), 'Editor'),
             'publisher' => self::PUBLISHER,
             'publicationYear' => (int) $date->format('Y'),
