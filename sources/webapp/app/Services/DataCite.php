@@ -36,7 +36,7 @@ class DataCite
             'language' => $entry->locale(),
             'rightsList' => $this->rightsList($entry),
             'version' => $this->version($date),
-            'relatedIdentifiers' => $this->relatedIdentifiers($entry, $legalDomain),
+            'relatedIdentifiers' => $this->relatedIdentifiers($entry, 'BookChapter', $legalDomain),
         ]));
     }
 
@@ -63,7 +63,7 @@ class DataCite
             'language' => $legalDomain->locale(),
             'rightsList' => $this->rightsList($legalDomain),
             'version' => $this->version($date),
-            'relatedIdentifiers' => $this->relatedIdentifiers($legalDomain),
+            'relatedIdentifiers' => $this->relatedIdentifiers($legalDomain, 'Book'),
         ]));
     }
 
@@ -175,17 +175,18 @@ class DataCite
         ])];
     }
 
-    protected function relatedIdentifiers(Entry $entry, ?Entry $legalDomain = null): array
+    protected function relatedIdentifiers(Entry $entry, string $resourceTypeGeneral, ?Entry $legalDomain = null): array
     {
         return collect([
-            'IsPartOf' => $legalDomain?->data()->get('doi'),
-            'IsTranslationOf' => $entry->locale() !== 'de' ? $entry->root()->data()->get('doi') : null,
+            'IsPartOf' => [$legalDomain?->data()->get('doi'), 'Book'],
+            'IsTranslationOf' => [$entry->locale() !== 'de' ? $entry->root()->data()->get('doi') : null, $resourceTypeGeneral],
         ])
-            ->filter()
-            ->map(fn ($doi, $relationType) => [
-                'relatedIdentifier' => $doi,
+            ->filter(fn ($related) => $related[0])
+            ->map(fn ($related, $relationType) => [
+                'relatedIdentifier' => $related[0],
                 'relatedIdentifierType' => 'DOI',
                 'relationType' => $relationType,
+                'resourceTypeGeneral' => $related[1],
             ])
             ->values()
             ->all();
