@@ -29,7 +29,7 @@ class DataCite
             'publisher' => self::PUBLISHER,
             'publicationYear' => (int) $date->format('Y'),
             'types' => [
-                'resourceTypeGeneral' => 'Text',
+                'resourceTypeGeneral' => 'BookChapter',
                 'resourceType' => 'Commentary',
             ],
             'subjects' => $this->subjects($legalDomain),
@@ -57,7 +57,7 @@ class DataCite
             'publisher' => self::PUBLISHER,
             'publicationYear' => (int) $date->format('Y'),
             'types' => [
-                'resourceTypeGeneral' => 'Collection',
+                'resourceTypeGeneral' => 'Book',
             ],
             'subjects' => $this->subjects($legalDomain),
             'language' => $legalDomain->locale(),
