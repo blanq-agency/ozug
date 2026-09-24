@@ -102,6 +102,7 @@ tabs:
               taxonomies:
                 - licenses
               display: Licenses
+              instructions: 'Leave empty to use the licence of the first commentary in this collection.'
               mode: select
               localizable: false
-              visibility: hidden
+              max_items: 1

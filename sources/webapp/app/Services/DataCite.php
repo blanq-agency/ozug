@@ -61,7 +61,7 @@ class DataCite
             ],
             'subjects' => $this->subjects($legalDomain),
             'language' => $legalDomain->locale(),
-            'rightsList' => $this->rightsList($legalDomain),
+            'rightsList' => $this->rightsList($legalDomain, $commentaries->first()),
             'version' => $this->version($date),
             'relatedIdentifiers' => $this->relatedIdentifiers($legalDomain, 'Book'),
         ]));
@@ -160,9 +160,10 @@ class DataCite
         ];
     }
 
-    protected function rightsList(Entry $entry): ?array
+    protected function rightsList(Entry $entry, ?Entry $fallback = null): ?array
     {
-        $slug = collect($entry->value('licenses'))->filter()->first();
+        $slug = collect($entry->value('licenses'))->filter()->first()
+            ?? collect($fallback?->value('licenses'))->filter()->first();
         $term = $slug ? Term::find("licenses::{$slug}")?->in($entry->locale()) : null;
 
         if (! $term) {
