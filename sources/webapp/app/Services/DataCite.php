@@ -163,7 +163,7 @@ class DataCite
     protected function rightsList(Entry $entry): ?array
     {
         $slug = collect($entry->value('licenses'))->filter()->first();
-        $term = $slug ? Term::find("licenses::{$slug}") : null;
+        $term = $slug ? Term::find("licenses::{$slug}")?->in($entry->locale()) : null;
 
         if (! $term) {
             return null;
