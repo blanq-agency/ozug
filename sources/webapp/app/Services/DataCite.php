@@ -23,7 +23,7 @@ class DataCite
         return $this->create(array_filter([
             'doi' => $this->doi("{$legalDomain->slug()}-{$entry->slug()}", $entry->locale(), $date),
             'url' => $this->commentaryUrl($entry),
-            'titles' => [['title' => $entry->get('title')]],
+            'titles' => [['title' => $entry->get('title'), 'lang' => $entry->locale()]],
             'creators' => $this->people($entry->value('assigned_authors')),
             'contributors' => $this->people($entry->value('assigned_editors'), 'Editor'),
             'publisher' => self::PUBLISHER,
@@ -47,7 +47,7 @@ class DataCite
         return $this->create(array_filter([
             'doi' => $this->doi($legalDomain->slug(), $legalDomain->locale(), $date),
             'url' => url($legalDomain->url()),
-            'titles' => [['title' => $legalDomain->get('title')]],
+            'titles' => [['title' => $legalDomain->get('title'), 'lang' => $legalDomain->locale()]],
             'creators' => $this->people(
                 $this->gather($commentaries, 'assigned_authors')
                     ->merge($this->gather($commentaries, 'assigned_editors'))
