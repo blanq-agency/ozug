@@ -19,6 +19,7 @@ class ServiceProvider extends AddonServiceProvider
         Commands\GenerateCommentaryPdf::class,
         Commands\GenerateLegalDomainPdf::class,
         Commands\CalibratePdfEstimator::class,
+        Commands\PurgePdfs::class,
     ];
     
     protected $routes = [
