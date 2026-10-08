@@ -18,7 +18,7 @@ class GenerateLegalDomainPdf implements ShouldBeUniqueUntilProcessing, ShouldQue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 900;
+    public $timeout = 3600;
 
     public $uniqueFor = 3600;
 

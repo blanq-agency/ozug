@@ -236,7 +236,7 @@ class Converter
     {
         $html = $this->entriesToHtml($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography);
 
-        return $this->renderWeasyPdf($html, 600);
+        return $this->renderWeasyPdf($html, 1800);
     }
 
     public function renderEntryContent($entry, ?SlugifyInterface $slugifier = null): string
