@@ -255,11 +255,55 @@ class CommentariesController extends Controller
 
         GenerateCommentaryPdf::dispatch($entry->id(), $locale);
 
-        return (new View)
+        return $this->pdfPending("/{$locale}/kommentierungen/{$commentarySlug}/print-status", 3, 120);
+    }
+
+    public function printStatus($locale, $commentarySlug)
+    {
+        $entry = Entry::query()
+            ->where('collection', 'commentaries')
+            ->where('locale', $locale)
+            ->where('slug', $commentarySlug)
+            ->first();
+
+        if (!$entry) {
+            abort(404);
+        }
+
+        if ($entry['status'] !== 'published' && !User::current()) {
+            abort(404);
+        }
+
+        $disk = Storage::disk('pdf');
+
+        if ($entry->blueprint()->handle() === 'legal_domain') {
+            return response()->json([
+                'ready' => $disk->exists("legal-domain/{$locale}/{$commentarySlug}/manifest.json"),
+            ]);
+        }
+
+        $path = "commentary/{$locale}/{$commentarySlug}.pdf";
+
+        return response()->json([
+            'ready' => $disk->exists($path)
+                && $disk->lastModified($path) >= $entry->lastModified()->getTimestamp(),
+        ]);
+    }
+
+    protected function pdfPending($statusUrl, $interval, $timeout)
+    {
+        return response((new View)
             ->template('commentaries/print-pending')
             ->layout('layout')
-            ->with(['title' => __('pdf_pending_title')])
-            ->render();
+            ->with([
+                'title' => __('pdf_pending_title'),
+                'status_url' => $statusUrl,
+                'poll_interval' => $interval,
+                'poll_timeout' => $timeout,
+            ])
+            ->render())
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function downloadPreview($locale, $commentarySlug)
@@ -302,11 +346,7 @@ class CommentariesController extends Controller
         if (!$disk->exists($manifestPath)) {
             GenerateLegalDomainPdf::dispatch($entry->id(), $locale);
 
-            return (new View)
-                ->template('commentaries/print-pending')
-                ->layout('layout')
-                ->with(['title' => __('pdf_pending_title')])
-                ->render();
+            return $this->pdfPending("/{$locale}/kommentierungen/{$legalDomainSlug}/print-status", 10, 3600);
         }
 
         $manifest = json_decode($disk->get($manifestPath), true);

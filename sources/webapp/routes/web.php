@@ -39,6 +39,8 @@ Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController:
 Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
     ->name('commentaries.print')
     ->middleware(Localization::class);
+Route::get('{locale}/kommentierungen/{commentarySlug}/print-status', [CommentariesController::class, 'printStatus'])
+    ->middleware(Localization::class);
 // commentary print HTML preview (used to debug the PDF source markup)
 Route::get('{locale}/kommentierungen/{commentarySlug}/print-preview', [CommentariesController::class, 'downloadPreview'])
     ->middleware(Localization::class);
