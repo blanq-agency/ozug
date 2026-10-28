@@ -16,27 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// local-only login bypass for development and automated testing
-if (app()->environment('local')) {
-    Route::get('/!/skip/{handle}', function ($handle) {
-        $host = request()->getHost();
-
-        abort_unless(
-            \Illuminate\Support\Str::endsWith($host, ['.test', '.localhost', '.ts.net'])
-                || in_array($host, ['localhost', '127.0.0.1', '::1']),
-            404
-        );
-
-        $user = \Statamic\Facades\User::findByEmail("{$handle}@example.test");
-
-        abort_unless($user, 404);
-
-        auth()->login($user);
-
-        return redirect('/');
-    });
-}
-
 Route::get('/', function () {
   return redirect('/de');
 });
@@ -59,6 +38,8 @@ Route::get('{locale}/kommentierungen/{commentarySlug}', [CommentariesController:
 // commentary PDF download
 Route::get('{locale}/kommentierungen/{commentarySlug}/print', [CommentariesController::class, 'downloadPdf'])
     ->name('commentaries.print')
+    ->middleware(Localization::class);
+Route::get('{locale}/kommentierungen/{commentarySlug}/print-status', [CommentariesController::class, 'printStatus'])
     ->middleware(Localization::class);
 // commentary print HTML preview (used to debug the PDF source markup)
 Route::get('{locale}/kommentierungen/{commentarySlug}/print-preview', [CommentariesController::class, 'downloadPreview'])
