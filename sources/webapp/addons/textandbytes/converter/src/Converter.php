@@ -6,6 +6,7 @@ use Gotenberg\Gotenberg;
 use Gotenberg\Stream;
 use Illuminate\Support\Traits\Localizable;
 use JackSleight\StatamicDistill\Facades\Distill;
+use Cocur\Slugify\SlugifyInterface;
 use Pontedilana\PhpWeasyPrint\Pdf;
 use Statamic\Entries\Entry;
 use Statamic\Support\Str;
@@ -23,8 +24,8 @@ class Converter
     use Localizable;
 
     // If the page layout changes run `php artisan converter:calibrate-pdf-estimator` to recalculate these numbers
-    const WORDS_PER_PAGE = 307;
-    const MEDIA_PER_PAGE = 2.8;
+    const WORDS_PER_PAGE = 234;
+    const MEDIA_PER_PAGE = 3.3;
 
     public function htmlToProsemirror($html)
     {
@@ -127,6 +128,7 @@ class Converter
                     'content' => $html,
                     'toc' => $toc,
                     'entry_url' => $entryUrl,
+                    'doi' => $entry->data()->get('doi'),
                     'stylesheet' => 'print-commentary.css',
                     'locale' => $entry->locale(),
                     ...$params,
@@ -189,11 +191,11 @@ class Converter
     {
         return $this->withLocale($locale, function () use ($entries, $tocPages, $locale, $volumeNumber, $totalVolumes, $generationDate, $legalDomainTitle, $lastChangeDate, $bibliography) {
             $tocBuilder = new TocBuilder;
+            $slugifier = new SharedUniqueSlugifier;
             $entryIds = collect($entries)->map(fn ($e) => $e->id())->all();
 
-            $entryData = collect($entries)->map(function ($entry) use ($tocBuilder) {
-                $html = $this->renderEntryContent($entry);
-                $html = preg_replace('/<(h[1-6][^>]*)\bid="([^"]*)"/', '<$1id="' . $entry->id() . '-$2"', $html);
+            $entryData = collect($entries)->map(function ($entry) use ($tocBuilder, $slugifier) {
+                $html = $this->renderEntryContent($entry, $slugifier);
                 $html = preg_replace(
                     '/<span class="paragraph-nr">([^<]+)<\/span>/',
                     '<span class="paragraph-nr">$1</span><span class="paragraph-nr paragraph-nr--right">$1</span>',
@@ -237,7 +239,7 @@ class Converter
         return $this->renderWeasyPdf($html, 1800);
     }
 
-    public function renderEntryContent($entry): string
+    public function renderEntryContent($entry, ?SlugifyInterface $slugifier = null): string
     {
         $entryUrl = $entry->absoluteUrl();
 
@@ -249,7 +251,7 @@ class Converter
             ])
             ->render();
 
-        return (new MarkupFixer)->fix($html);
+        return (new MarkupFixer(null, $slugifier))->fix($html);
     }
 
     public function renderWeasyPdf(string $html, int $timeout = 30): string

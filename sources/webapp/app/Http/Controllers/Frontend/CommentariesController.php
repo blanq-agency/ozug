@@ -16,7 +16,7 @@ use Statamic\Facades\Entry;
 use Statamic\Fields\Value;
 use Statamic\CP\LivePreview;
 use App\Http\Controllers\Controller;
-use App\Services\SharedUniqueSlugifier;
+use Textandbytes\Converter\SharedUniqueSlugifier;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -37,8 +37,9 @@ class CommentariesController extends Controller
         // Handle Live Preview in CP
         if($isLivePreview) {
             $livePreview = new LivePreview();
-            $commentaryData = $livePreview->item(app()->request->statamicToken());
-            $commentaryData = $commentaryData->toArray();
+            $entry = $livePreview->item(app()->request->statamicToken());
+            $commentaryData = $entry->toArray();
+            $commentaryData['doi'] = $entry->data()->get('doi');
         }
         // Handle frontend
         else {
@@ -84,6 +85,8 @@ class CommentariesController extends Controller
 
                 // Set original licenses back to the commentary data.
                 $commentaryData['licenses'] = $licenses;
+
+                $commentaryData['doi'] = $entry->data()->get('doi');
             }
 
             // do not show unpublished commentaries to unauthenticated users on the frontend
@@ -447,7 +450,7 @@ class CommentariesController extends Controller
                 $revisionData['legal_text'] = $originalCommentary['legal_text'];
             }
             if (empty($revisionData['doi'])) {
-                $revisionData['doi'] = $originalCommentary['doi'];
+                $revisionData['doi'] = $originalCommentary->data()->get('doi');
             }
             if (empty($revisionData['licenses'])) {
                 $revisionData['licenses'] = $originalCommentary['licenses'];

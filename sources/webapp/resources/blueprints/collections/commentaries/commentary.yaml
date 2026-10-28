@@ -69,7 +69,7 @@ tabs:
               instructions: 'Use the actions menu to create a DOI for the current version of this commentary'
               read_only: true
               always_save: false
-              localizable: false
+              localizable: true
           -
             handle: pdf_commentary
             field:

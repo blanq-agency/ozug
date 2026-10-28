@@ -71,7 +71,7 @@ class CalibratePdfEstimator extends Command
             $this->info('Rendering text-only PDF...');
             $textOnlyHtml = $this->injectCss($html, '[data-media] { display: none !important; }');
             $disk->put("calibration/{$locale}-text-only.html", $textOnlyHtml);
-            $textOnlyPdf = $converter->renderWeasyPdf($textOnlyHtml);
+            $textOnlyPdf = $converter->renderWeasyPdf($textOnlyHtml, 3600);
             $textPages += $this->countPdfPages($textOnlyPdf);
             $disk->put("calibration/{$locale}-text-only.pdf", file_get_contents($textOnlyPdf));
             @unlink($textOnlyPdf);
@@ -80,7 +80,7 @@ class CalibratePdfEstimator extends Command
             $this->info('Rendering media-only PDF...');
             $mediaOnlyHtml = $this->injectCss($html, '[data-words] { display: none !important; }');
             $disk->put("calibration/{$locale}-media-only.html", $mediaOnlyHtml);
-            $mediaOnlyPdf = $converter->renderWeasyPdf($mediaOnlyHtml);
+            $mediaOnlyPdf = $converter->renderWeasyPdf($mediaOnlyHtml, 3600);
             $mediaPages += $this->countPdfPages($mediaOnlyPdf);
             $disk->put("calibration/{$locale}-media-only.pdf", file_get_contents($mediaOnlyPdf));
             @unlink($mediaOnlyPdf);

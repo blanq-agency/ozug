@@ -33,7 +33,7 @@ tabs:
               instructions: 'Use the actions menu to create a DOI for the current version of this collection'
               read_only: true
               always_save: false
-              localizable: false
+              localizable: true
           -
             handle: bibliography
             field:
@@ -102,6 +102,7 @@ tabs:
               taxonomies:
                 - licenses
               display: Licenses
+              instructions: 'Leave empty to use the licence of the first commentary in this collection.'
               mode: select
               localizable: false
-              visibility: hidden
+              max_items: 1

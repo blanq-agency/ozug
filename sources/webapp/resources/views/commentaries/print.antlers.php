@@ -2,9 +2,9 @@
     <span class="running-title">{{ title }}</span>
     <span class="running-authors">{{ assigned_authors | pluck('name') | join(' / ') }}</span>
     <img src="{{ config:app:url }}/img/oak-logo-text.svg" class="header-logo">
-    {{ if original_language && original_language !== site }}
+    {{ if original_language && original_language:handle !== locale }}
         <div class="header-translation">
-            {{ trans key="ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited." original_language="{ trans :key="original_language" }" }}
+            {{ trans key="ATTENTION: This version of the commentary is an automatic machine translation of the original. The original version is in :original_language. The translation was done with www.deepl.com. Only the original version is authoritative. The translated form of the commentary cannot be cited." original_language="{ trans :key="original_language:handle" }" }}
         </div>
     {{ /if }}
     {{ unless hide_labels }}
